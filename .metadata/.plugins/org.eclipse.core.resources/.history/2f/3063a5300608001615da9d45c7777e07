@@ -1,0 +1,98 @@
+package testproject.server.bookservice;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import bookservice.Configuration;
+import bookservice.HibernateException;
+import bookservice.ServiceRegistry;
+import bookservice.Session;
+import bookservice.SessionFactory;
+import bookservice.SessionFactoryImpl;
+import bookservice.StandardServiceRegistryBuilder;
+import bookservice.Transaction;
+import testproject.client.GreetingService;
+import testproject.client.objects.Book;
+import testproject.client.objects.CallInput;
+import testproject.server.bookservice.dao.BooksDAO;
+import testproject.server.bookservice.datasets.BooksDataSet;
+
+/**
+ * The server-side implementation of the RPC service.
+ */
+@SuppressWarnings("serial")
+public class GreetingServiceDBImpl  extends RemoteServiceServlet implements GreetingService {
+
+	 private static final String hibernate_show_sql = "true";
+	    private static final String hibernate_hbm2ddl_auto = "update";
+
+	    private final SessionFactory sessionFactory;
+
+	    public GreetingServiceDBImpl() {
+	        Configuration configuration = getPostgreSqlConfiguration();
+	        sessionFactory = createSessionFactory(configuration);
+	    }
+
+	    private Configuration getPostgreSqlConfiguration() {
+	        Configuration configuration = new Configuration();
+	        configuration.addAnnotatedClass(BooksDataSet.class);
+
+	        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+	        configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
+	        configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/db_library_books");
+	        configuration.setProperty("hibernate.connection.username", "postgres");
+	        configuration.setProperty("hibernate.connection.password", "ak");
+	        configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
+	        configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
+	        return configuration;
+	    }
+
+	    private static SessionFactory createSessionFactory(Configuration configuration) {
+	        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
+	        builder.applySettings(configuration.getProperties());
+	        ServiceRegistry serviceRegistry = builder.build();
+	        return configuration.buildSessionFactory(serviceRegistry);
+	    }
+
+	    private ArrayList<Book> getAllBooks() throws Exception{
+	        ArrayList<Book> books = new ArrayList<>();
+	        try {
+	            Session session = sessionFactory.openSession();
+	            BooksDAO dao = new BooksDAO(session);
+	            ArrayList<BooksDataSet> dataSets = dao.getAllBooks();
+	            for (BooksDataSet bds:dataSets)
+	                books.add(new Book(bds.getAuthor(), bds.getTitle(), "type", "img"));
+	            session.close();
+	        } catch (HibernateException e) {
+	            throw new Exception(e);
+	        }
+	        return books;
+	    }
+	
+	@Override
+	public ArrayList<Book> sendServer(CallInput callInput) {
+		ArrayList<Book> list = new ArrayList<Book>();
+		list.clear();
+		switch (callInput.getText()) {
+		case "all": {
+			list = getAllBooks();
+			break;
+		}
+		default:
+			break;
+		}
+		return list;
+	}
+
+	@Override
+	public Book bookToServer(Book callInput) {
+		Book back = new Book();
+		back.setAutor(" -> " + callInput.getAutor());
+		back.setNameBook(" -> " + callInput.getNameBook());
+		return back;
+	}
+
+}

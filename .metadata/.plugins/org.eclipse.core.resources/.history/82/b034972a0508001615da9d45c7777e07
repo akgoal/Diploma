@@ -1,0 +1,41 @@
+package testproject.server.bookservice;
+
+import java.util.ArrayList;
+
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+
+import testproject.client.GreetingService;
+import testproject.client.objects.Book;
+import testproject.client.objects.CallInput;
+
+/**
+ * The server-side implementation of the RPC service.
+ */
+@SuppressWarnings("serial")
+public class GreetingServiceImpl  extends RemoteServiceServlet implements GreetingService {
+
+	@Override
+	public ArrayList<Book> sendServer(CallInput callInput) {
+		ArrayList<Book> list = new ArrayList<Book>();
+		list.clear();
+		switch (callInput.getText()) {
+		case "all": {
+			
+			break;
+		}
+		default:
+			break;
+		}
+
+		return list;
+	}
+
+	@Override
+	public Book bookToServer(Book callInput) {
+		Book back = new Book();
+		back.setAutor(" -> " + callInput.getAutor());
+		back.setNameBook(" -> " + callInput.getNameBook());
+		return back;
+	}
+
+}

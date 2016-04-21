@@ -1,19 +1,11 @@
 package bookservice;
 
-import bookservice.dao.BooksDAO;
-import bookservice.datasets.BooksDataSet;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.internal.SessionFactoryImpl;
-import org.hibernate.service.ServiceRegistry;
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import bookservice.dao.BooksDAO;
+import bookservice.datasets.BooksDataSet;
 
 /**
  * Created by Dmitry on 16.04.2016.
