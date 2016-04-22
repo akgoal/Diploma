@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hiberbnate-configuration PUBLIC
+		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+		"http://hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<<hiberbnate-configuration>
+	<session-factory>
+	    <!-- Database connection properties -->
+	    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+	    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/db_library_books</property>
+	    <property name="hibernate.connection.username">postgres</property>
+	    <property name="hibernate.connection.password">ak</property>
+	    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+	    
+	    
+	        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+		configuration.setProperty("hibernate.connection.driver_class", "org.postgresql.Driver");
+		configuration.setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/db_library_books");
+		configuration.setProperty("hibernate.connection.username", "postgres");
+		configuration.setProperty("hibernate.connection.password", "ak");
+		configuration.setProperty("hibernate.show_sql", hibernate_show_sql);
+		configuration.setProperty("hibernate.hbm2ddl.auto", hibernate_hbm2ddl_auto);
+	
+	</session-factory>
+</hiberbnate-configuration>
+	

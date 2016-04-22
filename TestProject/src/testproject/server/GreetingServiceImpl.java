@@ -30,6 +30,8 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements Greetin
 
 	public GreetingServiceImpl() {
 		Configuration configuration = getPostgreSqlConfiguration();
+		//Configuration configuration = new Configuration();
+		//configuration.configure("hibernate.cfg.xml");
 		sessionFactory = createSessionFactory(configuration);
 	}
 
