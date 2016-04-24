@@ -7,22 +7,39 @@ public class Book implements Serializable {
 
 	private String text;
 	private String autor;
-	private String nameBook;
-	private String type;
+	private String title;
+	private String genre;
 	private String img;
+	private long id_autor;
+	private long id_genre;
+	private long id_book;
 
-	public Book(String autor, String nameBook, String type, String img) {
+	// новый
+	public Book(long id_book, String autor, long id_autor, String title, String genre, long id_genre, String img) {
+		this.id_book = id_book;
 		this.autor = autor;
-		this.nameBook = nameBook;
-		this.type = type;
+		this.id_autor = id_autor;
+		this.title = title;
+		this.genre = genre;
+		this.id_genre = id_genre;
 		this.img = img;
 	}
 
-	public void setBook(String autor, String nameBook, String type, String img) {
+	public void setBook(long id_book, String autor, long id_autor, String title, String genre, long id_genre, String img) {
+		this.id_book = id_book;
 		this.autor = autor;
-		this.nameBook = nameBook;
-		this.type = type;
+		this.id_autor = id_autor;
+		this.title = title;
+		this.genre = genre;
+		this.id_genre = id_genre;
 		this.img = img;
+	}
+
+	// этот конструктор заменить новым
+	public Book(String autor, String title, String genre, String img) {
+		this.autor = autor;
+		this.title = title;
+		this.genre = genre;
 	}
 
 	public Book() {
@@ -52,19 +69,44 @@ public class Book implements Serializable {
 		this.autor = autor;
 	}
 
-	public String getNameBook() {
-		return nameBook;
+	public String getTitle() {
+		return title;
 	}
 
-	public void setNameBook(String nameBook) {
-		this.nameBook = nameBook;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getType() {
-		return type;
+	public String getGenre() {
+		return genre;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
+
+	public long getIdAutor() {
+		return id_autor;
+	}
+
+	public void setIdAutor(long id_autor) {
+		this.id_autor = id_autor;
+	}
+
+	public long getIdGenre() {
+		return id_genre;
+	}
+
+	public void setIdGenre(long id_genre) {
+		this.id_genre = id_genre;
+	}
+
+	public long getIdBook() {
+		return id_book;
+	}
+
+	public void setIdBook(long id_book) {
+		this.id_book = id_book;
+
 	}
 }

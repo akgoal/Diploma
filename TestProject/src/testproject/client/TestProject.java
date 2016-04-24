@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import testproject.client.objects.Book;
-import testproject.client.objects.CallInput;
 import testproject.client.widgets.BookWidget;
 
 /**
@@ -25,7 +24,7 @@ public class TestProject implements EntryPoint {
 
 	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
 
-	private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+	private final GreetingServiceAsync greetService = GWT.create(GreetingService.class);
 
 	public void onModuleLoad() {
 
@@ -42,15 +41,13 @@ public class TestProject implements EntryPoint {
 
 			public void onKeyUp(KeyUpEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					sendToServer();
+					// sendToServer();
 				}
 			}
 
 			private void sendToServer() {
 
-				CallInput callInput = new CallInput();
-				callInput.setText("all");
-				greetingService.sendServer(callInput, new AsyncCallback<ArrayList<Book>>() {
+				greetService.sendServer(new AsyncCallback<ArrayList<Book>>() {
 					public void onFailure(Throwable caught) {
 						Label text = new Label(SERVER_ERROR);
 						RootPanel.get("listBook").add(text);
@@ -59,17 +56,20 @@ public class TestProject implements EntryPoint {
 					public void onSuccess(ArrayList<Book> result) {
 						RootPanel.get("listBook").clear();
 						FlowPanel panel = new FlowPanel();
-						for (int i = 0; i < 8; i++) {
+						for (int i = 0; i < result.size(); i++) {
+
 							String autor = new String((result.get(i)).getAutor());
-							String book = new String((result.get(i)).getNameBook());
-							String type = new String((result.get(i)).getType());
+							String title = new String((result.get(i)).getTitle());
+							String genre = new String((result.get(i)).getGenre());
 							String img_src = new String((result.get(i)).getImg());
-							BookWidget bb = new BookWidget(autor, book, type, img_src);
+							long id_autor = (result.get(i)).getIdAutor();
+							long id_genre = (result.get(i)).getIdGenre();
+							long id_book = (result.get(i)).getIdBook();
+							BookWidget bb = new BookWidget(id_book, autor, id_autor, title, genre, id_genre, img_src);
 							panel.add(bb);
+							RootPanel.get("listBook").add(panel);
 
 						}
-						RootPanel.get("listBook").add(panel);
-
 					}
 				});
 			}

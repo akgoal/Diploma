@@ -84,6 +84,10 @@ header {
 #text_center {
 	text-align: center;
 }
+#link_center {
+	text-align: center;
+	cursor:pointer
+}
 
 .button_center {
 	text-align: center;

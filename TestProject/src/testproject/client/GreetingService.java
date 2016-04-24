@@ -6,7 +6,6 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import testproject.client.objects.Book;
-import testproject.client.objects.CallInput;
 
 /**
  * The client-side stub for the RPC service.
@@ -14,7 +13,7 @@ import testproject.client.objects.CallInput;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 
-	ArrayList<Book> sendServer(CallInput callInput);
+	ArrayList<Book> sendServer();
 
 	Book bookToServer(Book callInput);
 }

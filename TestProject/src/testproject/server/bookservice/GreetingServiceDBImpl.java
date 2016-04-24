@@ -13,7 +13,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import testproject.client.GreetingService;
 import testproject.client.objects.Book;
-import testproject.client.objects.CallInput;
 import testproject.server.bookservice.dao.BooksDAO;
 import testproject.server.bookservice.datasets.BooksDataSet;
 
@@ -70,21 +69,16 @@ public class GreetingServiceDBImpl extends RemoteServiceServlet implements Greet
 	}
 
 	@Override
-	public ArrayList<Book> sendServer(CallInput callInput) {
+	public ArrayList<Book> sendServer() {
 		ArrayList<Book> list = new ArrayList<Book>();
 		list.clear();
-		switch (callInput.getText()) {
-		case "all": {
-			try {
-				list = getAllBooks();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			break;
+
+		try {
+			list = getAllBooks();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		default:
-			break;
-		}
+
 		return list;
 	}
 
@@ -92,7 +86,7 @@ public class GreetingServiceDBImpl extends RemoteServiceServlet implements Greet
 	public Book bookToServer(Book callInput) {
 		Book back = new Book();
 		back.setAutor(" -> " + callInput.getAutor());
-		back.setNameBook(" -> " + callInput.getNameBook());
+		back.setTitle(" -> " + callInput.getTitle());
 		return back;
 	}
 
