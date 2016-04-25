@@ -24,7 +24,7 @@ public class TestProject implements EntryPoint {
 
 	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
 
-	private final GreetingServiceAsync greetService = GWT.create(GreetingService.class);
+	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
 	public void onModuleLoad() {
 
@@ -47,7 +47,7 @@ public class TestProject implements EntryPoint {
 
 			private void sendToServer() {
 
-				greetService.sendServer(new AsyncCallback<ArrayList<Book>>() {
+				bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
 					public void onFailure(Throwable caught) {
 						Label text = new Label(SERVER_ERROR);
 						RootPanel.get("listBook").add(text);
@@ -58,14 +58,14 @@ public class TestProject implements EntryPoint {
 						FlowPanel panel = new FlowPanel();
 						for (int i = 0; i < result.size(); i++) {
 
-							String autor = new String((result.get(i)).getAutor());
+							String author = new String((result.get(i)).getAuthor());
 							String title = new String((result.get(i)).getTitle());
 							String genre = new String((result.get(i)).getGenre());
 							String img_src = new String((result.get(i)).getImg());
-							long id_autor = (result.get(i)).getIdAutor();
+							long id_author = (result.get(i)).getIdAuthor();
 							long id_genre = (result.get(i)).getIdGenre();
 							long id_book = (result.get(i)).getIdBook();
-							BookWidget bb = new BookWidget(id_book, autor, id_autor, title, genre, id_genre, img_src);
+							BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, id_genre, img_src);
 							panel.add(bb);
 							RootPanel.get("listBook").add(panel);
 

@@ -8,8 +8,12 @@ import testproject.client.objects.Book;
 
 public interface BookServiceAsync {
 
-	void findBooksByAutorBook(long callInput, AsyncCallback<ArrayList<Book>> callback);
+	void findBooksByAuthorBook(long callInput, AsyncCallback<ArrayList<Book>> callback);
 
 	void findBooksByGenreBook(long callInput, AsyncCallback<ArrayList<Book>> callback);
+
+	void sendServer(AsyncCallback<ArrayList<Book>> callback);
+
+	void bookToServer(Book callInput, AsyncCallback<Book> callback);
 
 }

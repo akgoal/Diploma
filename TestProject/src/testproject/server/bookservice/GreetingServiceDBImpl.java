@@ -85,7 +85,7 @@ public class GreetingServiceDBImpl extends RemoteServiceServlet implements Greet
 	@Override
 	public Book bookToServer(Book callInput) {
 		Book back = new Book();
-		back.setAutor(" -> " + callInput.getAutor());
+		back.setAuthor(" -> " + callInput.getAuthor());
 		back.setTitle(" -> " + callInput.getTitle());
 		return back;
 	}
