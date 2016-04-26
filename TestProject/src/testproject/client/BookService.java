@@ -19,6 +19,8 @@ public interface BookService extends RemoteService {
 
 	ArrayList<Book> sendServer();
 
+	Book selectBook(long callInput);
+
 	Book bookToServer(Book callInput);
 
 }

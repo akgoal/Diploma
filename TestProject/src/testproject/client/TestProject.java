@@ -1,30 +1,23 @@
 package testproject.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import testproject.client.objects.Book;
-import testproject.client.widgets.BookWidget;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class TestProject implements EntryPoint {
 
-	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
-
-	private final BookServiceAsync bookService = GWT.create(BookService.class);
+	private ToDisplay dspl = new ToDisplay();
 
 	public void onModuleLoad() {
 
@@ -36,7 +29,8 @@ public class TestProject implements EntryPoint {
 		class BookHandler implements ClickHandler, KeyUpHandler {
 
 			public void onClick(ClickEvent event) {
-				sendToServer();
+				History.newItem("allbooks");
+				dspl.allBooks();
 			}
 
 			public void onKeyUp(KeyUpEvent event) {
@@ -45,38 +39,38 @@ public class TestProject implements EntryPoint {
 				}
 			}
 
-			private void sendToServer() {
-
-				bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
-					public void onFailure(Throwable caught) {
-						Label text = new Label(SERVER_ERROR);
-						RootPanel.get("listBook").add(text);
-					}
-
-					public void onSuccess(ArrayList<Book> result) {
-						RootPanel.get("listBook").clear();
-						FlowPanel panel = new FlowPanel();
-						for (int i = 0; i < result.size(); i++) {
-
-							String author = new String((result.get(i)).getAuthor());
-							String title = new String((result.get(i)).getTitle());
-							String genre = new String((result.get(i)).getGenre());
-							String img_src = new String((result.get(i)).getImg());
-							long id_author = (result.get(i)).getIdAuthor();
-							long id_genre = (result.get(i)).getIdGenre();
-							long id_book = (result.get(i)).getIdBook();
-							BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, id_genre, img_src);
-							panel.add(bb);
-							RootPanel.get("listBook").add(panel);
-
-						}
-					}
-				});
-			}
 		}
 
 		BookHandler handlerBook = new BookHandler();
 		sendBooks.addClickHandler(handlerBook);
+
+		History.newItem("main");
+		History.addValueChangeHandler(new ValueChangeHandler<String>() {
+
+			@Override
+			public void onValueChange(ValueChangeEvent<String> event) {
+				// TODO Auto-generated method stub
+				if (event.getValue().equals("main")) {
+					RootPanel.get("listBook").clear();
+				}
+				if (event.getValue().equals("allbooks")) {
+					dspl.allBooks();
+				}
+				if (event.getValue().matches("author=[0-9]+")) {
+					long id_author = Long.valueOf(event.getValue().replaceAll("author=", ""));
+					dspl.findBooksByAuthor(id_author);
+				}
+				if (event.getValue().matches("genre=[0-9]+")) {
+					long id_genre = Long.valueOf(event.getValue().replaceAll("genre=", ""));
+					dspl.findBooksByGenre(id_genre);
+				}
+				if (event.getValue().matches("book=[0-9]+")) {
+					long id_book = Long.valueOf(event.getValue().replaceAll("book=", ""));
+					dspl.selectBooks(id_book);
+				}
+
+			}
+		});
 	}
 
 }

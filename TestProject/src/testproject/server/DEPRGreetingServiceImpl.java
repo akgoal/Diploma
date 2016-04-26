@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import testproject.client.BookService;
-import testproject.client.GreetingService;
 import testproject.client.objects.Book;
 
 /**
@@ -74,6 +73,24 @@ public class DEPRGreetingServiceImpl extends RemoteServiceServlet implements Boo
 		back.setAuthor(" -> " + input.getAuthor());
 		back.setTitle(" -> " + input.getTitle());
 		return back;
+	}
+
+	/**
+	 * @param id_genre
+	 * @return
+	 */
+	public Book selectBook(long id_book) {
+
+		Book book = new Book();
+		book.setIdBook(id_book);
+		book.setIdAuthor(id_book);
+		book.setIdGenre(id_book);
+		book.setAuthor("автор " + id_book + "; ");
+		book.setTitle("название " + id_book + "; ");
+		book.setGenre("жанр " + id_book + "; ");
+		book.setImg("src");
+
+		return book;
 	}
 
 }

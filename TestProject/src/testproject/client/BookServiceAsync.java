@@ -16,4 +16,6 @@ public interface BookServiceAsync {
 
 	void bookToServer(Book callInput, AsyncCallback<Book> callback);
 
+	void selectBook(long callInput, AsyncCallback<Book> callback);
+
 }
