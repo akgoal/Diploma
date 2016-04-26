@@ -1,15 +1,12 @@
 package testproject.client.widgets;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -18,77 +15,67 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import testproject.client.BookService;
 import testproject.client.BookServiceAsync;
-import testproject.client.GreetingService;
-import testproject.client.GreetingServiceAsync;
+import testproject.client.ToDisplay;
 import testproject.client.objects.Book;
 
 public class BookWidget extends Composite implements ClickHandler {
 
 	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
 
-	private final BookServiceAsync bookServic = GWT.create(BookService.class);
-	private final GreetingServiceAsync greetServic = GWT.create(GreetingService.class);
+	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
-	private Label l_autor = new Label();
-	private Label l_book = new Label();
-	private Label l_type = new Label();
+	private ToDisplay dspl = new ToDisplay();
+
+	private Label l_author = new Label();
+	private Label l_title = new Label();
+	private Label l_genre = new Label();
 	private Button button = new Button("Подробнее");
 	private Image img = new Image();
 	private Book choose_book = new Book();
-	private DialogBox dialogBox = new DialogBox();
-	private Button closeButton = new Button("Закрыть");
 	private Button chooseButton = new Button("В корзину");
-	private Label full_autor = new Label();
-	private Label full_book = new Label();
-	private Label full_type = new Label();
-	private Image full_img = new Image();
 	private Label back_book = new Label();
 
-	public BookWidget(long id_book, String autor, long id_autor, String title, String genre, long id_genre, String img_src) {
+	public BookWidget(long id_book, String author, long id_author, String title, String genre, long id_genre, String img_src) {
 
 		// img_src = "http://files.books.ru/pic/643001-644000/643136/1966072586c.jpg";
 		img_src = GWT.getModuleBaseURL() + "img/template.jpg";
 
-		choose_book.setBook(id_book, autor, id_autor, title, genre, id_genre, img_src);
+		choose_book.setBook(id_book, author, id_author, title, genre, id_genre, img_src);
 
-		l_autor.setText(autor);
-		l_book.setText(title);
-		l_type.setText(genre);
+		l_author.setText(author);
+		l_title.setText(title);
+		l_genre.setText(genre);
 		img.setUrl(img_src);
 		img.setPixelSize(img.getWidth() * 200 / img.getHeight(), 200);
 
-		l_autor.getElement().setId("link_center");
-		l_book.getElement().setId("text_center");
-		l_type.getElement().setId("link_center");
+		l_author.getElement().setId("link_center");
+		l_title.getElement().setId("text_center");
+		l_genre.getElement().setId("link_center");
 		button.setStyleName("button_center");
+		chooseButton.setStyleName("button_center");
 
 		FlowPanel flowPanel = new FlowPanel();
 		VerticalPanel panel = new VerticalPanel();
+		panel.add(back_book);
 		panel.add(img);
-		panel.add(l_autor);
-		panel.add(l_book);
-		panel.add(l_type);
+		panel.add(l_author);
+		panel.add(l_title);
+		panel.add(l_genre);
 		panel.add(button);
-
-		closeButton.getElement().setId("closeButton");
-		dialogBox.setAnimationEnabled(true);
-		dialogBox.setGlassEnabled(true);
+		panel.add(chooseButton);
 
 		button.addClickHandler(this);
 
-		l_autor.addClickHandler(new ClickHandler() {
+		l_author.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				findBooksByAutor(choose_book.getIdAutor());
+				History.newItem("author=" + choose_book.getIdAuthor());
+				dspl.findBooksByAuthor(choose_book.getIdAuthor());
 			}
 		});
-		l_type.addClickHandler(new ClickHandler() {
+		l_genre.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				findBooksByGenre(choose_book.getIdGenre());
-			}
-		});
-		closeButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dialogBox.hide();
+				History.newItem("genre=" + choose_book.getIdAuthor());
+				dspl.findBooksByGenre(choose_book.getIdGenre());
 			}
 		});
 		chooseButton.addClickHandler(new ClickHandler() {
@@ -96,19 +83,6 @@ public class BookWidget extends Composite implements ClickHandler {
 				chooseBookToServer();
 			}
 		});
-
-		VerticalPanel dialogVPanel = new VerticalPanel();
-		dialogVPanel.addStyleName("dialogVPanel");
-		dialogVPanel.addStyleName("dialogBox");
-		dialogVPanel.add(full_autor);
-		dialogVPanel.add(full_book);
-		dialogVPanel.add(full_type);
-		dialogVPanel.add(full_img);
-		dialogVPanel.add(back_book);
-		dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-		dialogVPanel.add(chooseButton);
-		dialogVPanel.add(closeButton);
-		dialogBox.setWidget(dialogVPanel);
 
 		flowPanel.add(panel);
 		flowPanel.addStyleName("item");
@@ -118,23 +92,19 @@ public class BookWidget extends Composite implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 
-		int left = Window.getClientWidth() / 2 - 150;
-		int top = 100;
-		dialogBox.setPopupPosition(left, top);
-		dialogBox.show();
-		closeButton.setFocus(true);
-		full_autor.setText(choose_book.getAutor());
-		full_book.setText(choose_book.getTitle());
-		full_type.setText(choose_book.getGenre());
-		full_img.setUrl(choose_book.getImg());
-		full_img.setPixelSize(full_img.getWidth() * 300 / full_img.getHeight(), 300);
+		/*
+		 * int left = Window.getClientWidth() / 2 - 150; int top = 100; dialogBox.setPopupPosition(left, top); dialogBox.show(); closeButton.setFocus(true);
+		 * 
+		 */
+		History.newItem("book=" + choose_book.getIdBook());
+		dspl.selectBooks(choose_book.getIdBook());
 
 	}
 
 	public void chooseBookToServer() {
 
-		Book callInput = new Book(this.choose_book.getAutor(), this.choose_book.getTitle(), this.choose_book.getGenre(), this.choose_book.getImg());
-		greetServic.bookToServer(callInput, new AsyncCallback<Book>() {
+		Book callInput = new Book(this.choose_book.getAuthor(), this.choose_book.getTitle(), this.choose_book.getGenre(), this.choose_book.getImg());
+		bookService.bookToServer(callInput, new AsyncCallback<Book>() {
 			public void onFailure(Throwable caught) {
 				Label text = new Label(SERVER_ERROR);
 				RootPanel.get("listBook").add(text);
@@ -142,67 +112,10 @@ public class BookWidget extends Composite implements ClickHandler {
 
 			public void onSuccess(Book result) {
 
-				back_book.setText(result.getAutor() + " " + result.getTitle());
+				back_book.setText(result.getAuthor() + " " + result.getTitle());
 			}
 		});
+		chooseButton.setFocus(false);
 	}
 
-	public void findBooksByAutor(long id) {
-
-		bookServic.findBooksByAutorBook(id, new AsyncCallback<ArrayList<Book>>() {
-			public void onFailure(Throwable caught) {
-				Label text = new Label(SERVER_ERROR);
-				RootPanel.get("listBook").add(text);
-			}
-
-			public void onSuccess(ArrayList<Book> result) {
-				RootPanel.get("listBook").clear();
-				FlowPanel panel = new FlowPanel();
-				for (int i = 0; i < result.size(); i++) {
-
-					String autor = new String((result.get(i)).getAutor());
-					String title = new String((result.get(i)).getTitle());
-					String genre = new String((result.get(i)).getGenre());
-					String img_src = new String((result.get(i)).getImg());
-					long id_autor = (result.get(i)).getIdAutor();
-					long id_genre = (result.get(i)).getIdGenre();
-					long id_book = (result.get(i)).getIdBook();
-					BookWidget bb = new BookWidget(id_book, autor, id_autor, title, genre, id_genre, img_src);
-					panel.add(bb);
-
-				}
-				RootPanel.get("listBook").add(panel);
-
-			}
-		});
-	}
-
-	public void findBooksByGenre(long id) {
-
-		bookServic.findBooksByGenreBook(id, new AsyncCallback<ArrayList<Book>>() {
-			public void onFailure(Throwable caught) {
-				Label text = new Label(SERVER_ERROR);
-				RootPanel.get("listBook").add(text);
-			}
-
-			public void onSuccess(ArrayList<Book> result) {
-				RootPanel.get("listBook").clear();
-				FlowPanel panel = new FlowPanel();
-				for (int i = 0; i < result.size(); i++) {
-
-					String autor = new String((result.get(i)).getAutor());
-					String title = new String((result.get(i)).getTitle());
-					String genre = new String((result.get(i)).getGenre());
-					String img_src = new String((result.get(i)).getImg());
-					long id_autor = (result.get(i)).getIdAutor();
-					long id_genre = (result.get(i)).getIdGenre();
-					long id_book = (result.get(i)).getIdBook();
-					BookWidget bb = new BookWidget(id_book, autor, id_autor, title, genre, id_genre, img_src);
-					panel.add(bb);
-
-				}
-				RootPanel.get("listBook").add(panel);
-			}
-		});
-	}
 }

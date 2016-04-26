@@ -1,13 +1,10 @@
 package testproject.server.bookservice.datasets;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import testproject.server.bookservice.dao.BooksDAO;
+
+import java.io.Serializable;
 
 /**
  * Created by Dmitry on 17.04.2016.
@@ -15,8 +12,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="books")
-public class BooksDataSet{
-	
+public class BooksDataSet implements Serializable{
+    private static final long serialVersionBID = -8706689714326132798L;
+
     @Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,89 +22,46 @@ public class BooksDataSet{
 
     @Column(name="title")
     private String title;
-    
-    @Column(name="description")
-    private String description;
 
-    @ManyToOne
-    @JoinColumn(name="author_id")
-    private AuthorsDataSet author;
+    @Column(name="author")
+    private String author;
 
-    @ManyToOne
-    @JoinColumn(name="genre_id")
-    private GenresDataSet genre;
-    
-    @Column(name="img_url")
-    private String imgUrl;
-    
     public BooksDataSet() {
     }
 
-    public BooksDataSet(long id, String title, String description, AuthorsDataSet author, GenresDataSet genre, String imgUrl) {
+    public BooksDataSet(long id, String title, String author) {
         this.setId(id);
         this.setTitle(title);
         this.setAuthor(author);
-        this.setDescription(description);
-        this.setImgUrl(imgUrl);
-        this.setGenre(genre);
     }
 
-    public BooksDataSet(String title, String description, AuthorsDataSet author, GenresDataSet genre, String imgUrl) {
+    public BooksDataSet(String title, String author) {
         this.setId(-1);
         this.setTitle(title);
         this.setAuthor(author);
-        this.setDescription(description);
-        this.setImgUrl(imgUrl);
-        this.setGenre(genre);
     }
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getAuthor() {
+        return author;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public AuthorsDataSet getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(AuthorsDataSet author) {
-		this.author = author;
-	}
-
-	public GenresDataSet getGenre() {
-		return genre;
-	}
-
-	public void setGenre(GenresDataSet genre) {
-		this.genre = genre;
-	}
-
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
-    
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }

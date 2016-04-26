@@ -23,10 +23,6 @@
 	    
 	    <!-- Update/create database -->
 	    <property name="hibernate.hbm2ddl.auto">update</property>
-	    
-	    <mapping class="testproject.server.bookservice.datasets.BooksDataSet" />
-	    <mapping class="testproject.server.bookservice.datasets.AuthorsDataSet" />
-	    <mapping class="testproject.server.bookservice.datasets.GenresDataSet" />
 	
 	</session-factory>
 </hibernate-configuration>

@@ -6,29 +6,29 @@ import java.io.Serializable;
 public class Book implements Serializable {
 
 	private String text;
-	private String autor;
+	private String author;
 	private String title;
 	private String genre;
 	private String img;
-	private long id_autor;
+	private long id_author;
 	private long id_genre;
 	private long id_book;
 
 	// новый
-	public Book(long id_book, String autor, long id_autor, String title, String genre, long id_genre, String img) {
+	public Book(long id_book, String author, long id_author, String title, String genre, long id_genre, String img) {
 		this.id_book = id_book;
-		this.autor = autor;
-		this.id_autor = id_autor;
+		this.author = author;
+		this.id_author = id_author;
 		this.title = title;
 		this.genre = genre;
 		this.id_genre = id_genre;
 		this.img = img;
 	}
 
-	public void setBook(long id_book, String autor, long id_autor, String title, String genre, long id_genre, String img) {
+	public void setBook(long id_book, String author, long id_author, String title, String genre, long id_genre, String img) {
 		this.id_book = id_book;
-		this.autor = autor;
-		this.id_autor = id_autor;
+		this.author = author;
+		this.id_author = id_author;
 		this.title = title;
 		this.genre = genre;
 		this.id_genre = id_genre;
@@ -36,10 +36,11 @@ public class Book implements Serializable {
 	}
 
 	// этот конструктор заменить новым
-	public Book(String autor, String title, String genre, String img) {
-		this.autor = autor;
+	public Book(String author, String title, String genre, String img) {
+		this.author = author;
 		this.title = title;
 		this.genre = genre;
+		this.img = img;
 	}
 
 	public Book() {
@@ -61,12 +62,12 @@ public class Book implements Serializable {
 		this.img = img;
 	}
 
-	public String getAutor() {
-		return autor;
+	public String getAuthor() {
+		return author;
 	}
 
-	public void setAutor(String autor) {
-		this.autor = autor;
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getTitle() {
@@ -85,12 +86,12 @@ public class Book implements Serializable {
 		this.genre = genre;
 	}
 
-	public long getIdAutor() {
-		return id_autor;
+	public long getIdAuthor() {
+		return id_author;
 	}
 
-	public void setIdAutor(long id_autor) {
-		this.id_autor = id_autor;
+	public void setIdAuthor(long id_autor) {
+		this.id_author = id_autor;
 	}
 
 	public long getIdGenre() {

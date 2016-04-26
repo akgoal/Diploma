@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>testproject.server.bookservice.BookServiceDBImpl</servlet-class>
+    <servlet-class>testproject.server.DEPRGreetingServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
