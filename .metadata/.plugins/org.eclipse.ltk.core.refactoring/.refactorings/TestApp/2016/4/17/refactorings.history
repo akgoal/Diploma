@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="Copy 2 packages to &apos;TestProject/src/testproject.server.bookservice&apos;&#x0D;&#x0A;- Original project: &apos;TestApp&apos;&#x0D;&#x0A;- Destination element: &apos;TestProject/src/testproject.server.bookservice&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     TestApp/src/main/java/bookservice.dao&#x0D;&#x0A;     TestApp/src/main/java/bookservice.datasets" description="Copy packages" destination="=TestProject/src&lt;testproject.server.bookservice" element1="/src\/main\/java&lt;bookservice.dao" element2="/src\/main\/java&lt;bookservice.datasets" flags="589830" fragments="2" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1461273128045" version="1.0"/>
-</session>

@@ -1,9 +1,0 @@
-1461272897518	Rename type 'GreetingServiceImpl'
-1461273182245	Rename package 'bookservice.dao'
-1461273204131	Rename package 'bookservice.datasets'
-1461274726920	Copy compilation unit
-1461274756665	Rename type 'GreetingServiceImpl'
-1461274769493	Rename type 'GreetingServiceDBImpl'
-1461345031632	Delete element
-1461367948897	Rename resource 'log4j2.xml'
-1461368090601	Rename resource 'log4j.xml'
