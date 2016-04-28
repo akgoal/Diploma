@@ -68,13 +68,13 @@ public class SelectedBookWidget extends Composite {
 		full_author.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				History.newItem("author=" + choose_book.getIdAuthor());
-				dspl.findBooksByAuthor(choose_book.getIdAuthor());
+				// dspl.findBooksByAuthor(choose_book.getIdAuthor());
 			}
 		});
 		full_genre.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				History.newItem("genre=" + choose_book.getIdAuthor());
-				dspl.findBooksByGenre(choose_book.getIdGenre());
+				// dspl.findBooksByGenre(choose_book.getIdGenre());
 			}
 		});
 		closeButton.addClickHandler(new ClickHandler() {
