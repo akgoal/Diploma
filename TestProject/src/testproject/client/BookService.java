@@ -13,14 +13,14 @@ import testproject.client.objects.Book;
 @RemoteServiceRelativePath("greet")
 public interface BookService extends RemoteService {
 
-	ArrayList<Book> findBooksByAuthorBook(long callInput);
+	ArrayList<Book> findBooksByAuthorBook(long callInput) throws Exception;
 
-	ArrayList<Book> findBooksByGenreBook(long callInput);
+	ArrayList<Book> findBooksByGenreBook(long callInput) throws Exception;
 
-	ArrayList<Book> sendServer();
+	ArrayList<Book> sendServer() throws Exception;
 
-	Book selectBook(long callInput);
+	Book selectBook(long callInput) throws Exception;
 
-	Book bookToServer(Book callInput);
+	Book bookToServer(Book callInput) throws Exception;
 
 }
