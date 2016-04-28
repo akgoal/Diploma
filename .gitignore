@@ -1,5 +1,6 @@
-# Eclipse .metadata files
+# Eclipse .metadata and .recommenders files
 .metadata
+.recommenders
 
 # Windows image file caches
 Thumbs.db
