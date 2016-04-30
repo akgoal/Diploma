@@ -1,6 +1,7 @@
 package testproject.client.objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @SuppressWarnings("serial")
 public class Book implements Serializable {
@@ -8,35 +9,32 @@ public class Book implements Serializable {
 	private String text;
 	private String author;
 	private String title;
-	private String genre;
+	// private String genre;
+	private ArrayList<Genre> genre;
 	private String img;
 	private long id_author;
-	private long id_genre;
+	// private long id_genre;
 	private long id_book;
 
-	// новый
-	public Book(long id_book, String author, long id_author, String title, String genre, long id_genre, String img) {
+	public Book(long id_book, String author, long id_author, String title, ArrayList<Genre> genre, String img) {
 		this.id_book = id_book;
 		this.author = author;
 		this.id_author = id_author;
 		this.title = title;
 		this.genre = genre;
-		this.id_genre = id_genre;
 		this.img = img;
 	}
 
-	public void setBook(long id_book, String author, long id_author, String title, String genre, long id_genre, String img) {
+	public void setBook(long id_book, String author, long id_author, String title, ArrayList<Genre> genre, String img) {
 		this.id_book = id_book;
 		this.author = author;
 		this.id_author = id_author;
 		this.title = title;
 		this.genre = genre;
-		this.id_genre = id_genre;
 		this.img = img;
 	}
 
-	// этот конструктор заменить новым
-	public Book(String author, String title, String genre, String img) {
+	public Book(String author, String title, ArrayList<Genre> genre, String img) {
 		this.author = author;
 		this.title = title;
 		this.genre = genre;
@@ -78,11 +76,11 @@ public class Book implements Serializable {
 		this.title = title;
 	}
 
-	public String getGenre() {
+	public ArrayList<Genre> getGenre() {
 		return genre;
 	}
 
-	public void setGenre(String genre) {
+	public void setGenre(ArrayList<Genre> genre) {
 		this.genre = genre;
 	}
 
@@ -92,14 +90,6 @@ public class Book implements Serializable {
 
 	public void setIdAuthor(long id_autor) {
 		this.id_author = id_autor;
-	}
-
-	public long getIdGenre() {
-		return id_genre;
-	}
-
-	public void setIdGenre(long id_genre) {
-		this.id_genre = id_genre;
 	}
 
 	public long getIdBook() {

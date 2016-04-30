@@ -1,2 +1,3 @@
 # Module testproject
 # RPC service class, partial path of RPC policy file
+testproject.client.BookService, F5C88F90C1FE54EB505FFB68499D7FEA.gwt.rpc

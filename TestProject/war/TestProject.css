@@ -1,21 +1,33 @@
-.dialogVPanel {
-	margin: 5px;
+body {
+	margin:-10px;
+	font-family: Meiryo UI, serif;
+	background: #e1dfb9;
+	border: 0;
+	padding: 0;	
+        width:100%;
+    height:100%;
+	
 }
+
+
 
 #closeButton {
-	margin: 15px 6px 6px;
 }
 
-.gwt-Image {
+.imageBook {
 	background-size: cover;
+	margin: 0.5em;
+	background-color: azure;
+	cursor: pointer;
 }
 
-body {
-	font: 10pt Arial, Helvetica, sans-serif;
-	background: #e1dfb9;
-	margin: 0;
-	border: 0;
+.imageBook:hover, .imageBook:active{
+-webkit-box-shadow: 6px 6px 10px -2px rgba(0,0,0,0.3);
+-moz-box-shadow: 6px 6px 10px -2px rgba(0,0,0,0.3);
+box-shadow: 6px 6px 10px -2px rgba(0,0,0,0.3);
 }
+
+
 
 footer {
 	background-color: rgba(0, 0, 0, 0.7);
@@ -43,11 +55,29 @@ p {
 	margin: 0px auto;
 }
 
-header {
+.header {
 	position: relative;
-	display: block;
 	height: 50px;
 	text-align: center;
+
+}
+#header1 {
+	position: absolute;
+	height: 50px;
+	top:0px;
+	left:0px;
+	width: 100%;
+	background-color:blue;
+	z-index:3;
+}
+#top_nav {
+	position: absolute;
+	top:50px;
+	left:0px;
+	height: 30px;
+	width: 100%;
+	background-color:green;
+	z-index:3;
 }
 
 .nav {
@@ -58,7 +88,23 @@ header {
 	min-height: 500px;
 }
 
+.panel {
+	border: 1px solid #e6e6e6;
+	background-color: white;
+	border-radius: 3px;
+}
+
+.panelForSelect {
+	border: 1px solid #e6e6e6;
+	background-color: white;
+	border-radius: 3px;
+	padding: 1em;
+}
+
+
 .cont {
+	position: relative;
+	top:70px;
 	width: 820px;
 	margin: 0 auto;
 }
@@ -67,18 +113,14 @@ header {
 	position: relative;
 	margin-left: 120px;
 	width: 700px;
-	border: 1px solid #e6e6e6;
-	border-radius: 3px;
-	padding: 5px;
 	min-height: 500px;
 }
 
 .item {
 	display: inline-block;
-	margin: 10px;
-	padding: 5px;
-	border: 1px solid #e6e6e6;
-	border-radius: 3px;
+	margin: 0.5em 0.5em 1.5em;
+	padding: 0.5em;
+	background-color: white;
 }
 
 #text_center {
@@ -104,3 +146,80 @@ header {
 .button_center:hover {
 	border: 1px solid #f4f4f4;
 }
+.nameBookFull {
+	color: Black;
+	font-variant: small-caps;
+	font-weight: 900;
+	font-size: 18px;
+	font-style: normal;
+}
+.linkFull {
+	color: slateblue;
+	text-decoration: none;
+	cursor:pointer
+}
+
+.linkToBook {
+	color: Black;
+	cursor:pointer
+}
+.linkToBook:hover, .linkToBook:active {
+	color: Gray;
+}
+.linkFull:hover, .linkFull:active  { text-decoration: underline; } 
+
+.labelFull {
+	color: dimgray;
+	border-bottom: 1px dotted Silver;
+}
+.labelFullNotBorder {
+	color: dimgray;
+}
+.textForDate{
+	color: #66cc66;
+	font-weight: 600;
+	font-size: 12px;
+	
+}
+
+.textDate{
+	font-weight: 700;
+	font-size: 12px;
+	
+}
+
+.buttonAddIn {
+  user-select: none;
+  background: #f0cf64; 
+  outline: none; 
+	color: #25202e;
+	border: none;
+	font-weight: 600;
+	border-radius: 3px;
+	font-size: 9pt;
+	font-family: Meiryo UI, serif;
+	text-transform: none;
+	text-decoration: none;
+} 
+.buttonAddIn:hover { background: #f0d990; } /* ��� ��������� ������� ����� */
+.buttonAddIn:active { background: #caa355; }
+.imageFull {
+    margin:1em;
+    background:#fff;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}   
+
+.labelText {
+	color: Black;
+	font-weight:900;
+	font-size: 12pt;
+	font-style: normal;
+}
+.textForBook {
+margin:0.5em 1em;
+}    

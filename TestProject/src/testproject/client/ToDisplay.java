@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import testproject.client.objects.Book;
+import testproject.client.objects.Genre;
 import testproject.client.widgets.BookWidget;
 import testproject.client.widgets.SelectedBookWidget;
 
@@ -34,12 +35,11 @@ public class ToDisplay {
 
 					String author = new String((result.get(i)).getAuthor());
 					String title = new String((result.get(i)).getTitle());
-					String genre = new String((result.get(i)).getGenre());
+					ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
 					String img_src = new String((result.get(i)).getImg());
 					long id_author = (result.get(i)).getIdAuthor();
-					long id_genre = (result.get(i)).getIdGenre();
 					long id_book = (result.get(i)).getIdBook();
-					BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, id_genre, img_src);
+					BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, img_src);
 					panel.add(bb);
 
 				}
@@ -65,12 +65,11 @@ public class ToDisplay {
 
 					String author = new String((result.get(i)).getAuthor());
 					String title = new String((result.get(i)).getTitle());
-					String genre = new String((result.get(i)).getGenre());
+					ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
 					String img_src = new String((result.get(i)).getImg());
 					long id_author = (result.get(i)).getIdAuthor();
-					long id_genre = (result.get(i)).getIdGenre();
 					long id_book = (result.get(i)).getIdBook();
-					BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, id_genre, img_src);
+					BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, img_src);
 					panel.add(bb);
 
 				}
@@ -95,12 +94,11 @@ public class ToDisplay {
 
 					String author = new String((result.get(i)).getAuthor());
 					String title = new String((result.get(i)).getTitle());
-					String genre = new String((result.get(i)).getGenre());
+					ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
 					String img_src = new String((result.get(i)).getImg());
 					long id_author = (result.get(i)).getIdAuthor();
-					long id_genre = (result.get(i)).getIdGenre();
 					long id_book = (result.get(i)).getIdBook();
-					BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, id_genre, img_src);
+					BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, img_src);
 					panel.add(bb);
 					RootPanel.get("listBook").add(panel);
 
@@ -122,12 +120,11 @@ public class ToDisplay {
 				FlowPanel panel = new FlowPanel();
 				String author = new String(result.getAuthor());
 				String title = new String(result.getTitle());
-				String genre = new String(result.getGenre());
+				ArrayList<Genre> genre = new ArrayList<Genre>(result.getGenre());
 				String img_src = new String(result.getImg());
 				long id_author = result.getIdAuthor();
-				long id_genre = result.getIdGenre();
 				long id_book = result.getIdBook();
-				SelectedBookWidget bb = new SelectedBookWidget(id_book, author, id_author, title, genre, id_genre, img_src);
+				SelectedBookWidget bb = new SelectedBookWidget(id_book, author, id_author, title, genre, img_src);
 				panel.add(bb);
 				RootPanel.get("listBook").add(panel);
 

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import testproject.client.BookService;
 import testproject.client.objects.Book;
+import testproject.client.objects.Genre;
+import testproject.client.BookService;
 
 /**
  * The server-side implementation of the RPC service.
@@ -21,10 +22,14 @@ public class DEPRGreetingServiceImpl extends RemoteServiceServlet implements Boo
 			Book book = new Book();
 			book.setIdBook(i);
 			book.setIdAuthor(i);
-			book.setIdGenre(i);
-			book.setAuthor("автор " + i + "; ");
-			book.setTitle("название " + i + "; ");
-			book.setGenre("жанр " + i + "; ");
+			book.setAuthor("И.И.Иванов " + i);
+			book.setTitle("Название. Название. Название. Название. " + i);
+
+			ArrayList<Genre> lg = new ArrayList<Genre>();
+			lg.add(new Genre("Жанр " + i, i));
+			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
+			book.setGenre(lg);
+
 			book.setImg("src");
 			list.add(book);
 		}
@@ -39,10 +44,14 @@ public class DEPRGreetingServiceImpl extends RemoteServiceServlet implements Boo
 			Book book = new Book();
 			book.setIdBook(i);
 			book.setIdAuthor(id_author);
-			book.setIdGenre(i);
-			book.setAuthor("автор " + id_author + "; ");
-			book.setTitle("название " + i + "; ");
-			book.setGenre("жанр " + i + "; ");
+			book.setAuthor("И.И.Иванов " + id_author);
+			book.setTitle("Название. Название. Название. Название. " + i);
+
+			ArrayList<Genre> lg = new ArrayList<Genre>();
+			lg.add(new Genre("Жанр " + i, i));
+			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
+			book.setGenre(lg);
+
 			book.setImg("src");
 			list.add(book);
 		}
@@ -57,10 +66,14 @@ public class DEPRGreetingServiceImpl extends RemoteServiceServlet implements Boo
 			Book book = new Book();
 			book.setIdBook(i);
 			book.setIdAuthor(i);
-			book.setIdGenre(id_genre);
-			book.setAuthor("автор " + i + "; ");
-			book.setTitle("название " + i + "; ");
-			book.setGenre("жанр " + id_genre + "; ");
+			book.setAuthor("И.И.Иванов " + i);
+			book.setTitle("Название. Название. Название. Название. " + i);
+
+			ArrayList<Genre> lg = new ArrayList<Genre>();
+			lg.add(new Genre("Жанр " + id_genre, id_genre));
+			lg.add(new Genre("Жанр " + (id_genre + 1), (id_genre + 1)));
+			book.setGenre(lg);
+
 			book.setImg("src");
 			list.add(book);
 		}
@@ -84,10 +97,14 @@ public class DEPRGreetingServiceImpl extends RemoteServiceServlet implements Boo
 		Book book = new Book();
 		book.setIdBook(id_book);
 		book.setIdAuthor(id_book);
-		book.setIdGenre(id_book);
-		book.setAuthor("автор " + id_book + "; ");
-		book.setTitle("название " + id_book + "; ");
-		book.setGenre("жанр " + id_book + "; ");
+		book.setAuthor("И.И.Иванов " + id_book);
+		book.setTitle("Название. Название. Название. Название. " + id_book);
+
+		ArrayList<Genre> lg = new ArrayList<Genre>();
+		lg.add(new Genre("Жанр " + id_book, id_book));
+		lg.add(new Genre("Жанр " + (id_book + 1), (id_book + 1)));
+		book.setGenre(lg);
+
 		book.setImg("src");
 
 		return book;
