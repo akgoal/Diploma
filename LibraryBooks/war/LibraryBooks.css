@@ -1,0 +1,421 @@
+body {
+	
+    
+}
+.body {
+	font-family: Meiryo UI, serif;
+	font-size: 10pt;
+	border: 0;
+	padding: 0;
+	width:100%;
+    height:100%;
+}
+
+
+@media (min-width: 768px) {
+  .cont{
+    width: 750px;
+  }
+  .cont_list {
+	width: 550px;
+}
+}
+@media (min-width: 992px) {
+  .cont {
+    width: 970px;
+  }
+  .cont_list {
+	width: 770px;
+}
+}
+@media (min-width: 1200px) {
+  .cont {
+    width: 1170px;
+  }
+  .cont_list {
+	width: 930px;
+}
+}
+
+#top_panel {
+	position: absolute;
+	height: 45px;
+	top:0px;
+	left:0px;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 1);
+	z-index:3;
+}
+#search_panel {
+	position: absolute;
+	top:45px;
+	left:0px;
+	height: 50px;
+	width: 100%;
+	background-color:rgba(0, 0, 0, 0.8);
+	z-index:3;
+}
+
+.header {
+	position: absolute;
+    height: 390px;
+    width: 100%;
+	/background:url("img/book-shop.jpg") no-repeat #fff;
+	background:url("img/6.jpg") no-repeat #fff;
+	/background:url("img/header.png") no-repeat #fff;
+	background-size:cover;
+    /background-color: lightblue;
+    text-align: center;
+
+
+
+}
+.text{
+	top:120px;
+}
+h1{
+		font-family: sans-serif;
+		color: #fff;
+		font-size: 33px;
+		font-weight: bold;
+		text-decoration: none;
+}
+a{
+	text-decoration: none;
+}
+
+.cont {
+	z-index: 1;
+	position: relative;
+	top:335px;
+	min-width: 750px;
+	margin: 0 auto;
+	background: #fff;
+	border-radius:5px 5px 0px 0px;
+	-webkit-box-shadow: 0px 0px 32px -14px rgba(117,117,117,1);
+	-moz-box-shadow: 0px 0px 32px -14px rgba(117,117,117,1);
+	box-shadow: 0px 0px 32px -14px rgba(117,117,117,1);
+}
+
+#container{
+	width: 100%;
+	height: 55px;
+	background:rgba(37, 32, 46, 0.1);
+	margin-bottom:30px;
+	border-bottom: 4px solid rgba(253, 198, 0, 0.7);
+}
+
+.gwt-MenuBarPopup{
+	z-index:4;
+	
+	
+}
+
+.gwt-MenuBar .gwt-MenuItem{
+
+	padding: 17px 20px;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 5px solid transparent;
+	border-left: 5px solid transparent;
+	border-top: 5px solid transparent;
+	border-top: 0;
+	border-left: 0;
+    left: 10px;
+	color: #333333;
+	font-weight: 700;
+    text-transform: uppercase;
+	cursor:pointer;
+	background: rgba(37, 32, 46, 0.02);
+	
+}
+
+.gwt-MenuBar .gwt-MenuItem:hover{
+	color: #6F6F6F;
+	background-color: rgba(253, 198, 0, 0.7);
+		  -webkit-transition: all 0.6s ease;
+  -moz-transition:    all 0.6s ease;
+  -o-transition:      all 0.6s ease; 
+	
+}
+
+.gwt-MenuBar .gwt-MenuItem-selected{
+	background-color: rgba(253, 198, 0, 0.7);
+}
+
+
+.nav {
+	position: relative;
+	float: left;
+	width: 200px;
+}
+.cont_list {
+	min-width: 550px;
+	position: relative;
+	margin-left: 235px;
+}
+
+#closeButton {
+}
+
+#imageBook {
+	color: #153643; 
+	font-weight: bold;
+	border: none;
+	display: block;
+	background-size: auto;
+	height:310px;
+	width: 200px;
+	background-color: azure;
+	cursor: pointer;
+	text-align: center;
+	background-position: center;
+}
+#info {
+	color: #153643; 
+}
+
+img:after   { 
+	position: relative;
+	top: 50px;
+	padding-top: 50px;
+	text-align: center;
+	content:"Изображение еще не добавлено или произошла проблемма с загрузкой"; 
+	}
+img::after  {
+	position: relative;
+	top: 50px;
+	text-align: center;
+	content:"Изображение еще не добавлено или произошла проблемма с загрузкой"; 
+	} /* New CSS3 standard notation */
+
+
+#info{
+	display: block; 
+  position: relative; 
+  z-index: 1;
+}
+
+#but{
+	 position: absolute; 
+	 top:0;
+  color: white; 
+  opacity: 0;
+  z-index: -1;
+  -webkit-transition: all 0.6s ease;
+  -moz-transition:    all 0.6s ease;
+  -o-transition:      all 0.6s ease; 
+}
+#info:hover #but{
+	background-color: rgba(253, 198, 0, 0.7);
+	background: rgba(253, 198, 0, 0.7);
+	z-index: 2;
+	opacity: 1;
+}
+
+
+footer {
+	background-color: rgba(0, 0, 0, 0.7);
+	height: 100px;
+	width: 100%;
+	position: relative;
+	bottom: 0;
+}
+
+p {
+	color: navy;
+}
+
+.hello {
+	color: white;
+	background-color: black;
+	text-align: center;
+}
+
+.text {
+	position: relative;
+	color: black;
+	text-align: center;
+	display: block;
+	margin: 0px auto;
+	margin-top:40px;
+}
+
+
+
+
+
+
+.panel {
+	border: 1px solid #e6e6e6;
+	background-color: white;
+	border-radius: 3px;
+}
+
+.panelForSelect {
+	border: 1px solid #e6e6e6;
+	background-color: white;
+	border-radius: 3px;
+	padding: 1em;
+}
+
+
+
+.elem {
+	display: inline-block;
+	margin: 1em 1em 2em;
+	background-color: white;
+}
+
+#text_center {
+	text-align: center;
+}
+#link_center {
+	text-align: center;
+	cursor:pointer
+}
+
+.button_center {
+	text-align: center;
+	width: 100%;
+	background-color: #f8f8f8;
+	border: 1px solid #e6e6e6;
+	border-radius: 1px;
+}
+
+.button_center:focus {
+	background-color: #eeeeee;
+}
+
+.button_center:hover {
+	border: 1px solid #f4f4f4;
+}
+.nameBookFull {
+	color: Black;
+	font-variant: small-caps;
+	font-weight: 900;
+	font-size: 18px;
+	font-style: normal;
+}
+.linkFull {
+	color: slateblue;
+	text-decoration: none;
+	cursor:pointer
+}
+
+.linkToBook {
+	color: Black;
+	cursor:pointer
+}
+.linkToBook:hover, .linkToBook:active {
+	color: Gray;
+}
+.linkFull:hover, .linkFull:active  { text-decoration: underline; } 
+
+.labelFull {
+	color: dimgray;
+	border-bottom: 1px dotted Silver;
+}
+.labelFullNotBorder {
+	color: dimgray;
+}
+.textForDate{
+	color: #66cc66;
+	font-weight: 600;
+	font-size: 12px;
+	
+}
+
+.textDate{
+	font-weight: 700;
+	font-size: 12px;
+	
+}
+#but_info{
+	margin-bottom: 1px;
+}
+.buttonAddIn {
+	position: relative;
+    padding: 6px 10px 6px 10px;
+    border: 2px solid #333333;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+	background: transparent;
+	line-height: 1;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+} 
+  
+.buttonAddIn:hover { background: #333333;
+    color: #fdc600;}
+.buttonAddIn:active { background: #333333;
+    color: #fdc600; }
+.imageFull {
+    margin:1em;
+    background:#fff;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+    -webkit-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow: 0 15px 10px -10px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}   
+
+.labelText {
+	color: Black;
+	font-weight:900;
+	font-size: 12pt;
+	font-style: normal;
+}
+.textForBook {
+margin:0.5em 1em;
+}    
+
+/* ПОИСК */
+
+#search_box{
+position:fixed;
+	top:0;
+}
+
+
+
+.gwt-StackPanel{
+    border: 0;
+    width: 100%;
+
+}
+
+.gwt-StackPanel .gwt-StackPanelItem{
+	background: rgba(37, 32, 46, 0.02);
+	border-top: 1px solid rgba(37, 32, 46, 0.63);
+	border-right: 1px solid rgba(37, 32, 46, 0.63);
+	border-left: 3px solid transparent;
+	border-bottom: 0;
+	font-weight: 700;
+    text-transform: uppercase;
+	cursor:pointer;
+	padding: 10px 15px;
+}
+
+.gwt-StackPanel .gwt-StackPanelItem:hover, .gwt-StackPanel .gwt-StackPanelContent:hover{
+	border-left: 3px solid rgba(253, 198, 0, 0.7);
+	color: #6F6F6F;
+	  -webkit-transition: all 0.6s ease;
+  -moz-transition:    all 0.6s ease;
+  -o-transition:      all 0.6s ease; 
+}
+.gwt-StackPanel .gwt-StackPanelItem-selected{
+	background: #fff;
+	border-left: 3px solid rgba(253, 198, 0, 0.7);
+	border-right: 1px solid transparent;
+}
+.gwt-StackPanel .gwt-StackPanelContent{
+	background: #fff;
+	border-left: 3px solid rgba(253, 198, 0, 0.7);
+	border-right: 1px solid transparent;
+	padding: 10px 20px 20px 25px;
+	
+	
+}
