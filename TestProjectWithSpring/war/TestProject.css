@@ -1,0 +1,106 @@
+.dialogVPanel {
+	margin: 5px;
+}
+
+#closeButton {
+	margin: 15px 6px 6px;
+}
+
+.gwt-Image {
+	background-size: cover;
+}
+
+body {
+	font: 10pt Arial, Helvetica, sans-serif;
+	background: #e1dfb9;
+	margin: 0;
+	border: 0;
+}
+
+footer {
+	background-color: rgba(0, 0, 0, 0.7);
+	height: 100px;
+	width: 100%;
+	position: relative;
+	bottom: 0;
+}
+
+p {
+	color: navy;
+}
+
+.hello {
+	color: white;
+	background-color: black;
+	text-align: center;
+}
+
+.text {
+	position: relative;
+	color: black;
+	text-align: center;
+	display: block;
+	margin: 0px auto;
+}
+
+header {
+	position: relative;
+	display: block;
+	height: 50px;
+	text-align: center;
+}
+
+.nav {
+	position: relative;
+	border: 1px solid #e6e6e6;
+	float: left;
+	width: 100px;
+	min-height: 500px;
+}
+
+.cont {
+	width: 820px;
+	margin: 0 auto;
+}
+
+.cont_list {
+	position: relative;
+	margin-left: 120px;
+	width: 700px;
+	border: 1px solid #e6e6e6;
+	border-radius: 3px;
+	padding: 5px;
+	min-height: 500px;
+}
+
+.item {
+	display: inline-block;
+	margin: 10px;
+	padding: 5px;
+	border: 1px solid #e6e6e6;
+	border-radius: 3px;
+}
+
+#text_center {
+	text-align: center;
+}
+#link_center {
+	text-align: center;
+	cursor:pointer
+}
+
+.button_center {
+	text-align: center;
+	width: 100%;
+	background-color: #f8f8f8;
+	border: 1px solid #e6e6e6;
+	border-radius: 1px;
+}
+
+.button_center:focus {
+	background-color: #eeeeee;
+}
+
+.button_center:hover {
+	border: 1px solid #f4f4f4;
+}

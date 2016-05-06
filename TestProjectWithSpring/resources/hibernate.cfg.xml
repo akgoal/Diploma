@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<mapping class="testproject.server.bookservice.datasets.AuthorsDataSet" />
+		<mapping class="testproject.server.bookservice.datasets.BooksDataSet" />
+		<mapping class="testproject.server.bookservice.datasets.GenresDataSet" />
+	</session-factory>
+</hibernate-configuration>
