@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import com.librarybooks.client.BookService;
@@ -29,10 +29,16 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	String name;
 	long id;
 	String type;
+	int page;
+	int col_books = 12;
+	int col_page;
+	int start;
+	int stop;
 	Button button = new Button("send");
 	HTML one = new HTML();
 	HTML two = new HTML();
 	HorizontalPanel hPanel = new HorizontalPanel();
+	HorizontalPanel sprintHPanel = new HorizontalPanel();
 	VerticalPanel vPanel = new VerticalPanel();
 	FlowPanel fPanel = new FlowPanel();
 
@@ -49,21 +55,31 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		button.addClickHandler(this);
 		vPanel.add(hPanel);
 		vPanel.add(fPanel);
+		vPanel.add(sprintHPanel);
+		vPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		sprintHPanel.getElement().setId("sprint_page");
 		initWidget(vPanel);
 	}
 
 	@Override
 	public void setName(String name) {
-		if (name.equals("all")) {
+		if (name.matches("all=[0-9]+&p=[1-9][0-9]*")) {
 			type = "all";
+			String a = (name.replaceAll("all=", "")).replaceAll("p=", "");
+			id = Long.valueOf(a.substring(0, a.indexOf("&")));
+			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
 		}
-		if (name.matches("author=[0-9]+")) {
+		if (name.matches("author=[0-9]+&p=[1-9][0-9]*")) {
 			type = "author";
-			id = Long.valueOf(name.replaceAll("author=", ""));
+			String a = (name.replaceAll("author=", "")).replaceAll("p=", "");
+			id = Long.valueOf(a.substring(0, a.indexOf("&")));
+			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
 		}
-		if (name.matches("genre=[0-9]+")) {
+		if (name.matches("genre=[0-9]+&p=[1-9][0-9]*")) {
 			type = "genre";
-			id = Long.valueOf(name.replaceAll("genre=", ""));
+			String a = (name.replaceAll("genre=", "")).replaceAll("p=", "");
+			id = Long.valueOf(a.substring(0, a.indexOf("&")));
+			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
 		}
 		if (name.matches("book=[0-9]+")) {
 			type = "book";
@@ -71,7 +87,9 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		}
 		two.setHTML(name + type + id);
 		this.name = name;
+
 		fPanel.clear();
+		sprintHPanel.clear();
 		switch (type) {
 		case "all": {
 			bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
@@ -81,9 +99,9 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				}
 
 				public void onSuccess(ArrayList<Book> result) {
+					pageNav(result.size(), type);
 					FlowPanel panel = new FlowPanel();
-					for (int i = 0; i < result.size(); i++) {
-
+					for (int i = start; i < stop; i++) {
 						String author = new String((result.get(i)).getAuthor());
 						String title = new String((result.get(i)).getTitle());
 						ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
@@ -107,8 +125,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				}
 
 				public void onSuccess(ArrayList<Book> result) {
+
+					pageNav(result.size(), type);
 					FlowPanel panel = new FlowPanel();
-					for (int i = 0; i < result.size(); i++) {
+					for (int i = start; i < stop; i++) {
 
 						String author = new String((result.get(i)).getAuthor());
 						String title = new String((result.get(i)).getTitle());
@@ -134,8 +154,9 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				}
 
 				public void onSuccess(ArrayList<Book> result) {
+					pageNav(result.size(), type);
 					FlowPanel panel = new FlowPanel();
-					for (int i = 0; i < result.size(); i++) {
+					for (int i = start; i < stop; i++) {
 
 						String author = new String((result.get(i)).getAuthor());
 						String title = new String((result.get(i)).getTitle());
@@ -179,6 +200,42 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		default:
 			break;
 		}
+
+	}
+
+	private void pageNav(int res, String type) {
+		col_page = res / 12;
+		if (res % 12 > 0)
+			col_page++;
+		if (page == 1) {
+			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
+			sprintHPanel.add(num_page);
+		} else {
+			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id + "&p=" + (page - 1) + "\">" + "<" + "</a>");
+			sprintHPanel.add(num_page);
+		}
+		for (int i = 1; i <= col_page; i++) {
+			if (i == page) {
+				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
+				sprintHPanel.add(num_page);
+			} else {
+				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id + "&p=" + i + "\">" + i + "</a>");
+				sprintHPanel.add(num_page);
+			}
+
+		}
+		if (page == col_page) {
+			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
+			sprintHPanel.add(num_page);
+		} else {
+			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id + "&p=" + (page + 1) + "\">" + ">" + "</a>");
+			sprintHPanel.add(num_page);
+		}
+		start = (page - 1) * col_books;
+		if (res <= col_books * page) {
+			stop = res;
+		} else
+			stop = page * col_books;
 
 	}
 

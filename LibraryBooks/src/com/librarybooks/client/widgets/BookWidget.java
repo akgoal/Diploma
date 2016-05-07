@@ -3,6 +3,10 @@ package com.librarybooks.client.widgets;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Float;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.place.shared.PlaceController;
@@ -39,11 +43,13 @@ public class BookWidget extends Composite implements ClickHandler {
 	private Button chooseButton = new Button("Добавить");
 	private Label back_book = new Label();
 	private final VerticalPanel verticalPanel_1 = new VerticalPanel();
-	FlowPanel flowPanel = new FlowPanel();
-	VerticalPanel verticalPanel = new VerticalPanel();
-	HorizontalPanel hPanel = new HorizontalPanel();
-	HTMLPanel panel = new HTMLPanel("");
-	HTMLPanel butPanel = new HTMLPanel("");
+	private FlowPanel flowPanel = new FlowPanel();
+	private VerticalPanel verticalPanel = new VerticalPanel();
+	private HorizontalPanel hPanel = new HorizontalPanel();
+	private HTMLPanel panel = new HTMLPanel("");
+	private HTMLPanel butPanel = new HTMLPanel("");
+	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
+	private PlaceController placeController = clientFactory.getPlaceController();
 
 	public BookWidget(long id_book, String author, long id_author, String title, ArrayList<Genre> genre, String img_src) {
 
@@ -53,20 +59,21 @@ public class BookWidget extends Composite implements ClickHandler {
 
 		String html_img = new String("<div img class=\"img_book\">" + "<img align=\"center\" id=\"imageBook\" src=\"" + img_src + "\">" + "</div>");
 		flowPanel.setStyleName("elem");
-		l_author.setStyleName("linkFull");
+		l_author.setStyleName("linkAuthor");
 		l_title.setStyleName("linkToBook");
-		l_genre.setStyleName("linkFull");
+		l_genre.setStyleName("linkGenre");
 		button.setStyleName("buttonAddIn");
 		chooseButton.setStyleName("buttonAddIn");
 
 		panel.getElement().setId("info");
 		verticalPanel_1.getElement().setId("but");
-		l_author.getElement().setId("link_center");
+		l_author.getElement().setId("text_center");
 		l_title.getElement().setId("text_center");
 		button.getElement().setId("but_info");
 		chooseButton.getElement().setId("but_info");
-
+		flowPanel.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		verticalPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		verticalPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_TOP);
 		l_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel_1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
@@ -76,11 +83,11 @@ public class BookWidget extends Composite implements ClickHandler {
 		flowPanel.add(back_book);
 		flowPanel.add(verticalPanel);
 		verticalPanel.add(new HTML(html_img));
-		verticalPanel.add(l_author);
 		verticalPanel.add(l_title);
+		verticalPanel.add(l_author);
 		hPanel.add(new GenreLabel(genre.get(0).getGenre(), genre.get(0).getIdGenre()));
 		for (int i = 1; i < genre.size(); i++) {
-			hPanel.add(new HTML(",&nbsp"));
+			hPanel.add(new HTML("&nbsp&nbsp&nbsp"));
 			hPanel.add(new GenreLabel(genre.get(i).getGenre(), genre.get(i).getIdGenre()));
 		}
 		verticalPanel.add(hPanel);
@@ -92,16 +99,14 @@ public class BookWidget extends Composite implements ClickHandler {
 		flowPanel.add(panel);
 
 		verticalPanel_1.setSize("200px", "310px");
-		l_author.setWidth("170px");
 		l_title.setSize("170px", "");
+		l_author.setWidth("170px");
 		button.setSize("130px", "30px");
 		chooseButton.setSize("130px", "30px");
 
 		l_author.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				ClientFactory clientFactory = GWT.create(ClientFactory.class);
-				PlaceController placeController = clientFactory.getPlaceController();
-				placeController.goTo(new UserPlace("author=" + choose_book.getIdAuthor()));
+				placeController.goTo(new UserPlace("author=" + choose_book.getIdAuthor() + "&p=1"));
 			}
 		});
 		chooseButton.addClickHandler(new ClickHandler() {
@@ -110,6 +115,7 @@ public class BookWidget extends Composite implements ClickHandler {
 			}
 		});
 
+		l_title.addClickHandler(this);
 		button.addClickHandler(this);
 
 		initWidget(flowPanel);
@@ -117,8 +123,6 @@ public class BookWidget extends Composite implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 
-		ClientFactory clientFactory = GWT.create(ClientFactory.class);
-		PlaceController placeController = clientFactory.getPlaceController();
 		placeController.goTo(new UserPlace("book=" + choose_book.getIdBook()));
 
 	}

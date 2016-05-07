@@ -236,7 +236,7 @@ public class SelectedBookWidget extends Composite {
 			public void onClick(ClickEvent event) {
 				ClientFactory clientFactory = GWT.create(ClientFactory.class);
 				PlaceController placeController = clientFactory.getPlaceController();
-				placeController.goTo(new UserPlace("autor=" + choose_book.getIdAuthor()));
+				placeController.goTo(new UserPlace("autor=" + choose_book.getIdAuthor() + "&p=1"));
 			}
 		});
 

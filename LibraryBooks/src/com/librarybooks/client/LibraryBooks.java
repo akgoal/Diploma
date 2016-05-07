@@ -30,7 +30,7 @@ import com.google.web.bindery.event.shared.EventBus;
 /** Entry point classes define <code>onModuleLoad()</code>. */
 public class LibraryBooks implements EntryPoint {
 
-	private Place defaultPlace = new UserPlace("all");
+	private Place defaultPlace = new UserPlace("all=0&p=1");
 	private SimplePanel appWidget = new SimplePanel();
 
 	public void onModuleLoad() {

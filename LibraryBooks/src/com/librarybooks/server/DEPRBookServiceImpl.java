@@ -17,7 +17,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		ArrayList<Book> list = new ArrayList<Book>();
 		list.clear();
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 30; i++) {
 			Book book = new Book();
 			book.setIdBook(i);
 			book.setIdAuthor(i);
@@ -39,7 +39,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 	public ArrayList<Book> findBooksByAuthorBook(long id_author) {
 		ArrayList<Book> list = new ArrayList<Book>();
 		list.clear();
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 30; i++) {
 			Book book = new Book();
 			book.setIdBook(i);
 			book.setIdAuthor(id_author);
@@ -61,7 +61,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 	public ArrayList<Book> findBooksByGenreBook(long id_genre) {
 		ArrayList<Book> list = new ArrayList<Book>();
 		list.clear();
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 30; i++) {
 			Book book = new Book();
 			book.setIdBook(i);
 			book.setIdAuthor(i);

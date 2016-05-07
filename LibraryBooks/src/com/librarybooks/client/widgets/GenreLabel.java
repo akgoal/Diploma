@@ -18,7 +18,7 @@ public class GenreLabel extends Composite implements ClickHandler {
 		choose_id = id_genre;
 
 		Label label = new Label(genre);
-		label.setStyleName("linkFull");
+		label.setStyleName("linkGenre");
 		label.addClickHandler(this);
 		initWidget(label);
 	}
@@ -27,7 +27,7 @@ public class GenreLabel extends Composite implements ClickHandler {
 	public void onClick(ClickEvent event) {
 		ClientFactory clientFactory = GWT.create(ClientFactory.class);
 		PlaceController placeController = clientFactory.getPlaceController();
-		placeController.goTo(new UserPlace("genre=" + choose_id));
+		placeController.goTo(new UserPlace("genre=" + choose_id + "&p=1"));
 	}
 
 }
