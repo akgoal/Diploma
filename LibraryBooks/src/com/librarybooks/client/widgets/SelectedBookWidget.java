@@ -9,18 +9,22 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
 import com.librarybooks.client.ClientFactory;
 import com.librarybooks.client.activities_and_places.places.UserPlace;
+import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -38,8 +42,9 @@ public class SelectedBookWidget extends Composite {
 	private Label back_book = new Label();
 	private VerticalPanel vPanel = new VerticalPanel();
 	HorizontalPanel hPanelGenre = new HorizontalPanel();
+	HorizontalPanel hPanelAuthor = new HorizontalPanel();
 
-	private LayoutPanel generalLPanel = new LayoutPanel();
+	private FlowPanel generalLPanel = new FlowPanel();
 	private LayoutPanel topLPanel = new LayoutPanel();
 	private LayoutPanel leftLPanel = new LayoutPanel();
 	private LayoutPanel rightLPanel = new LayoutPanel();
@@ -61,7 +66,7 @@ public class SelectedBookWidget extends Composite {
 	private Label lbl_text_for_data = new Label("Можно получить:");
 
 	private Label dnmc_rating = new Label("New label");
-	private Label dnmc__author = new Label();
+	// private Label dnmc_author = new Label();
 	private Label dnmc_title = new Label();
 	private Label dnmc_id_book = new Label("");
 	private Label dnmc_year_create = new Label("2016");
@@ -76,18 +81,25 @@ public class SelectedBookWidget extends Composite {
 
 	private HTML Html_br = new HTML("<hr />", true);
 
-	public SelectedBookWidget(long id_book, String autor, long id_autor, String title, ArrayList<Genre> genre, String img_src) {
+	public SelectedBookWidget(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre, String img_src) {
 
 		img_src = GWT.getModuleBaseURL() + "img/template.jpg";
 
-		choose_book.setBook(id_book, autor, id_autor, title, genre, img_src);
+		choose_book.setBook(id_book, author, title, genre, img_src);
 
 		vPanel.setStyleName("panelForSelect");
-		generalLPanel.setSize("700px", "415px");
+		vPanel.setSize("", "");
+		generalLPanel.setSize("", "");
+
+		generalLPanel.add(topLPanel);
+		topLPanel.add(link_list);
+		topLPanel.setWidgetLeftWidth(link_list, 20.0, Unit.PX, 140.0, Unit.PX);
+		topLPanel.setWidgetTopHeight(link_list, 14.0, Unit.PX, 16.0, Unit.PX);
+
+		leftLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
+		rightLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
 		vPanel.add(generalLPanel);
 		generalLPanel.add(leftLPanel);
-		generalLPanel.setWidgetLeftWidth(leftLPanel, 0.0, Unit.PX, 230.0, Unit.PX);
-		generalLPanel.setWidgetTopHeight(leftLPanel, 36.0, Unit.PX, 375.0, Unit.PX);
 		leftLPanel.setSize("230px", "375px");
 		full_img.setStyleName("imageFull");
 		leftLPanel.add(full_img);
@@ -100,9 +112,8 @@ public class SelectedBookWidget extends Composite {
 		leftLPanel.setWidgetLeftWidth(dnmc_rating, 120.0, Unit.PX, 56.0, Unit.PX);
 		leftLPanel.setWidgetTopHeight(dnmc_rating, 332.0, Unit.PX, 16.0, Unit.PX);
 		generalLPanel.add(rightLPanel);
-		generalLPanel.setWidgetLeftWidth(rightLPanel, 235.0, Unit.PX, 465.0, Unit.PX);
-		generalLPanel.setWidgetTopHeight(rightLPanel, 36.0, Unit.PX, 373.0, Unit.PX);
-		rightLPanel.setSize("460px", "373px");
+		rightLPanel.getElement().setId("rightPanel");
+		rightLPanel.setSize("", "");
 		dnmc_title.setStyleName("nameBookFull");
 		dnmc_title.setDirectionEstimator(true);
 		dnmc_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -114,11 +125,17 @@ public class SelectedBookWidget extends Composite {
 		lbl_author.setSize("", "");
 		rightLPanel.setWidgetLeftWidth(lbl_author, 15.0, Unit.PX, 39.0, Unit.PX);
 		rightLPanel.setWidgetTopHeight(lbl_author, 44.0, Unit.PX, 19.0, Unit.PX);
-		dnmc__author.setStyleName("linkFull");
-		dnmc__author.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		rightLPanel.add(dnmc__author);
-		rightLPanel.setWidgetLeftWidth(dnmc__author, 55.0, Unit.PX, 350.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc__author, 44.0, Unit.PX, 19.0, Unit.PX);
+
+		hPanelAuthor.add(new ListLabel("author", author.get(0).getAuthor(), author.get(0).getIdAuthor()));
+		for (int i = 1; i < genre.size(); i++) {
+			hPanelAuthor.add(new HTML(",&nbsp"));
+			hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(), author.get(i).getIdAuthor()));
+		}
+		// dnmc_author.setStyleName("linkFull");
+		// dnmc_author.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		rightLPanel.add(hPanelAuthor);
+		rightLPanel.setWidgetLeftWidth(hPanelAuthor, 55.0, Unit.PX, 350.0, Unit.PX);
+		rightLPanel.setWidgetTopHeight(hPanelAuthor, 44.0, Unit.PX, 19.0, Unit.PX);
 		lbl_id_book.setStyleName("labelFull");
 		lbl_id_book.setDirectionEstimator(false);
 		rightLPanel.add(lbl_id_book);
@@ -168,10 +185,10 @@ public class SelectedBookWidget extends Composite {
 		layoutPanel_4.add(chooseButton);
 		layoutPanel_4.setWidgetLeftWidth(chooseButton, 191.0, Unit.PX, 115.0, Unit.PX);
 		layoutPanel_4.setWidgetTopHeight(chooseButton, 7.0, Unit.PX, 38.0, Unit.PX);
-		hPanelGenre.add(new GenreLabel(genre.get(0).getGenre(), genre.get(0).getIdGenre()));
+		hPanelGenre.add(new ListLabel("genre", genre.get(0).getGenre(), genre.get(0).getIdGenre()));
 		for (int i = 1; i < genre.size(); i++) {
 			hPanelGenre.add(new HTML(",&nbsp"));
-			hPanelGenre.add(new GenreLabel(genre.get(i).getGenre(), genre.get(i).getIdGenre()));
+			hPanelGenre.add(new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
 		}
 		dnmc_id_book.setText(String.valueOf(id_book));
 		rightLPanel.add(hPanelGenre);
@@ -199,22 +216,12 @@ public class SelectedBookWidget extends Composite {
 		rightLPanel.add(dnmc_cover);
 		rightLPanel.setWidgetLeftWidth(dnmc_cover, 178.0, Unit.PX, 264.0, Unit.PX);
 		rightLPanel.setWidgetTopHeight(dnmc_cover, 296.0, Unit.PX, 16.0, Unit.PX);
-		dnmc__author.setText(autor);
 		dnmc_title.setText(title);
-		generalLPanel.add(topLPanel);
-		generalLPanel.setWidgetLeftWidth(topLPanel, 0.0, Unit.PX, 700.0, Unit.PX);
-		generalLPanel.setWidgetTopHeight(topLPanel, 0.0, Unit.PX, 30.0, Unit.PX);
-		topLPanel.setSize("700px", "30px");
-		topLPanel.add(link_list);
-		topLPanel.setWidgetLeftWidth(link_list, 20.0, Unit.PX, 140.0, Unit.PX);
-		topLPanel.setWidgetTopHeight(link_list, 14.0, Unit.PX, 16.0, Unit.PX);
 		link_list.setStyleName("linkFull");
-		vPanel.setSize("700px", "");
+		vPanel.setSize("", "");
 		vPanel.add(bottomLPanel);
-		bottomLPanel.setSize("700px", "59px");
+		bottomLPanel.setSize("", "59px");
 		bottomLPanel.add(Html_br);
-		bottomLPanel.setWidgetLeftWidth(Html_br, 0.0, Unit.PX, 700.0, Unit.PX);
-		bottomLPanel.setWidgetTopHeight(Html_br, 44.0, Unit.PX, 12.0, Unit.PX);
 		lbl_specific.setStyleName("labelText");
 		bottomLPanel.add(lbl_specific);
 		bottomLPanel.setWidgetLeftWidth(lbl_specific, 10.0, Unit.PX, 92.0, Unit.PX);
@@ -229,14 +236,6 @@ public class SelectedBookWidget extends Composite {
 		link_list.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 
-			}
-		});
-
-		dnmc__author.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				ClientFactory clientFactory = GWT.create(ClientFactory.class);
-				PlaceController placeController = clientFactory.getPlaceController();
-				placeController.goTo(new UserPlace("autor=" + choose_book.getIdAuthor() + "&p=1"));
 			}
 		});
 

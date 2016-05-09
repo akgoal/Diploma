@@ -7,36 +7,33 @@ import java.util.ArrayList;
 public class Book implements Serializable {
 
 	private String text;
-	private String author;
 	private String title;
 	// private String genre;
+	ArrayList<Author> author;
 	private ArrayList<Genre> genre;
 	private String img;
-	private long id_author;
 	// private long id_genre;
 	private long id_book;
 
 	// новый
-	public Book(long id_book, String author, long id_author, String title, ArrayList<Genre> genre, String img) {
+	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre, String img) {
 		this.id_book = id_book;
 		this.author = author;
-		this.id_author = id_author;
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
 	}
 
-	public void setBook(long id_book, String author, long id_author, String title, ArrayList<Genre> genre, String img) {
+	public void setBook(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre, String img) {
 		this.id_book = id_book;
 		this.author = author;
-		this.id_author = id_author;
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
 	}
 
 	// этот конструктор заменить новым
-	public Book(String author, String title, ArrayList<Genre> genre, String img) {
+	public Book(ArrayList<Author> author, String title, ArrayList<Genre> genre, String img) {
 		this.author = author;
 		this.title = title;
 		this.genre = genre;
@@ -62,11 +59,11 @@ public class Book implements Serializable {
 		this.img = img;
 	}
 
-	public String getAuthor() {
+	public ArrayList<Author> getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(ArrayList<Author> author) {
 		this.author = author;
 	}
 
@@ -86,14 +83,6 @@ public class Book implements Serializable {
 		this.genre = genre;
 	}
 
-	public long getIdAuthor() {
-		return id_author;
-	}
-
-	public void setIdAuthor(long id_autor) {
-		this.id_author = id_autor;
-	}
-
 	public long getIdBook() {
 		return id_book;
 	}
@@ -102,4 +91,5 @@ public class Book implements Serializable {
 		this.id_book = id_book;
 
 	}
+
 }

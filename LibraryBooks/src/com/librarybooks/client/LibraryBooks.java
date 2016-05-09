@@ -4,6 +4,10 @@ import com.librarybooks.client.AppActivityMapper;
 import com.librarybooks.client.AppPlaceHistoryMapper;
 import com.librarybooks.client.ClientFactory;
 import com.librarybooks.client.activities_and_places.places.*;
+import com.librarybooks.client.objects.Genre;
+
+import java.util.ArrayList;
+
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
@@ -14,24 +18,54 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.StackPanel;
-
 import com.google.web.bindery.event.shared.EventBus;
 
 /** Entry point classes define <code>onModuleLoad()</code>. */
 public class LibraryBooks implements EntryPoint {
 
+	private static native void scr() /*-{
+		{
+
+			var menu_ul = $wnd.$('.menu > li > ul'), menu_a = $wnd
+					.$('.menu > li > a');
+
+			menu_ul.hide();
+
+			menu_a.click(function(e) {
+				e.preventDefault();
+				if (!$wnd.$(this).hasClass('active')) {
+					menu_a.removeClass('active');
+					menu_ul.filter(':visible').slideUp('normal');
+					$wnd.$(this).addClass('active').next().stop(true, true)
+							.slideDown('normal');
+				} else {
+					$wnd.$(this).removeClass('active');
+					$wnd.$(this).next().stop(true, true).slideUp('normal');
+				}
+			});
+
+		}
+	}-*/;
+
+	private static final String SERVER_ERROR = "An error occurred while "
+			+ "attempting to contact the server. Please check your network "
+			+ "connection and try again.";
+
 	private Place defaultPlace = new UserPlace("all=0&p=1");
 	private SimplePanel appWidget = new SimplePanel();
+	String html = new String("");
 
 	public void onModuleLoad() {
 		BookServiceAsync bookService = GWT.create(BookService.class);
@@ -87,29 +121,69 @@ public class LibraryBooks implements EntryPoint {
 		menuSub.addItem(item2);
 		RootPanel.get("container").add(menuMain);
 
-		StackPanel panel = new StackPanel();
-		panel.add(new Label("Item1"), "Item1");
-		panel.add(new Label("Item2"), "Item2");
-		panel.add(new Label("Item3"), "Item3");
-		// panel.setWidth("200px");
-		// final RootPanel panelR=RootPanel.get("container");
-		// panelR.getElement().getStyle().setPosition(Position.ABSOLUTE);
-		RootPanel.get("stackContainer").add(panel);
+		bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() {
+			public void onFailure(Throwable caught) {
+				Label text = new Label(SERVER_ERROR);
+			}
+
+			public void onSuccess(ArrayList<Genre> result) {
+
+				html = html + "<ul class=\"menu\">"
+						+ "<li class=\"item1\"><a href=\"#\">Жанры <span>" + result.size()
+						+ "</span></a>" + "<ul>";
+				for (int i = 0; i < result.size(); i++) {
+					html = html + "<li class=\"subitem" + (i + 1) + "\"><a href=\"#UserPlace:genre="
+							+ result.get(i).getIdGenre() + "&p=1\">" + result.get(i).getGenre()
+							+ " <span>" + i + "</span></a></li>";
+				}
+				html = html + "</ul>" + "</li>";
+				html = html + "<li class=\"item2\"><a href=\"#\">Авторы <span>147</span></a>"
+						+ "<ul>"
+						+ "<li class=\"subitem1\"><a href=\"#\">Автор 1 <span>14</span></a></li>"
+						+ "<li class=\"subitem2\"><a href=\"#\">Автор 2 <span>6</span></a></li>"
+						+ "<li class=\"subitem3\"><a href=\"#\">Автор 3 <span>2</span></a></li>"
+						+ "</ul>" + "</li>"
+						+ "<li class=\"item3\"><a href=\"#\">Подборки <span>340</span></a>" + "<ul>"
+						+ "<li class=\"subitem1\"><a href=\"#\">Подборка 1 <span>14</span></a></li>"
+						+ "<li class=\"subitem2\"><a href=\"#\">Подборка 2 <span>6</span></a></li>"
+						+ "<li class=\"subitem3\"><a href=\"#\">Подборка 3 <span>2</span></a></li>"
+						+ "</ul>" + "</li>" + "</ul>";
+				RootPanel.get("wrapper").add(new HTML(html));
+
+				scr();
+
+			}
+		});
+
+		/*
+		 * SafeHtml navHtml = new SafeHtml() {
+		 * 
+		 * @Override public String asString() { return "<ul class=\"menu\">" + "<li class=\"item1\">" + "<a href=\"#\">Подборки <span>340</span></a>" + "<ul>" + "<li class=\"subitem1\"><a href=\"#\">Cute Kittens <span>14</span></a></li>" +
+		 * "<li class=\"subitem2\"><a href=\"#\">Strange “Stuff” <span>6</span></a></li>" + "<li class=\"subitem3\"><a href=\"#\">Automatic Fails <span>2</span></a></li>" + "</ul>" + "</li>" + "<li class=\"item2\"><a href=\"#\">Жанры <span>147</span></a>" + "<ul>" +
+		 * "<li class=\"subitem1\"><a href=\"#\">Cute Kittens <span>14</span></a></li>" + "<li class=\"subitem2\"><a href=\"#\">Strange “Stuff” <span>6</span></a></li>" + "<li class=\"subitem3\"><a href=\"#\">Automatic Fails <span>2</span></a></li>" + "</ul>" + "</li>" +
+		 * "<li class=\"item3\"><a href=\"#\">Авторы <span>340</span></a>" + "<ul>" + "<li class=\"subitem1\"><a href=\"#\">Cute Kittens <span>14</span></a></li>" + "<li class=\"subitem2\"><a href=\"#\">Strange “Stuff” <span>6</span></a></li>" +
+		 * "<li class=\"subitem3\"><a href=\"#\">Automatic Fails <span>2</span></a></li>" + "</ul>" + "</li>" + "</ul>";
+		 * 
+		 * } };
+		 */
 
 		Window.addWindowScrollHandler(new ScrollHandler() {
 
 			@Override
 			public void onWindowScroll(ScrollEvent event) {
 				if (event.getScrollTop() > 45) {
-					Document.get().getElementById("search_panel").getStyle().setPosition(Position.FIXED);
+					Document.get().getElementById("search_panel").getStyle()
+							.setPosition(Position.FIXED);
 					Document.get().getElementById("search_panel").getStyle().setTop(0, Unit.PX);
 				} else {
 					Document.get().getElementById("search_panel").getStyle().setTop(45, Unit.PX);
-					Document.get().getElementById("search_panel").getStyle().setPosition(Position.ABSOLUTE);
+					Document.get().getElementById("search_panel").getStyle()
+							.setPosition(Position.ABSOLUTE);
 
 				}
 
 			}
 		});
+
 	}
 }

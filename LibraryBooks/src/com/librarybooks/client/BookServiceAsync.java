@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.librarybooks.client.objects.Book;
+import com.librarybooks.client.objects.Genre;
 
 public interface BookServiceAsync {
 
@@ -16,5 +17,7 @@ public interface BookServiceAsync {
 	void bookToServer(Book callInput, AsyncCallback<Book> callback);
 
 	void selectBook(long callInput, AsyncCallback<Book> callback);
+
+	void listOfGenres(AsyncCallback<ArrayList<Genre>> callback);
 
 }

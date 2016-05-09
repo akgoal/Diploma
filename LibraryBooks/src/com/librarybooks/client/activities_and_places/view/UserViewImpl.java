@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
 import com.librarybooks.client.activities_and_places.places.AdminPlace;
+import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.widgets.BookWidget;
@@ -42,7 +43,9 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	VerticalPanel vPanel = new VerticalPanel();
 	FlowPanel fPanel = new FlowPanel();
 
-	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
+	private static final String SERVER_ERROR = "An error occurred while "
+			+ "attempting to contact the server. Please check your network "
+			+ "connection and try again.";
 
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
@@ -102,13 +105,13 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 					pageNav(result.size(), type);
 					FlowPanel panel = new FlowPanel();
 					for (int i = start; i < stop; i++) {
-						String author = new String((result.get(i)).getAuthor());
 						String title = new String((result.get(i)).getTitle());
+						ArrayList<Author> author = new ArrayList<Author>(
+								(result.get(i)).getAuthor());
 						ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
 						String img_src = new String((result.get(i)).getImg());
-						long id_author = (result.get(i)).getIdAuthor();
 						long id_book = (result.get(i)).getIdBook();
-						BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, img_src);
+						BookWidget bb = new BookWidget(id_book, author, title, genre, img_src);
 						panel.add(bb);
 					}
 					fPanel.add(panel);
@@ -130,13 +133,13 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 					FlowPanel panel = new FlowPanel();
 					for (int i = start; i < stop; i++) {
 
-						String author = new String((result.get(i)).getAuthor());
 						String title = new String((result.get(i)).getTitle());
+						ArrayList<Author> author = new ArrayList<Author>(
+								(result.get(i)).getAuthor());
 						ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
 						String img_src = new String((result.get(i)).getImg());
-						long id_author = (result.get(i)).getIdAuthor();
 						long id_book = (result.get(i)).getIdBook();
-						BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, img_src);
+						BookWidget bb = new BookWidget(id_book, author, title, genre, img_src);
 						panel.add(bb);
 
 					}
@@ -158,13 +161,13 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 					FlowPanel panel = new FlowPanel();
 					for (int i = start; i < stop; i++) {
 
-						String author = new String((result.get(i)).getAuthor());
 						String title = new String((result.get(i)).getTitle());
+						ArrayList<Author> author = new ArrayList<Author>(
+								(result.get(i)).getAuthor());
 						ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
 						String img_src = new String((result.get(i)).getImg());
-						long id_author = (result.get(i)).getIdAuthor();
 						long id_book = (result.get(i)).getIdBook();
-						BookWidget bb = new BookWidget(id_book, author, id_author, title, genre, img_src);
+						BookWidget bb = new BookWidget(id_book, author, title, genre, img_src);
 						panel.add(bb);
 
 					}
@@ -182,13 +185,13 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 				public void onSuccess(Book result) {
 					FlowPanel panel = new FlowPanel();
-					String author = new String(result.getAuthor());
 					String title = new String(result.getTitle());
+					ArrayList<Author> author = new ArrayList<Author>(result.getAuthor());
 					ArrayList<Genre> genre = new ArrayList<Genre>(result.getGenre());
 					String img_src = new String(result.getImg());
-					long id_author = result.getIdAuthor();
 					long id_book = result.getIdBook();
-					SelectedBookWidget bb = new SelectedBookWidget(id_book, author, id_author, title, genre, img_src);
+					SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre,
+							img_src);
 					panel.add(bb);
 					fPanel.add(panel);
 
@@ -211,7 +214,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
 			sprintHPanel.add(num_page);
 		} else {
-			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id + "&p=" + (page - 1) + "\">" + "<" + "</a>");
+			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+					+ "&p=" + (page - 1) + "\">" + "<" + "</a>");
 			sprintHPanel.add(num_page);
 		}
 		for (int i = 1; i <= col_page; i++) {
@@ -219,7 +223,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
 				sprintHPanel.add(num_page);
 			} else {
-				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id + "&p=" + i + "\">" + i + "</a>");
+				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+						+ "&p=" + i + "\">" + i + "</a>");
 				sprintHPanel.add(num_page);
 			}
 
@@ -228,7 +233,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
 			sprintHPanel.add(num_page);
 		} else {
-			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id + "&p=" + (page + 1) + "\">" + ">" + "</a>");
+			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+					+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
 			sprintHPanel.add(num_page);
 		}
 		start = (page - 1) * col_books;

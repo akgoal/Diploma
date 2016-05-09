@@ -12,6 +12,7 @@
   <inherits name="com.google.gwt.activity.Activity"/>
   <inherits name="com.google.gwt.place.Place"/>
   
+  
   <replace-with class="com.librarybooks.client.ClientFactoryImpl">
     <when-type-is class="com.librarybooks.client.ClientFactory"/>
   </replace-with>

@@ -1,0 +1,2 @@
+serviceClass: com.librarybooks.client.BookService
+path: 439956E19862C53FD0A4A11B6FD59F4C.gwt.rpc

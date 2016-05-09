@@ -1,0 +1,3 @@
+# Module librarybooks
+# RPC service class, partial path of RPC policy file
+com.librarybooks.client.BookService, 439956E19862C53FD0A4A11B6FD59F4C.gwt.rpc
