@@ -29,7 +29,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-tx-4.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-web-4.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-webmvc-4.0.6.RELEASE.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance-alpha1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/org.apache.servicemix.bundles.aopalliance-1.0_6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/junit-3.8.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/log4j-over-slf4j-1.7.21.jar"/>
