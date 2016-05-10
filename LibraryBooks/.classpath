@@ -7,7 +7,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/antlr-2.7.7.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-commons-annotations-4.0.5.Final.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-core-4.3.10.Final.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-jpa-2.1-api-1.0.0.Final.jar"/>
@@ -35,5 +34,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-webmvc-4.0.6.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring4gwt-0.0.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-servlet.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
