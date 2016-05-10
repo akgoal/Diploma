@@ -10,7 +10,7 @@ import com.librarybooks.client.objects.Genre;
 /**
  * The client-side stub for the RPC service.
  */
-@RemoteServiceRelativePath("greet")
+@RemoteServiceRelativePath("services/bookService")
 public interface BookService extends RemoteService {
 
 	ArrayList<Book> findBooksByAuthorBook(long callInput) throws Exception;
@@ -24,5 +24,4 @@ public interface BookService extends RemoteService {
 	Book bookToServer(Book callInput) throws Exception;
 
 	ArrayList<Genre> listOfGenres();
-
 }

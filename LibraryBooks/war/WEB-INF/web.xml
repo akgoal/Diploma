@@ -6,15 +6,42 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
+   
   <servlet>
     <servlet-name>greetServlet</servlet-name>
     <servlet-class>com.librarybooks.server.DEPRBookServiceImpl</servlet-class>
   </servlet>
   
-  <servlet-mapping>
+ <!--  <servlet-mapping>
     <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/librarybooks/greet</url-pattern>
-  </servlet-mapping>
+    <url-pattern>/librarybooks/services/bookService</url-pattern>
+  </servlet-mapping> -->
+  
+  
+  <!-- Описание корневого контейнера, разделяемого всеми сервлетами и фильтрами -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/spring/root-context.xml
+		</param-value>
+	</context-param>
+
+	<!-- Создаёт контейнер Spring, разделяемый всеми сервлетами и фильтрами -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
+		<servlet-class>org.spring4gwt.server.SpringGwtRemoteServiceServlet
+		</servlet-class>
+	</servlet>
+		
+	<servlet-mapping>
+	    <servlet-name>springGwtRemoteServiceServlet</servlet-name>
+	    <url-pattern>/librarybooks/services/bookService</url-pattern>
+	</servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
