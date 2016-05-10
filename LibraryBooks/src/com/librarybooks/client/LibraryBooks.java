@@ -6,6 +6,8 @@ import com.librarybooks.client.ClientFactory;
 import com.librarybooks.client.activities_and_places.places.*;
 import com.librarybooks.client.objects.Genre;
 
+import antlr.debug.Event;
+
 import java.util.ArrayList;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -42,7 +44,6 @@ public class LibraryBooks implements EntryPoint {
 					.$('.menu > li > a');
 
 			menu_ul.hide();
-
 			menu_a.click(function(e) {
 				e.preventDefault();
 				if (!$wnd.$(this).hasClass('active')) {
@@ -56,6 +57,12 @@ public class LibraryBooks implements EntryPoint {
 				}
 			});
 
+		}
+	}-*/;
+
+	private static native void h() /*-{
+		{
+			$wnd.$(".cont").height($wnd.$(document).height());
 		}
 	}-*/;
 
@@ -171,6 +178,7 @@ public class LibraryBooks implements EntryPoint {
 
 			@Override
 			public void onWindowScroll(ScrollEvent event) {
+
 				if (event.getScrollTop() > 45) {
 					Document.get().getElementById("search_panel").getStyle()
 							.setPosition(Position.FIXED);
@@ -181,6 +189,16 @@ public class LibraryBooks implements EntryPoint {
 							.setPosition(Position.ABSOLUTE);
 
 				}
+
+				// double bef = Double
+				// .valueOf(Document.get().getElementById("cont_list").getStyle().getWidth());
+				// double af = Double
+				// .valueOf(Document.get().getElementById("wrapper").getStyle().getWidth());
+
+				// if (bef < af) {
+				// Document.get().getElementById("cont_list").getStyle()
+				// .setHeight(Window.getScrollTop(), Unit.PX);
+				// }
 
 			}
 		});
