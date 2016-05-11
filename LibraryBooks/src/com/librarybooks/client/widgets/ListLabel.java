@@ -20,10 +20,7 @@ public class ListLabel extends Composite implements ClickHandler {
 		choose_id = id;
 		choose_type = type;
 		label.setText(name);
-		if (type == "genre")
-			label.setStyleName("linkGenre");
-		else
-			label.setStyleName("linkAuthor");
+		label.setStyleName("linkGenre");
 		label.addClickHandler(this);
 		initWidget(label);
 	}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -43,10 +42,6 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	HorizontalPanel sprintHPanel = new HorizontalPanel();
 	VerticalPanel vPanel = new VerticalPanel();
 	FlowPanel fPanel = new FlowPanel();
-
-	native void consoleLog(String message) /*-{
-		console.log("me:" + message);
-	}-*/;
 
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
@@ -86,12 +81,6 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		if (name.matches("genre=[0-9]+&p=[1-9][0-9]*")) {
 			type = "genre";
 			String a = (name.replaceAll("genre=", "")).replaceAll("p=", "");
-			id = Long.valueOf(a.substring(0, a.indexOf("&")));
-			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
-		}
-		if (name.matches("selection=[0-9]+&p=[1-9][0-9]*")) {
-			type = "selection";
-			String a = (name.replaceAll("selection=", "")).replaceAll("p=", "");
 			id = Long.valueOf(a.substring(0, a.indexOf("&")));
 			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
 		}
@@ -162,36 +151,6 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 		case "genre": {
 			bookService.findBooksByGenreBook(id, new AsyncCallback<ArrayList<Book>>() {
-
-				public void onFailure(Throwable caught) {
-					Label text = new Label(SERVER_ERROR);
-					fPanel.add(text);
-				}
-
-				public void onSuccess(ArrayList<Book> result) {
-					pageNav(result.size(), type);
-					FlowPanel panel = new FlowPanel();
-					for (int i = start; i < stop; i++) {
-
-						String title = new String((result.get(i)).getTitle());
-						ArrayList<Author> author = new ArrayList<Author>(
-								(result.get(i)).getAuthor());
-						ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
-						String img_src = new String((result.get(i)).getImg());
-						long id_book = (result.get(i)).getIdBook();
-						BookWidget bb = new BookWidget(id_book, author, title, genre, img_src);
-						panel.add(bb);
-
-					}
-					fPanel.add(panel);
-				}
-			});
-		}
-			break;
-
-		case "selection": {
-			bookService.findBooksBySelectionBook(id, new AsyncCallback<ArrayList<Book>>() {
-
 				public void onFailure(Throwable caught) {
 					Label text = new Label(SERVER_ERROR);
 					fPanel.add(text);
@@ -248,47 +207,41 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	}
 
 	private void pageNav(int res, String type) {
-
 		col_page = res / 12;
 		if (res % 12 > 0)
 			col_page++;
-		if (col_page > 1) {
-			if (page == 1) {
-				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
-				sprintHPanel.add(num_page);
-			} else {
-				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-						+ "&p=" + (page - 1) + "\">" + "<" + "</a>");
-				sprintHPanel.add(num_page);
-			}
-			for (int i = 1; i <= col_page; i++) {
-				if (i == page) {
-					HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
-					sprintHPanel.add(num_page);
-				} else {
-					HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "="
-							+ id + "&p=" + i + "\">" + i + "</a>");
-					sprintHPanel.add(num_page);
-				}
-
-			}
-			if (page == col_page) {
-				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
-				sprintHPanel.add(num_page);
-			} else {
-				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-						+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
-				sprintHPanel.add(num_page);
-			}
-			start = (page - 1) * col_books;
-			if (res <= col_books * page) {
-				stop = res;
-			} else
-				stop = page * col_books;
+		if (page == 1) {
+			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
+			sprintHPanel.add(num_page);
 		} else {
-			start = 0;
-			stop = res;
+			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+					+ "&p=" + (page - 1) + "\">" + "<" + "</a>");
+			sprintHPanel.add(num_page);
 		}
+		for (int i = 1; i <= col_page; i++) {
+			if (i == page) {
+				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
+				sprintHPanel.add(num_page);
+			} else {
+				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+						+ "&p=" + i + "\">" + i + "</a>");
+				sprintHPanel.add(num_page);
+			}
+
+		}
+		if (page == col_page) {
+			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
+			sprintHPanel.add(num_page);
+		} else {
+			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+					+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
+			sprintHPanel.add(num_page);
+		}
+		start = (page - 1) * col_books;
+		if (res <= col_books * page) {
+			stop = res;
+		} else
+			stop = page * col_books;
 
 	}
 
