@@ -84,6 +84,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			id = Long.valueOf(a.substring(0, a.indexOf("&")));
 			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
 		}
+		if (name.matches("selection=[0-9]+&p=[1-9][0-9]*")) {
+			type = "selection";
+			String a = (name.replaceAll("selection=", "")).replaceAll("p=", "");
+			id = Long.valueOf(a.substring(0, a.indexOf("&")));
+			page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
+		}
 		if (name.matches("book=[0-9]+")) {
 			type = "book";
 			id = Long.valueOf(name.replaceAll("book=", ""));
@@ -122,6 +128,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 		case "author": {
 			bookService.findBooksByAuthorBook(id, new AsyncCallback<ArrayList<Book>>() {
+
 				public void onFailure(Throwable caught) {
 					Label text = new Label(SERVER_ERROR);
 					fPanel.add(text);
@@ -176,8 +183,38 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			});
 		}
 			break;
+
+		case "selection": {
+			bookService.findBooksBySelectionBook(id, new AsyncCallback<ArrayList<Book>>() {
+				public void onFailure(Throwable caught) {
+					Label text = new Label(SERVER_ERROR);
+					fPanel.add(text);
+				}
+
+				public void onSuccess(ArrayList<Book> result) {
+					pageNav(result.size(), type);
+					FlowPanel panel = new FlowPanel();
+					for (int i = start; i < stop; i++) {
+
+						String title = new String((result.get(i)).getTitle());
+						ArrayList<Author> author = new ArrayList<Author>(
+								(result.get(i)).getAuthor());
+						ArrayList<Genre> genre = new ArrayList<Genre>((result.get(i)).getGenre());
+						String img_src = new String((result.get(i)).getImg());
+						long id_book = (result.get(i)).getIdBook();
+						BookWidget bb = new BookWidget(id_book, author, title, genre, img_src);
+						panel.add(bb);
+
+					}
+					fPanel.add(panel);
+				}
+			});
+		}
+			break;
+
 		case "book": {
 			bookService.selectBook(id, new AsyncCallback<Book>() {
+
 				public void onFailure(Throwable caught) {
 					Label text = new Label(SERVER_ERROR);
 					fPanel.add(text);
