@@ -13,6 +13,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import testproject.client.BookService;
 import testproject.client.objects.Book;
+import testproject.client.objects.Genre;
 import testproject.server.bookservice.dao.BooksDAO;
 import testproject.server.bookservice.datasets.AuthorsDataSet;
 import testproject.server.bookservice.datasets.BooksDataSet;
@@ -142,9 +143,10 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 	}
 
 	private Book convertToBook(BooksDataSet booksDataSet) {
+		ArrayList<Genre> gList = new ArrayList<>();
+		gList.add(new Genre(booksDataSet.getGenre().getName(), booksDataSet.getGenre().getId()));
 		return new Book(booksDataSet.getId(), booksDataSet.getAuthor().getName(), booksDataSet.getAuthor().getId(),
-				booksDataSet.getTitle(), booksDataSet.getGenre().getName(), booksDataSet.getGenre().getId(),
-				booksDataSet.getImgUrl());
+				booksDataSet.getTitle(), gList, booksDataSet.getImgUrl());
 	}
 
 	/*
