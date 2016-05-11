@@ -28,7 +28,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	@Override
 	public String mayStop() {
-		return "Please hold on. This activity is stopping.";
+		return null;
 	}
 
 	public void goTo(Place place) {

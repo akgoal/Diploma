@@ -374,7 +374,16 @@ p {
 .elem .linkAuthor {
 	color: rgb(51, 51, 51);
     text-decoration: none;
-    padding-top: 5px;
+    cursor: pointer;
+}
+
+.linkAuthor {
+	color: slateblue;
+	text-decoration: none;
+	cursor:pointer;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition:    all 0.3s ease;
+  -o-transition:      all 0.3s ease; 
     cursor: pointer;
 }
 
@@ -387,7 +396,8 @@ p {
   -o-transition:      all 0.3s ease; 
 }
 
-.linkGenre:hover, .linkGenre:active{
+.linkGenre:hover, .linkGenre:active,
+.linkAuthor:hover, .linkAuthor:active{
 
     text-decoration: underline;
 }
@@ -396,7 +406,6 @@ p {
     color: rgb(148, 148, 148);
     text-decoration: none;
     cursor: pointer;
-    padding-top: 3px;
     		-webkit-transition: all 0.3s ease;
   -moz-transition:    all 0.3s ease;
   -o-transition:      all 0.3s ease; 

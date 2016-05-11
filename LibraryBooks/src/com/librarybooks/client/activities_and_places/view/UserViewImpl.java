@@ -210,38 +210,43 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		col_page = res / 12;
 		if (res % 12 > 0)
 			col_page++;
-		if (page == 1) {
-			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
-			sprintHPanel.add(num_page);
-		} else {
-			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-					+ "&p=" + (page - 1) + "\">" + "<" + "</a>");
-			sprintHPanel.add(num_page);
-		}
-		for (int i = 1; i <= col_page; i++) {
-			if (i == page) {
-				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
+		if (col_page > 1) {
+			if (page == 1) {
+				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
 				sprintHPanel.add(num_page);
 			} else {
 				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-						+ "&p=" + i + "\">" + i + "</a>");
+						+ "&p=" + (page - 1) + "\">" + "<" + "</a>");
 				sprintHPanel.add(num_page);
 			}
+			for (int i = 1; i <= col_page; i++) {
+				if (i == page) {
+					HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
+					sprintHPanel.add(num_page);
+				} else {
+					HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "="
+							+ id + "&p=" + i + "\">" + i + "</a>");
+					sprintHPanel.add(num_page);
+				}
 
-		}
-		if (page == col_page) {
-			HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
-			sprintHPanel.add(num_page);
+			}
+			if (page == col_page) {
+				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
+				sprintHPanel.add(num_page);
+			} else {
+				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
+						+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
+				sprintHPanel.add(num_page);
+			}
+			start = (page - 1) * col_books;
+			if (res <= col_books * page) {
+				stop = res;
+			} else
+				stop = page * col_books;
 		} else {
-			HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-					+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
-			sprintHPanel.add(num_page);
-		}
-		start = (page - 1) * col_books;
-		if (res <= col_books * page) {
 			stop = res;
-		} else
-			stop = page * col_books;
+			start = 0;
+		}
 
 	}
 

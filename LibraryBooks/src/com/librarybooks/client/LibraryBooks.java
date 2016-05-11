@@ -141,7 +141,7 @@ public class LibraryBooks implements EntryPoint {
 				for (int i = 0; i < result.size(); i++) {
 					html = html + "<li class=\"subitem" + (i + 1) + "\"><a href=\"#UserPlace:genre="
 							+ result.get(i).getIdGenre() + "&p=1\">" + result.get(i).getGenre()
-							+ " <span>" + i + "</span></a></li>";
+							+ " <span>" + result.get(i).getColBook() + "</span></a></li>";
 				}
 				html = html + "</ul>" + "</li>";
 				html = html + "<li class=\"item2\"><a href=\"#\">Авторы <span>147</span></a>"
