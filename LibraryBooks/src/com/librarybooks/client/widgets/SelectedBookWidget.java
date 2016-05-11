@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -13,12 +12,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
-import com.librarybooks.client.ClientFactory;
-import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
@@ -31,7 +27,9 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 
 public class SelectedBookWidget extends Composite {
 
-	private static final String SERVER_ERROR = "An error occurred while " + "attempting to contact the server. Please check your network " + "connection and try again.";
+	private static final String SERVER_ERROR = "An error occurred while "
+			+ "attempting to contact the server. Please check your network "
+			+ "connection and try again.";
 
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
@@ -66,7 +64,6 @@ public class SelectedBookWidget extends Composite {
 	private Label lbl_text_for_data = new Label("Можно получить:");
 
 	private Label dnmc_rating = new Label("New label");
-	// private Label dnmc_author = new Label();
 	private Label dnmc_title = new Label();
 	private Label dnmc_id_book = new Label("");
 	private Label dnmc_year_create = new Label("2016");
@@ -81,9 +78,10 @@ public class SelectedBookWidget extends Composite {
 
 	private HTML Html_br = new HTML("<hr />", true);
 
-	public SelectedBookWidget(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre, String img_src) {
+	public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
+			ArrayList<Genre> genre, String img_src) {
 
-		img_src = GWT.getModuleBaseURL() + "img/template.jpg";
+		img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
 
 		choose_book.setBook(id_book, author, title, genre, img_src);
 
@@ -126,13 +124,17 @@ public class SelectedBookWidget extends Composite {
 		rightLPanel.setWidgetLeftWidth(lbl_author, 15.0, Unit.PX, 39.0, Unit.PX);
 		rightLPanel.setWidgetTopHeight(lbl_author, 44.0, Unit.PX, 19.0, Unit.PX);
 
-		hPanelAuthor.add(new ListLabel("author", author.get(0).getAuthor(), author.get(0).getIdAuthor()));
-		for (int i = 1; i < genre.size(); i++) {
-			hPanelAuthor.add(new HTML(",&nbsp"));
-			hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(), author.get(i).getIdAuthor()));
+		for (int i = 0; i < author.size(); i++) {
+			if (i > 0) {
+				hPanelAuthor.add(new HTML(",&nbsp"));
+				hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
+						author.get(i).getIdAuthor()));
+			} else {
+				hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
+						author.get(i).getIdAuthor()));
+			}
+
 		}
-		// dnmc_author.setStyleName("linkFull");
-		// dnmc_author.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		rightLPanel.add(hPanelAuthor);
 		rightLPanel.setWidgetLeftWidth(hPanelAuthor, 55.0, Unit.PX, 350.0, Unit.PX);
 		rightLPanel.setWidgetTopHeight(hPanelAuthor, 44.0, Unit.PX, 19.0, Unit.PX);
@@ -185,10 +187,15 @@ public class SelectedBookWidget extends Composite {
 		layoutPanel_4.add(chooseButton);
 		layoutPanel_4.setWidgetLeftWidth(chooseButton, 191.0, Unit.PX, 115.0, Unit.PX);
 		layoutPanel_4.setWidgetTopHeight(chooseButton, 7.0, Unit.PX, 38.0, Unit.PX);
-		hPanelGenre.add(new ListLabel("genre", genre.get(0).getGenre(), genre.get(0).getIdGenre()));
-		for (int i = 1; i < genre.size(); i++) {
-			hPanelGenre.add(new HTML(",&nbsp"));
-			hPanelGenre.add(new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
+		for (int i = 0; i < genre.size(); i++) {
+			if (i > 0) {
+				hPanelGenre.add(new HTML(",&nbsp"));
+				hPanelGenre.add(
+						new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
+			} else {
+				hPanelGenre.add(
+						new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
+			}
 		}
 		dnmc_id_book.setText(String.valueOf(id_book));
 		rightLPanel.add(hPanelGenre);
@@ -250,19 +257,14 @@ public class SelectedBookWidget extends Composite {
 	}
 
 	public void chooseBookToServer() {
-
-		Book callInput = new Book(this.choose_book.getAuthor(), this.choose_book.getTitle(), this.choose_book.getGenre(), this.choose_book.getImg());
-		bookService.bookToServer(callInput, new AsyncCallback<Book>() {
-			public void onFailure(Throwable caught) {
-				Label text = new Label(SERVER_ERROR);
-				RootPanel.get("listBook").add(text);
-			}
-
-			public void onSuccess(Book result) {
-
-				back_book.setText(result.getAuthor() + " " + result.getTitle());
-			}
-		});
-		chooseButton.setFocus(false);
+		/*
+		 * 
+		 * Book callInput = new Book(this.choose_book.getAuthor(), this.choose_book.getTitle(), this.choose_book.getGenre(), this.choose_book.getImg()); bookService.bookToServer(callInput, new AsyncCallback<Book>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR);
+		 * RootPanel.get("listBook").add(text); }
+		 * 
+		 * public void onSuccess(Book result) {
+		 * 
+		 * back_book.setText(result.getAuthor() + " " + result.getTitle()); } }); chooseButton.setFocus(false);
+		 */
 	}
 }

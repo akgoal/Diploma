@@ -7,6 +7,7 @@ import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
+import com.librarybooks.client.objects.Selection;
 
 /**
  * The server-side implementation of the RPC service.
@@ -95,7 +96,6 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 
 	public ArrayList<Genre> listOfGenres() {
 		ArrayList<Genre> genres = new ArrayList<Genre>();
-		genres.clear();
 		for (int i = 0; i < 30; i++) {
 			Genre genre = new Genre("Жанр " + i, i, i);
 			genres.add(genre);
@@ -103,6 +103,28 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 
 		return genres;
 	}
+
+	public ArrayList<Author> listOfAuthors() {
+
+		ArrayList<Author> authors = new ArrayList<Author>();
+		for (int i = 0; i < 30; i++) {
+			Author author = new Author("Автор " + i, i, i);
+			authors.add(author);
+		}
+		return authors;
+
+	};
+
+	public ArrayList<Selection> listOfSelections() {
+
+		ArrayList<Selection> selections = new ArrayList<Selection>();
+		for (int i = 0; i < 30; i++) {
+			Selection selection = new Selection("Подборка " + i, i, i);
+			selections.add(selection);
+		}
+		return selections;
+
+	};
 
 	public Book bookToServer(Book input) {
 		Book back = new Book();
@@ -135,6 +157,33 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		book.setImg("src");
 
 		return book;
+	}
+
+	@Override
+	public ArrayList<Book> findBooksBySelectionBook(long id) {
+		ArrayList<Book> list = new ArrayList<Book>();
+		list.clear();
+		for (int i = 0; i < 30; i++) {
+			Book book = new Book();
+			book.setIdBook(i);
+
+			ArrayList<Author> la = new ArrayList<Author>();
+			la.add(new Author("И.И.Иванов " + id, id));
+			la.add(new Author("И.И.Иванов " + (i + 1), id + 1));
+			book.setAuthor(la);
+
+			book.setTitle("Название. Название. Название. Название. " + i);
+
+			ArrayList<Genre> lg = new ArrayList<Genre>();
+			lg.add(new Genre("Жанр " + id, i));
+			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
+			book.setGenre(lg);
+
+			book.setImg("src");
+			list.add(book);
+		}
+
+		return list;
 	}
 
 }

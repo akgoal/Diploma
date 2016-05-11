@@ -4,12 +4,15 @@ import com.librarybooks.client.AppActivityMapper;
 import com.librarybooks.client.AppPlaceHistoryMapper;
 import com.librarybooks.client.ClientFactory;
 import com.librarybooks.client.activities_and_places.places.*;
+import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Genre;
+import com.librarybooks.client.objects.Selection;
 
 import antlr.debug.Event;
 
 import java.util.ArrayList;
 
+import com.gargoylesoftware.htmlunit.StorageHolder.Type;
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
@@ -21,6 +24,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
@@ -60,22 +64,20 @@ public class LibraryBooks implements EntryPoint {
 		}
 	}-*/;
 
-	private static native void h() /*-{
-		{
-			$wnd.$(".cont").height($wnd.$(document).height());
-		}
-	}-*/;
-
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
 	private Place defaultPlace = new UserPlace("all=0&p=1");
 	private SimplePanel appWidget = new SimplePanel();
-	String html = new String("");
+	public String authors_nav;
+	public String html;
+	public Boolean b;
+	HTML h = new HTML();
+	private static final BookServiceAsync bookService = GWT.create(BookService.class);
 
 	public void onModuleLoad() {
-		BookServiceAsync bookService = GWT.create(BookService.class);
+
 		ClientFactory clientFactory = GWT.create(ClientFactory.class);
 		EventBus eventBus = clientFactory.getEventBus();
 		PlaceController placeController = clientFactory.getPlaceController();
@@ -93,23 +95,6 @@ public class LibraryBooks implements EntryPoint {
 		RootPanel.get("listBook").add(appWidget);
 		// Goes to place represented on URL or default place
 		historyHandler.handleCurrentHistory();
-
-		// com.google.web.bindery.event.shared.EventBus eventBus = new
-		// SimpleEventBus();
-		// final PlaceController placeController = new
-		// PlaceController(eventBus);
-
-		/*
-		 * final MenuBar pages = new MenuBar(true); Command cmd1 = new Command() { public void execute() { placeController.goTo(new UserPlace("all")); } }; pages.addItem("Page1", cmd1); Command cmd2 = new Command() { public void execute() { placeController.goTo(new UserPlace("Page2")); } };
-		 * pages.addItem("Page2", cmd2); MenuBar menu = new MenuBar(); menu.addItem("Pages", pages); VerticalPanel panel = new VerticalPanel(); panel.add(menu); panel.add(appWidget); RootPanel.get("container").add(panel); RootPanel.get("listBook").add(appWidget); //
-		 * panelR.getElement().getStyle().setPosition(Position.ABSOLUTE); // panelR.add(panel);
-		 * 
-		 * // final Button sendBooks = new Button("Все книги");
-		 * 
-		 * // RootPanel.get("sendButtonContainer").add(sendBooks); // sendBooks.setStyleName("button_center");
-		 */
-
-		// HorizontalPanel hPanel = new HorizontalPanel();
 
 		Command command = new Command() {
 			public void execute() {
@@ -134,46 +119,65 @@ public class LibraryBooks implements EntryPoint {
 			}
 
 			public void onSuccess(ArrayList<Genre> result) {
+				html = "<ul class=\"menu\">";
+				html = html.concat("<li class=\"item1\"><a href=\"#\">Жанры <span>" + result.size()
+						+ "</span></a>" + "<ul>");
 
-				html = html + "<ul class=\"menu\">"
-						+ "<li class=\"item1\"><a href=\"#\">Жанры <span>" + result.size()
-						+ "</span></a>" + "<ul>";
 				for (int i = 0; i < result.size(); i++) {
-					html = html + "<li class=\"subitem" + (i + 1) + "\"><a href=\"#UserPlace:genre="
-							+ result.get(i).getIdGenre() + "&p=1\">" + result.get(i).getGenre()
-							+ " <span>" + i + "</span></a></li>";
+					html = html.concat(li("genre", result.get(i).getGenre(),
+							result.get(i).getIdGenre(), result.get(i).getColBook()));
 				}
-				html = html + "</ul>" + "</li>";
-				html = html + "<li class=\"item2\"><a href=\"#\">Авторы <span>147</span></a>"
-						+ "<ul>"
-						+ "<li class=\"subitem1\"><a href=\"#\">Автор 1 <span>14</span></a></li>"
-						+ "<li class=\"subitem2\"><a href=\"#\">Автор 2 <span>6</span></a></li>"
-						+ "<li class=\"subitem3\"><a href=\"#\">Автор 3 <span>2</span></a></li>"
-						+ "</ul>" + "</li>"
-						+ "<li class=\"item3\"><a href=\"#\">Подборки <span>340</span></a>" + "<ul>"
-						+ "<li class=\"subitem1\"><a href=\"#\">Подборка 1 <span>14</span></a></li>"
-						+ "<li class=\"subitem2\"><a href=\"#\">Подборка 2 <span>6</span></a></li>"
-						+ "<li class=\"subitem3\"><a href=\"#\">Подборка 3 <span>2</span></a></li>"
-						+ "</ul>" + "</li>" + "</ul>";
-				RootPanel.get("wrapper").add(new HTML(html));
+				html = html.concat("</ul> </li>");
+				bookService.listOfAuthors(new AsyncCallback<ArrayList<Author>>() {
+					public void onFailure(Throwable caught) {
+						Label text = new Label(SERVER_ERROR);
+					}
 
-				scr();
+					public void onSuccess(ArrayList<Author> result) {
+						html = html.concat("<li class=\"item2\"><a href=\"#\">Авторы <span>"
+								+ result.size() + "</span></a>" + "<ul>");
 
+						for (int i = 0; i < result.size(); i++) {
+							html = html.concat(li("author", result.get(i).getAuthor(),
+									result.get(i).getIdAuthor(), result.get(i).getColBook()));
+						}
+						html = html.concat("</ul> </li>");
+
+						bookService.listOfSelections(new AsyncCallback<ArrayList<Selection>>() {
+							public void onFailure(Throwable caught) {
+								Label text = new Label(SERVER_ERROR);
+							}
+
+							public void onSuccess(ArrayList<Selection> result) {
+								html = html
+										.concat("<li class=\"item3\"><a href=\"#\">Подборки <span>"
+												+ result.size() + "</span></a>" + "<ul>");
+
+								for (int i = 0; i < result.size(); i++) {
+									html = html.concat(li("selection", result.get(i).getSelection(),
+											result.get(i).getIdSelection(),
+											result.get(i).getColBook()));
+								}
+								html = html.concat("</ul> </li> </ul>");
+								RootPanel.get("wrapper").add(new HTML(html));
+								scr();
+
+							}
+						});
+					}
+				});
 			}
 		});
 
-		/*
-		 * SafeHtml navHtml = new SafeHtml() {
-		 * 
-		 * @Override public String asString() { return "<ul class=\"menu\">" + "<li class=\"item1\">" + "<a href=\"#\">Подборки <span>340</span></a>" + "<ul>" + "<li class=\"subitem1\"><a href=\"#\">Cute Kittens <span>14</span></a></li>" +
-		 * "<li class=\"subitem2\"><a href=\"#\">Strange “Stuff” <span>6</span></a></li>" + "<li class=\"subitem3\"><a href=\"#\">Automatic Fails <span>2</span></a></li>" + "</ul>" + "</li>" + "<li class=\"item2\"><a href=\"#\">Жанры <span>147</span></a>" + "<ul>" +
-		 * "<li class=\"subitem1\"><a href=\"#\">Cute Kittens <span>14</span></a></li>" + "<li class=\"subitem2\"><a href=\"#\">Strange “Stuff” <span>6</span></a></li>" + "<li class=\"subitem3\"><a href=\"#\">Automatic Fails <span>2</span></a></li>" + "</ul>" + "</li>" +
-		 * "<li class=\"item3\"><a href=\"#\">Авторы <span>340</span></a>" + "<ul>" + "<li class=\"subitem1\"><a href=\"#\">Cute Kittens <span>14</span></a></li>" + "<li class=\"subitem2\"><a href=\"#\">Strange “Stuff” <span>6</span></a></li>" +
-		 * "<li class=\"subitem3\"><a href=\"#\">Automatic Fails <span>2</span></a></li>" + "</ul>" + "</li>" + "</ul>";
-		 * 
-		 * } };
-		 */
+		/// RootPanel.get("wrapper").add(new HTML("<ul class=\"menu\">"));
+		// RootPanel.get("wrapper").add(h);
 
+		// authors_nav;
+		/*
+		 * RootPanel.get("wrapper") .add(new HTML("<li class=\"item2\"><a href=\"#\">Авторы <span>147</span></a>" + "<ul>" + "<li class=\"subitem1\"><a href=\"#\">Автор 1 <span>14</span></a></li>" + "<li class=\"subitem2\"><a href=\"#\">Автор 2 <span>6</span></a></li>" +
+		 * "<li class=\"subitem3\"><a href=\"#\">Автор 3 <span>2</span></a></li>" + "</ul>" + "</li>" + "<li class=\"item3\"><a href=\"#\">Подборки <span>340</span></a>" + "<ul>" + "<li class=\"subitem1\"><a href=\"#\">Подборка 1 <span>14</span></a></li>" +
+		 * "<li class=\"subitem2\"><a href=\"#\">Подборка 2 <span>6</span></a></li>" + "<li class=\"subitem3\"><a href=\"#\">Подборка 3 <span>2</span></a></li>" + "</ul>" + "</li>" + "</ul>")); // RootPanel.get("wrapper").add(new HTML(html)); scr();
+		 */
 		Window.addWindowScrollHandler(new ScrollHandler() {
 
 			@Override
@@ -190,18 +194,15 @@ public class LibraryBooks implements EntryPoint {
 
 				}
 
-				// double bef = Double
-				// .valueOf(Document.get().getElementById("cont_list").getStyle().getWidth());
-				// double af = Double
-				// .valueOf(Document.get().getElementById("wrapper").getStyle().getWidth());
-
-				// if (bef < af) {
-				// Document.get().getElementById("cont_list").getStyle()
-				// .setHeight(Window.getScrollTop(), Unit.PX);
-				// }
-
 			}
 		});
+
+	}
+
+	public String li(String type, String name, long id, long col) {
+
+		return "<li class=\"subitem\"><a href=\"#UserPlace:" + type + "=" + id + "&p=1\">" + name
+				+ " <span>" + col + "</span></a></li>";
 
 	}
 }
