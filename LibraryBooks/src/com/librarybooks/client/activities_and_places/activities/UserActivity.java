@@ -21,7 +21,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	@Override
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
 		UserView userView = clientFactory.getUserView();
-		userView.setName(info);
+		userView.setView(info);
 		userView.setPresenter(this);
 		containerWidget.setWidget(userView.asWidget());
 	}

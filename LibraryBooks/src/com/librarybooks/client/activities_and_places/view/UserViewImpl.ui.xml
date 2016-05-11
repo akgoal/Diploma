@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui">   
+    <g:HTMLPanel>   
+    	<div id="container">
+    		<g:HTMLPanel ui:field="menuBar"/>
+    	</div>
+	    <div class="nav" id="stackContainer">
+	    	<div id="wrapper">
+					<g:HTML ui:field="navig"/>		
+			</div>	    	
+	    </div>	    
+	    <div id="cont_list">
+		    <div id="listBook">
+		     	<g:VerticalPanel ui:field="vPanel">
+	                <g:HorizontalPanel ui:field="hPanel">
+	                    <g:HTML ui:field="one" text="Hello, "/>
+	                    <g:HTML ui:field="two"/>
+	                    <g:Button ui:field="button">send</g:Button>                   
+	                </g:HorizontalPanel>     	                         
+	                <g:FlowPanel ui:field="fPanel">
+	                </g:FlowPanel>
+	                <g:HorizontalPanel ui:field="sprintHPanel">
+	                </g:HorizontalPanel>
+	            </g:VerticalPanel>    
+		    </div>
+	    </div>
+	</g:HTMLPanel>   
+    
+</ui:UiBinder>

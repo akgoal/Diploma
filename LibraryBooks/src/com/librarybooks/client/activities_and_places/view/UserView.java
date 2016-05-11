@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.IsWidget;
  * @author drfibonacci
  */
 public interface UserView extends IsWidget {
-	void setName(String helloName);
+	void setView(String ref);
 
 	void setPresenter(Presenter listener);
 
