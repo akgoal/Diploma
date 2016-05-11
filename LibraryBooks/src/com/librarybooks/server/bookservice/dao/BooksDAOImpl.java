@@ -1,6 +1,7 @@
 package com.librarybooks.server.bookservice.dao;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.librarybooks.server.bookservice.datasets.AuthorsDataSet;
 import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 import com.librarybooks.server.bookservice.datasets.GenresDataSet;
+import com.librarybooks.server.bookservice.datasets.SelectionsDataSet;
 
 /**
  * Created by Dmitry on 17.04.2016.
@@ -99,6 +101,33 @@ public class BooksDAOImpl implements BooksDAO {
 		return gdsList;
 	}
 
+	@Override
+	public ArrayList<BooksDataSet> getBooksBySelectionId(long selectionId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SelectionsDataSet.class);
+		criteria.add(Restrictions.idEq(selectionId));
+		ArrayList<BooksDataSet> bdsList = castToArrayList(
+				initializeLazyMembers((SelectionsDataSet) criteria.uniqueResult()).getBooks());
+		return initializeLazyMembersCompletely(bdsList);
+	}
+
+	@Override
+	public ArrayList<AuthorsDataSet> getAllAuthors() {
+		ArrayList<AuthorsDataSet> adsList = (ArrayList<AuthorsDataSet>) sessionFactory.getCurrentSession()
+				.createCriteria(AuthorsDataSet.class).list();
+		for (AuthorsDataSet ads : adsList)
+			initializeLazyMembers(ads);
+		return adsList;
+	}
+
+	@Override
+	public ArrayList<SelectionsDataSet> getAllSelections() {
+		ArrayList<SelectionsDataSet> sdsList = (ArrayList<SelectionsDataSet>) sessionFactory.getCurrentSession()
+				.createCriteria(SelectionsDataSet.class).list();
+		for (SelectionsDataSet sds : sdsList)
+			initializeLazyMembers(sds);
+		return sdsList;
+	}
+
 	/* Lazy loading of all members */
 	@SuppressWarnings("unused")
 	private BooksDataSet initializeLazyMembers(BooksDataSet bds) {
@@ -107,12 +136,6 @@ public class BooksDAOImpl implements BooksDAO {
 		Hibernate.initialize(bds.getPublisher());
 		Hibernate.initialize(bds.getBinding());
 		return bds;
-	}
-
-	private ArrayList<BooksDataSet> initializeLazyMembersCompletely(ArrayList<BooksDataSet> bdsList) {
-		for (BooksDataSet bds : bdsList)
-			initializeLazyMembersCompletely(bds);
-		return bdsList;
 	}
 
 	private GenresDataSet initializeLazyMembers(GenresDataSet gds) {
@@ -124,7 +147,12 @@ public class BooksDAOImpl implements BooksDAO {
 		Hibernate.initialize(ads.getBooks());
 		return ads;
 	}
-	
+
+	private SelectionsDataSet initializeLazyMembers(SelectionsDataSet sds) {
+		Hibernate.initialize(sds.getBooks());
+		return sds;
+	}
+
 	/* Lazy loading of all members with all their members */
 	private BooksDataSet initializeLazyMembersCompletely(BooksDataSet bds) {
 		Hibernate.initialize(bds.getAuthors());
@@ -136,6 +164,20 @@ public class BooksDAOImpl implements BooksDAO {
 		Hibernate.initialize(bds.getPublisher());
 		Hibernate.initialize(bds.getBinding());
 		return bds;
+	}
+
+	private ArrayList<BooksDataSet> initializeLazyMembersCompletely(ArrayList<BooksDataSet> bdsList) {
+		for (BooksDataSet bds : bdsList)
+			initializeLazyMembersCompletely(bds);
+		return bdsList;
+	}
+
+	/* Cast from Set to ArrayList */
+	private <T> ArrayList<T> castToArrayList(Set<T> set) {
+		ArrayList<T> list = new ArrayList<T>();
+		for (T t : set)
+			list.add(t);
+		return list;
 	}
 
 }

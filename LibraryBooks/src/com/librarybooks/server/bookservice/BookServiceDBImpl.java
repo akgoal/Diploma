@@ -10,10 +10,12 @@ import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
+import com.librarybooks.client.objects.Selection;
 import com.librarybooks.server.bookservice.dao.BooksDAO;
 import com.librarybooks.server.bookservice.datasets.AuthorsDataSet;
 import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 import com.librarybooks.server.bookservice.datasets.GenresDataSet;
+import com.librarybooks.server.bookservice.datasets.SelectionsDataSet;
 
 @SuppressWarnings("serial")
 @Service("bookService")
@@ -27,7 +29,7 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		ArrayList<Book> books = new ArrayList<>();
 		ArrayList<BooksDataSet> dataSets = dao.getBooksByAuthorId(callInput);
 		for (BooksDataSet bds : dataSets)
-			books.add(convertToBook(bds));
+			books.add(convertToDTO(bds));
 		return books;
 	}
 
@@ -36,17 +38,7 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		ArrayList<Book> books = new ArrayList<>();
 		ArrayList<BooksDataSet> dataSets = dao.getBooksByGenreId(callInput);
 		for (BooksDataSet bds : dataSets) {
-			books.add(convertToBook(bds));
-		}
-		System.out.print("Книги жанра:\n");
-		for (Book b:books) {
-			System.out.print(b.getTitle() + "	АВТОРЫ: ");
-			for (Author a:b.getAuthor())
-				System.out.print(a.getAuthor() + "	");
-			System.out.print("ЖАНРЫ: ");
-			for (Genre g:b.getGenre())
-				System.out.print(g.getGenre() + "	");
-			System.out.print("\n");
+			books.add(convertToDTO(bds));
 		}
 		return books;
 	}
@@ -56,17 +48,7 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		ArrayList<Book> books = new ArrayList<>();
 		ArrayList<BooksDataSet> dataSets = dao.getAllBooks();
 		for (BooksDataSet bds : dataSets) {
-			books.add(convertToBook(bds));
-		}
-		System.out.print("ВСЕ КНИГИ:\n");
-		for (Book b:books) {
-			System.out.print(b.getTitle() + "	АВТОРЫ: ");
-			for (Author a:b.getAuthor())
-				System.out.print(a.getAuthor() + "	");
-			System.out.print("ЖАНРЫ: ");
-			for (Genre g:b.getGenre())
-				System.out.print(g.getGenre() + "	");
-			System.out.print("\n");
+			books.add(convertToDTO(bds));
 		}
 		return books;
 	}
@@ -74,7 +56,7 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 	@Override
 	public Book selectBook(long callInput) {
 		BooksDataSet dataSet = dao.getBookById(callInput);
-		Book book = convertToBook(dataSet);
+		Book book = convertToDTO(dataSet);
 		return book;
 	}
 
@@ -91,24 +73,81 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		ArrayList<Genre> genres = new ArrayList<>();
 		ArrayList<GenresDataSet> dataSets = dao.getAllGenres();
 		for (GenresDataSet gds : dataSets) {
-			genres.add(new Genre(gds.getName(), gds.getId(), gds.getBooks().size()));
+			genres.add(convertToDTO(gds));
 		}
-		System.out.print("ЖАНРЫ:\n");
-		for (Genre g:genres)
-			System.out.print(g.getGenre() + "\n");
 		return genres;
 	}
 
-	private Book convertToBook(BooksDataSet booksDataSet) {
+	@Override
+	public ArrayList<Book> findBooksBySelectionBook(long id) {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.getBooksBySelectionId(id);
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
+
+	@Override
+	public ArrayList<Author> listOfAuthors() {
+		ArrayList<Author> authors = new ArrayList<>();
+		ArrayList<AuthorsDataSet> dataSets = dao.getAllAuthors();
+		for (AuthorsDataSet ads : dataSets) {
+			authors.add(convertToDTO(ads));
+		}
+		return authors;
+	}
+
+	@Override
+	public ArrayList<Selection> listOfSelections() {
+		ArrayList<Selection> selections = new ArrayList<>();
+		ArrayList<SelectionsDataSet> dataSets = dao.getAllSelections();
+		for (SelectionsDataSet sds : dataSets) {
+			selections.add(convertToDTO(sds));
+		}
+		return selections;
+	}
+
+	/* Conversions DataSet -> DTO Object */
+	private Book convertToDTO(BooksDataSet booksDataSet) {
 		ArrayList<Author> authors = new ArrayList<>();
 		for (AuthorsDataSet ads : booksDataSet.getAuthors())
-			authors.add(new Author(ads.getName(), ads.getId(), ads.getBooks().size()));
+			authors.add(convertToDTO(ads));
 
 		ArrayList<Genre> genres = new ArrayList<>();
 		for (GenresDataSet gds : booksDataSet.getGenres())
-			genres.add(new Genre(gds.getName(), gds.getId(), gds.getBooks().size()));
+			genres.add(convertToDTO(gds));
 
-		return new Book(booksDataSet.getId(), authors, booksDataSet.getTitle(), genres, booksDataSet.getImageName());
+		Book book = new Book();
+		book.setIdBook(booksDataSet.getId());
+		book.setAuthor(authors);
+		book.setTitle(booksDataSet.getTitle());
+		book.setGenre(genres);
+		book.setImg(booksDataSet.getImageName());
+
+		return book;
 	}
 
+	private Author convertToDTO(AuthorsDataSet authorsDataSet) {
+		Author author = new Author();
+		author.setAuthor(authorsDataSet.getName());
+		author.setIdAuthor(authorsDataSet.getId());
+		author.setColBook(authorsDataSet.getBooks().size());
+		return author;
+	}
+
+	private Genre convertToDTO(GenresDataSet genresDataSet) {
+		Genre genre = new Genre();
+		genre.setGenre(genresDataSet.getName());
+		genre.setIdGenre(genresDataSet.getId());
+		genre.setColBook(genresDataSet.getBooks().size());
+		return genre;
+	}
+
+	private Selection convertToDTO(SelectionsDataSet selectionsDataSet) {
+		Selection selection = new Selection();
+		selection.setSelection(selectionsDataSet.getName());
+		selection.setIdSelection(selectionsDataSet.getId());
+		selection.setColBook(selectionsDataSet.getBooks().size());
+		return selection;
+	}
 }
