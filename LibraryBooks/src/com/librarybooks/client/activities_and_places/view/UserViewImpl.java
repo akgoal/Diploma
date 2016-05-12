@@ -3,7 +3,9 @@ package com.librarybooks.client.activities_and_places.view;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -12,7 +14,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -22,8 +23,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
@@ -62,8 +61,6 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	@UiField
 	HTML two;
 	@UiField
-	HTML navig;
-	@UiField
 	HTMLPanel menuBar;
 	@UiField
 	HorizontalPanel hPanel;
@@ -73,6 +70,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	VerticalPanel vPanel;
 	@UiField
 	FlowPanel fPanel;
+	@UiField
+	LIElement ligenre;
+	@UiField
+	LIElement liauthor;
+	@UiField
+	LIElement liselection;
 
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
@@ -84,73 +87,69 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 		initWidget(uiBinder.createAndBindUi(this));
 
-		// one.setHTML("Hello, ");
-
 		Command command = new Command() {
 			public void execute() {
 				Window.alert("Command Fired");
 			}
 		};
 		MenuBar menuMain = new MenuBar();
-		MenuBar menuSub = new MenuBar();
-		MenuItem item1 = new MenuItem("One", command);
-		MenuItem item2 = new MenuItem("Two", command);
-		menuMain.addItem("Home", true, menuSub);
+		menuMain.addItem("Home", true, command);
 		menuMain.addItem("One", true, command);
 		menuMain.addItem("Two", true, command);
 		menuMain.addItem("Other", true, command);
-		menuSub.addItem(item1);
-		menuSub.addItem(item2);
 		menuBar.add(menuMain);
 
 		vPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		sprintHPanel.getElement().setId("sprint_page");
 		bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() {
 			public void onFailure(Throwable caught) {
-				navig.setHTML("<p>" + SERVER_ERROR + "</p>");
+				ligenre.setInnerHTML("<p>" + SERVER_ERROR + "</p>");
 			}
 
 			public void onSuccess(ArrayList<Genre> result) {
-				html = "<ul class=\"menu\">";
-				html = html.concat("<li class=\"item1\"><a href=\"#\">Жанры <span>" + result.size()
-						+ "</span></a>" + "<ul>");
+				ligenre.setInnerHTML("<a href=\"#\">Жанры <span>" + result.size() + "</span></a>");
+				UListElement ul = Document.get().createULElement();
 				for (int i = 0; i < result.size(); i++) {
-					html = html.concat(li("genre", result.get(i).getGenre(),
+					LIElement li = Document.get().createLIElement();
+					li.setInnerHTML(li("genre", result.get(i).getGenre(),
 							result.get(i).getIdGenre(), result.get(i).getColBook()));
+					ul.appendChild(li);
 				}
-				html = html.concat("</ul> </li>");
+				ligenre.appendChild(ul);
 				bookService.listOfAuthors(new AsyncCallback<ArrayList<Author>>() {
 					public void onFailure(Throwable caught) {
-						Label text = new Label(SERVER_ERROR);
+						// Label text = new Label(SERVER_ERROR);
 					}
 
 					public void onSuccess(ArrayList<Author> result) {
-						html = html.concat("<li class=\"item2\"><a href=\"#\">Авторы <span>"
-								+ result.size() + "</span></a>" + "<ul>");
 
+						liauthor.setInnerHTML(
+								"<a href=\"#\">Авторы <span>" + result.size() + "</span></a>");
+						UListElement ul = Document.get().createULElement();
 						for (int i = 0; i < result.size(); i++) {
-							html = html.concat(li("author", result.get(i).getAuthor(),
+							LIElement li = Document.get().createLIElement();
+							li.setInnerHTML(li("author", result.get(i).getAuthor(),
 									result.get(i).getIdAuthor(), result.get(i).getColBook()));
+							ul.appendChild(li);
 						}
-						html = html.concat("</ul> </li>");
-
+						liauthor.appendChild(ul);
 						bookService.listOfSelections(new AsyncCallback<ArrayList<Selection>>() {
 							public void onFailure(Throwable caught) {
-								Label text = new Label(SERVER_ERROR);
+								// Label text = new Label(SERVER_ERROR);
 							}
 
 							public void onSuccess(ArrayList<Selection> result) {
-								html = html
-										.concat("<li class=\"item3\"><a href=\"#\">Подборки <span>"
-												+ result.size() + "</span></a>" + "<ul>");
-
+								liselection.setInnerHTML("<a href=\"#\">Авторы <span>"
+										+ result.size() + "</span></a>");
+								UListElement ul = Document.get().createULElement();
 								for (int i = 0; i < result.size(); i++) {
-									html = html.concat(li("selection", result.get(i).getSelection(),
+									LIElement li = Document.get().createLIElement();
+									li.setInnerHTML(li("selection", result.get(i).getSelection(),
 											result.get(i).getIdSelection(),
 											result.get(i).getColBook()));
+									ul.appendChild(li);
 								}
-								html = html.concat("</ul> </li> </ul>");
-								navig.setHTML(html);
+								liselection.appendChild(ul);
 								scr();
 							}
 						});
@@ -159,118 +158,21 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 			}
 		});
-
-		// initWidget(uiBinder.createAndBindUi(this));
 	}
 
 	@Override
-	public void setView(String ref) {
-
-		parsing(ref, options);
-
-		two.setHTML(ref + type + id);
-		this.ref = ref;
-
-		showView(type);
-
+	public void setNav(ArrayList<Genre> genres, ArrayList<Author> authors,
+			ArrayList<Selection> selections) {
 	}
 
-	private void parsing(String ref, String[] selected_option) {
+	@Override
+	public void setView(ArrayList<Book> books, int col_page, int page, String type) {
 
-		for (String option : selected_option) {
-			if (ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) {
-				type = option;
-				String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", "");
-				id = Long.valueOf(a.substring(0, a.indexOf("&")));
-				page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
-			} else {
-				if (option.equals("book")) {
-					if (ref.matches(option + "=[0-9]+")) {
-						type = option;
-						id = Long.valueOf(ref.replaceAll(option + "=", ""));
-					}
-				}
-			}
-		}
-
-	}
-
-	private void showView(String type) {
-
-		switch (type) {
-		case "all":
-			bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
-				public void onFailure(Throwable caught) {
-					ChangeViewERROR();
-				}
-
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
-				}
-			});
-			break;
-
-		case "author":
-			bookService.findBooksByAuthorBook(id, new AsyncCallback<ArrayList<Book>>() {
-
-				public void onFailure(Throwable caught) {
-					ChangeViewERROR();
-				}
-
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
-				}
-			});
-			break;
-
-		case "genre":
-			bookService.findBooksByGenreBook(id, new AsyncCallback<ArrayList<Book>>() {
-				public void onFailure(Throwable caught) {
-					ChangeViewERROR();
-				}
-
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
-				}
-			});
-			break;
-
-		case "selection":
-			bookService.findBooksBySelectionBook(id, new AsyncCallback<ArrayList<Book>>() {
-				public void onFailure(Throwable caught) {
-					ChangeViewERROR();
-				}
-
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
-				}
-			});
-			break;
-
-		case "book":
-			bookService.selectBook(id, new AsyncCallback<Book>() {
-				public void onFailure(Throwable caught) {
-					ChangeViewERROR();
-				}
-
-				public void onSuccess(Book book) {
-					ChangeViewBook(book);
-				}
-			});
-			break;
-
-		default:
-			break;
-		}
-
-	}
-
-	private void ChangeViewBooksList(ArrayList<Book> books) {
 		fPanel.clear();
 		sprintHPanel.clear();
-		pageNav(books.size(), type);
+		pageNav(col_page, page, type);
 		FlowPanel panel = new FlowPanel();
-		for (int i = start; i < stop; i++) {
+		for (int i = 0; i < books.size(); i++) {
 
 			String title = new String((books.get(i)).getTitle());
 			ArrayList<Author> author = new ArrayList<Author>((books.get(i)).getAuthor());
@@ -284,7 +186,9 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		fPanel.add(panel);
 	}
 
-	private void ChangeViewBook(Book book) {
+	@Override
+	public void setView(Book book) {
+
 		fPanel.clear();
 		sprintHPanel.clear();
 		FlowPanel panel = new FlowPanel();
@@ -298,6 +202,11 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		fPanel.add(panel);
 	}
 
+	@Override
+	public void setView(String ref) {
+
+	}
+
 	private void ChangeViewERROR() {
 		fPanel.clear();
 		sprintHPanel.clear();
@@ -305,10 +214,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		fPanel.add(text);
 	}
 
-	private void pageNav(int res, String type) {
-		col_page = res / 12;
-		if (res % 12 > 0)
-			col_page++;
+	private void pageNav(int col_page, int page, String type) {
+
 		if (col_page > 1) {
 			if (page == 1) {
 				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
@@ -336,22 +243,14 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 						+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
 				sprintHPanel.add(num_page);
 			}
-			start = (page - 1) * col_books;
-			if (res <= col_books * page) {
-				stop = res;
-			} else
-				stop = page * col_books;
-		} else {
-			stop = res;
-			start = 0;
 		}
 
 	}
 
 	public String li(String type, String name, long id, long col) {
 
-		return "<li class=\"subitem\"><a href=\"#UserPlace:" + type + "=" + id + "&p=1\">" + name
-				+ " <span>" + col + "</span></a></li>";
+		return "<a href=\"#UserPlace:" + type + "=" + id + "&p=1\">" + name + " <span>" + col
+				+ "</span></a>";
 
 	}
 

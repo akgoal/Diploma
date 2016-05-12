@@ -27,7 +27,7 @@ public class Author implements Serializable {
 		this.col_book = col_book;
 	}
 
-	public void setGenre(String author, long id_author) {
+	public void setAuthor(String author, long id_author) {
 		this.author = author;
 		this.id_author = id_author;
 

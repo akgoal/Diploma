@@ -38,7 +38,7 @@
 		</servlet-class>
 	</servlet>
 		
-<!-- 	<servlet-mapping>
+	<!-- <servlet-mapping>
 	    <servlet-name>springGwtRemoteServiceServlet</servlet-name>
 	    <url-pattern>/librarybooks/services/bookService</url-pattern>
 	</servlet-mapping> -->

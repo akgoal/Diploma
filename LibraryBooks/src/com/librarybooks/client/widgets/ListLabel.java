@@ -1,11 +1,8 @@
 package com.librarybooks.client.widgets;
 
-import com.librarybooks.client.ClientFactory;
-import com.librarybooks.client.activities_and_places.places.UserPlace;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 
@@ -30,9 +27,7 @@ public class ListLabel extends Composite implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
-		ClientFactory clientFactory = GWT.create(ClientFactory.class);
-		PlaceController placeController = clientFactory.getPlaceController();
-		placeController.goTo(new UserPlace(choose_type + "=" + choose_id + "&p=1"));
+		History.newItem("UserPlace:" + choose_type + "=" + choose_id + "&p=1");
 	}
 
 }

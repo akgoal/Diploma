@@ -1,4 +1,6 @@
-body {
+
+
+html, body {
 	font-family: Tahoma, Geneva, sans-serif;
 	font-size: 10pt;
 	border: 0;
@@ -59,17 +61,19 @@ ul, ul ul {
 	top:0px;
 	left:0px;
 	width: 100%;
-	background-color: rgba(0, 0, 0, 1);
-	z-index:3;
+	background-color: rgba(27, 27, 27, 1);
+	z-index:5;
+	opacity:1;
 }
 #search_panel {
+	opacity:1;
 	position: absolute;
 	top:45px;
 	left:0px;
 	height: 50px;
 	width: 100%;
-	background-color:rgba(0, 0, 0, 0.8);
-	z-index:3;
+	background-color:rgba(27, 27, 27, 0.8);
+	z-index:5;
 }
 
 .header {
@@ -98,14 +102,18 @@ h1{
 a{
 	text-decoration: none;
 }
-
+#view_books{
+	padding-top:30px;
+	background:rgba(255, 255, 255, 0.8);
+	overflow: hidden;
+}
 .cont {
 	z-index: 1;
 	position: relative;
-	top:335px;
+	top:333px;
 	min-width: 750px;
 	margin: 0 auto;
-	background: #fff;
+	overflow: hidden;
 	border-radius:5px 5px 0px 0px;
 	-webkit-box-shadow: 0px 0px 32px -14px rgba(117,117,117,1);
 	-moz-box-shadow: 0px 0px 32px -14px rgba(117,117,117,1);
@@ -115,47 +123,44 @@ a{
 #container{
 	width: 100%;
 	height: 55px;
-	background:#fff;
+	background:rgba(25, 25, 25, 0.88);
 	border-radius:5px 5px 0px 0px;
-	margin-bottom:30px;
-	border-bottom: 4px solid rgba(253, 198, 0, 0.7);
+	border-bottom: 4px solid rgba(253, 198, 0, 1);
 }
 
 .gwt-MenuBarPopup{
 	z-index:4;
-	
+	color:rgba(25, 25, 25, 0.88);
 	
 }
 
 .gwt-MenuBar .gwt-MenuItem{
 
 	padding: 17px 20px;
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
     border-bottom: 5px solid transparent;
-	border-left: 5px solid transparent;
-	border-top: 5px solid transparent;
 	border-top: 0;
 	border-left: 0;
     left: 10px;
-	color: #333333;
+	color: #f9f9f9;
 	font-weight: 700;
     text-transform: uppercase;
 	cursor:pointer;
-	background: rgba(37, 32, 46, 0.02);
 	
 }
 
 .gwt-MenuBar .gwt-MenuItem:hover{
-	color: #6F6F6F;
-	background-color: rgba(253, 198, 0, 0.7);
+	color: rgb(253, 198, 0);
+    text-shadow: 0px 0px 10px #000000;
+	//background-color: rgba(253, 198, 0, 0.9);
 		  -webkit-transition: all 0.6s ease;
   -moz-transition:    all 0.6s ease;
   -o-transition:      all 0.6s ease; 
+  
 	
 }
 
 .gwt-MenuBar .gwt-MenuItem-selected{
-	background-color: rgba(253, 198, 0, 0.7);
+
 }
 
 
@@ -323,7 +328,6 @@ p {
 .elem {
 	display: inline-block;
 	margin: 15px 15px 30px;
-	background-color: white;
 }
 
 #text_center {
@@ -498,52 +502,6 @@ position:fixed;
 	top:0;
 }
 
-
-
-.gwt-StackPanel{
-    border: 0;
-    width: 100%;
-}
-
-.gwt-StackPanel .gwt-StackPanelItem{
-	background: rgba(37, 32, 46, 0.04);
-	border-left: 3px solid transparent;
-	border-bottom: 0;
-	font-weight: 700;
-    text-transform: uppercase;
-	cursor:pointer;
-	padding: 10px 10px;
-		  -webkit-transition: all 0.6s ease;
-  -moz-transition:    all 0.6s ease;
-  -o-transition:      all 0.6s ease; 
-}
-
-.gwt-StackPanel .gwt-StackPanelItem:hover{
-	border-left: 3px solid rgba(253, 198, 0, 0.7);	
-	color: #6F6F6F;
-
-}
-.gwt-StackPanel .gwt-StackPanelItem-selected{
-	color: rgba(253, 198, 0, 0.7);
-	background: #fff;
-	border-left: 3px solid rgba(253, 198, 0, 0.7);
-}
-.gwt-StackPanel .gwt-StackPanelContent{
-	background: #fff;
-	border-left: 3px solid rgba(253, 198, 0, 0.7);
-	padding: 0 20px 10px;
-}
-
-.gwt-StackPanel .gwt-StackPanelContent a,
-.gwt-StackPanel .gwt-StackPanelContent a:visited{
-	color: #000;	
-}
-
-.gwt-StackPanel .gwt-StackPanelContent a:hover{
-	color: #6F6F6F;
-}
-.gwt-StackPanel .gwt-StackPanelContent a:active{
-	color: rgba(253, 198, 0, 0.7);
 }
 /*навигация*/
 
@@ -652,7 +610,7 @@ position:fixed;
 	display: inline-block;
 	position: absolute;
 	right: 1em;
-	top: 50%; /
+	top: 50%;
 	background: #fff;
 	line-height: 1em;
 	border: 1px solid #d0d0d3;

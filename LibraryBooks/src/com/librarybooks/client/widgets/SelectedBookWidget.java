@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -13,12 +13,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
-import com.librarybooks.client.ClientFactory;
-import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
@@ -94,10 +91,10 @@ public class SelectedBookWidget extends Composite {
 		vPanel.setSize("", "");
 		generalLPanel.setSize("", "");
 
-		generalLPanel.add(topLPanel);
-		topLPanel.add(link_list);
-		topLPanel.setWidgetLeftWidth(link_list, 20.0, Unit.PX, 140.0, Unit.PX);
-		topLPanel.setWidgetTopHeight(link_list, 14.0, Unit.PX, 16.0, Unit.PX);
+		vPanel.add(link_list);
+		// topLPanel.add(link_list);
+		// topLPanel.setWidgetLeftWidth(link_list, 20.0, Unit.PX, 140.0, Unit.PX);
+		// topLPanel.setWidgetTopHeight(link_list, 14.0, Unit.PX, 16.0, Unit.PX);
 
 		leftLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
 		rightLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
@@ -248,7 +245,7 @@ public class SelectedBookWidget extends Composite {
 
 		link_list.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-
+				History.back();
 			}
 		});
 

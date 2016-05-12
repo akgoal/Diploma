@@ -3,27 +3,22 @@ package com.librarybooks.client.widgets;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Float;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
-import com.librarybooks.client.ClientFactory;
-import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
@@ -52,8 +47,6 @@ public class BookWidget extends Composite implements ClickHandler {
 	private FlowPanel authorPanel = new FlowPanel();
 	private HTMLPanel panel = new HTMLPanel("");
 	private HTMLPanel butPanel = new HTMLPanel("");
-	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
-	private PlaceController placeController = clientFactory.getPlaceController();
 
 	public BookWidget(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img_src) {
@@ -130,8 +123,7 @@ public class BookWidget extends Composite implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 
-		placeController.goTo(new UserPlace("book=" + choose_book.getIdBook()));
-
+		History.newItem("UserPlace:book=" + choose_book.getIdBook());
 	}
 
 	public void chooseBookToServer() {
