@@ -1,6 +1,7 @@
 package com.librarybooks.server.bookservice.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.librarybooks.server.bookservice.datasets.AuthorsDataSet;
 import com.librarybooks.server.bookservice.datasets.BooksDataSet;
@@ -29,4 +30,6 @@ public interface BooksDAO {
     ArrayList<AuthorsDataSet> getAllAuthors();
     ArrayList<GenresDataSet> getAllGenres();
     ArrayList<SelectionsDataSet> getAllSelections();
+    
+    ArrayList<BooksDataSet> searchBooks(List<String> words);
 }

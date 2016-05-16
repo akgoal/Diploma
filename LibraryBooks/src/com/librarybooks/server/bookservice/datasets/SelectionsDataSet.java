@@ -16,6 +16,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="selections")
 public class SelectionsDataSet {
@@ -36,6 +38,7 @@ public class SelectionsDataSet {
 	
 	@Column(name = "description")
 	@Lob
+	@Type(type="org.hibernate.type.StringClobType")
 	private String description;
 
 	@Column(name = "image_name")

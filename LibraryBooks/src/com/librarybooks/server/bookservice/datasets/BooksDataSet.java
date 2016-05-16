@@ -17,6 +17,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name = "books")
 public class BooksDataSet {
@@ -37,6 +39,7 @@ public class BooksDataSet {
 
 	@Column(name = "description")
 	@Lob
+	@Type(type="org.hibernate.type.StringClobType")
 	private String description;
 
 	@ManyToMany(cascade = CascadeType.ALL)

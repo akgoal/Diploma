@@ -1,11 +1,13 @@
 package com.librarybooks.server.bookservice.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,6 +128,20 @@ public class BooksDAOImpl implements BooksDAO {
 		for (SelectionsDataSet sds : sdsList)
 			initializeLazyMembers(sds);
 		return sdsList;
+	}
+
+	/*
+	 * Поиск книг. В первую очередь идут книги с совпадениями в названии, затем
+	 * в авторах, затем в жанрах. Поиск идет по всем словам из words
+	 */
+	@Override
+	public ArrayList<BooksDataSet> searchBooks(List<String> words) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
+		for (String word : words)
+			criteria.add(Restrictions.ilike("title", word, MatchMode.ANYWHERE));
+		ArrayList<BooksDataSet> res = (ArrayList<BooksDataSet>) criteria.list();
+		
+		return initializeLazyMembersCompletely(res);
 	}
 
 	/* Lazy loading of all members */

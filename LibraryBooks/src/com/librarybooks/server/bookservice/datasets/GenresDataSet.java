@@ -12,6 +12,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="genres")
 public class GenresDataSet {
@@ -26,6 +28,7 @@ public class GenresDataSet {
 
 	@Column(name = "description")
 	@Lob
+	@Type(type="org.hibernate.type.StringClobType")
 	private String description;
 
 	@ManyToMany(mappedBy = "genres")

@@ -106,6 +106,18 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		}
 		return selections;
 	}
+	
+	/* Поиск книг. 
+	 * В первую очередь идут книги с совпадениями в названии, затем в авторах, 
+	 * затем в жанрах. Поиск идет по всем словам из param */
+	@Override
+	public ArrayList<Book> searchBooks(ArrayList<String> param) {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.searchBooks(param);
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
 
 	/* Conversions DataSet -> DTO Object */
 	private Book convertToDTO(BooksDataSet booksDataSet) {
@@ -150,4 +162,6 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		selection.setColBook(selectionsDataSet.getBooks().size());
 		return selection;
 	}
+
+
 }

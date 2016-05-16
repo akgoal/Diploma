@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
 @Entity
 @Table(name="bindings")
 public class BindingsDataSet {
@@ -21,6 +23,7 @@ public class BindingsDataSet {
 
 	@Column(name = "description")
 	@Lob
+	@Type(type="org.hibernate.type.StringClobType")
 	private String description;
 
 	/* Constructors */
