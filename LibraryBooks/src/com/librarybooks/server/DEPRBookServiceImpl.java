@@ -2,16 +2,17 @@ package com.librarybooks.server;
 
 import java.util.ArrayList;
 
+import org.apache.tools.ant.taskdefs.XSLTProcess.Param;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
+import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 
-/**
- * The server-side implementation of the RPC service.
- */
+/** The server-side implementation of the RPC service. */
 @SuppressWarnings("serial")
 public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookService {
 
@@ -188,6 +189,31 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		}
 
 		return list;
+	}
+
+	@Override
+	public ArrayList<Book> searchBooks(ArrayList<String> params) {
+		ArrayList<Book> books = new ArrayList<Book>();
+		for (int i = 0; i < params.size(); i++) {
+			Book book = new Book();
+			book.setIdBook(i);
+			ArrayList<Author> la = new ArrayList<Author>();
+			la.add(new Author("И.И.Иванов " + params.get(i), i));
+			la.add(new Author("И.И.Иванов " + params.get(i) + (i), i + 1));
+			book.setAuthor(la);
+
+			book.setTitle("Название. Название. Название. Название. " + params.get(i));
+
+			ArrayList<Genre> lg = new ArrayList<Genre>();
+			lg.add(new Genre("Жанр " + i, i));
+			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
+			book.setGenre(lg);
+
+			book.setImg("src");
+			books.add(book);
+		}
+
+		return books;
 	}
 
 }

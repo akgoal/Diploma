@@ -8,15 +8,14 @@ public class Book implements Serializable {
 
 	private String text;
 	private String title;
-	// private String genre;
 	ArrayList<Author> author;
 	private ArrayList<Genre> genre;
 	private String img;
-	// private long id_genre;
 	private long id_book;
 
 	// новый
-	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre, String img) {
+	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
+			String img) {
 		this.id_book = id_book;
 		this.author = author;
 		this.title = title;
@@ -24,7 +23,8 @@ public class Book implements Serializable {
 		this.img = img;
 	}
 
-	public void setBook(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre, String img) {
+	public void setBook(long id_book, ArrayList<Author> author, String title,
+			ArrayList<Genre> genre, String img) {
 		this.id_book = id_book;
 		this.author = author;
 		this.title = title;

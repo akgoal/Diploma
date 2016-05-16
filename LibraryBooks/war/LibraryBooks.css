@@ -76,6 +76,53 @@ ul, ul ul {
 	z-index:5;
 }
 
+
+.searchHPanel{
+	float:right;
+	margin-top: 10px;
+	margin-right: 10px;
+}
+.searchBox, .searchButton{
+	outline: 0;
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 0;
+    border: 0;
+    height: 30px;
+    		  -webkit-transition: all 0.6s ease;
+  -moz-transition:    all 0.6s ease;
+  -o-transition:      all 0.6s ease; 
+}
+
+
+
+.searchButton{
+    border-radius: 0 3px 3px 0;
+	height: 30px;
+	width: 30px;
+	cursor: pointer;
+
+}
+.searchBox{
+	float: right;
+	width: 30%;
+	padding: 0 10px;
+	border-radius: 3px 0 0 3px;
+}
+
+.searchButton:hover {
+	background-color:rgba(255, 255, 255, 0.2);
+}
+
+.searchBox:focus{
+	background-color:rgba(255, 255, 255, 0.2);
+	width: 100%;
+	border-radius: 15px 0 0 15px;
+}
+
+
+
+
 .header {
 	position: absolute;
     height: 390px;

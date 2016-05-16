@@ -4,11 +4,6 @@ import com.librarybooks.client.AppActivityMapper;
 import com.librarybooks.client.AppPlaceHistoryMapper;
 import com.librarybooks.client.ClientFactory;
 import com.librarybooks.client.activities_and_places.places.*;
-import com.librarybooks.client.objects.Author;
-import com.librarybooks.client.objects.Genre;
-import com.librarybooks.client.objects.Selection;
-
-import java.util.ArrayList;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -20,15 +15,10 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
-import com.google.gwt.user.client.Command;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ScrollEvent;
 import com.google.gwt.user.client.Window.ScrollHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.web.bindery.event.shared.EventBus;
@@ -45,6 +35,7 @@ public class LibraryBooks implements EntryPoint {
 	private Place defaultPlace = new UserPlace("all=0&p=1");
 	private SimplePanel appWidget = new SimplePanel();
 	private SimplePanel navWidget = new SimplePanel();
+
 	String html;
 
 	public void onModuleLoad() {
@@ -64,8 +55,7 @@ public class LibraryBooks implements EntryPoint {
 		RootPanel.get("cont").add(appWidget);
 		historyHandler.handleCurrentHistory();
 
-		/*
-		 * bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR); RootPanel.get("wrapper").add(new HTML("<p>" + SERVER_ERROR + "</p>")); }
+		/* bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR); RootPanel.get("wrapper").add(new HTML("<p>" + SERVER_ERROR + "</p>")); }
 		 * 
 		 * public void onSuccess(ArrayList<Genre> result) { html = "<ul class=\"menu\">"; html = html.concat("<li class=\"item1\"><a href=\"#\">Жанры <span>" + result.size() + "</span></a>" + "<ul>"); for (int i = 0; i < result.size(); i++) { html = html.concat(li("genre", result.get(i).getGenre(),
 		 * result.get(i).getIdGenre(), result.get(i).getColBook())); } html = html.concat("</ul> </li>"); bookService.listOfAuthors(new AsyncCallback<ArrayList<Author>>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR); }
@@ -80,8 +70,7 @@ public class LibraryBooks implements EntryPoint {
 		 * 
 		 * for (int i = 0; i < result.size(); i++) { html = html.concat(li("selection", result.get(i).getSelection(), result.get(i).getIdSelection(), result.get(i).getColBook())); } html = html.concat("</ul> </li> </ul>"); RootPanel.get("wrapper").add(new HTML(html)); // scr();
 		 * 
-		 * } }); } }); } });
-		 */
+		 * } }); } }); } }); */
 		Window.addWindowScrollHandler(new ScrollHandler() {
 
 			@Override

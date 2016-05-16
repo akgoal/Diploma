@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
@@ -33,6 +34,7 @@ import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
 import com.librarybooks.client.widgets.BookWidget;
+import com.librarybooks.client.widgets.SearchPane;
 import com.librarybooks.client.widgets.SelectedBookWidget;
 
 public class UserViewImpl extends Composite implements UserView, ClickHandler {
@@ -83,9 +85,13 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
+	final SearchPane sp = new SearchPane();
+
 	public UserViewImpl() {
 
 		initWidget(uiBinder.createAndBindUi(this));
+
+		RootPanel.get("search_panel").add(sp);
 
 		Command command = new Command() {
 			public void execute() {
@@ -158,6 +164,11 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 			}
 		});
+	}
+
+	@Override
+	public SearchPane getSearchPane() {
+		return sp;
 	}
 
 	@Override

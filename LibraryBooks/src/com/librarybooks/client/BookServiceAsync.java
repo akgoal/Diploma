@@ -28,4 +28,6 @@ public interface BookServiceAsync {
 
 	void listOfSelections(AsyncCallback<ArrayList<Selection>> callback);
 
+	void searchBooks(ArrayList<String> param, AsyncCallback<ArrayList<Book>> callback);
+
 }
