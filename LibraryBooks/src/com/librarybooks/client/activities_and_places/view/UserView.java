@@ -8,6 +8,7 @@ import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
+import com.librarybooks.client.widgets.Basket;
 import com.librarybooks.client.widgets.SearchPane;
 
 /** View interface. Extends IsWidget so a view impl can easily provide its container widget.
@@ -19,6 +20,8 @@ public interface UserView extends IsWidget {
 	void setView(ArrayList<Book> book, int col_page, int page, String type, String param);
 
 	SearchPane getSearchPane();
+
+	Basket getBasket();
 
 	void setView(Book book);
 

@@ -1,0 +1,14 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui">   
+    <g:HTMLPanel ui:field="basketPanel">       
+		<div class="cart1">
+			<div id="colCheck"><span ui:field="basket"></span></div>
+			<div class="cart">
+			  <g:HTMLPanel ui:field="popupPanel">
+			  </g:HTMLPanel>
+			</div>
+		</div>
+	</g:HTMLPanel>   
+    
+</ui:UiBinder>

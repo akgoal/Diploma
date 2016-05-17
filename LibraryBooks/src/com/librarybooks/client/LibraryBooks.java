@@ -52,7 +52,7 @@ public class LibraryBooks implements EntryPoint {
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 		historyHandler.register(placeController, eventBus, defaultPlace);
 
-		RootPanel.get("cont").add(appWidget);
+		RootPanel.get("body").add(appWidget);
 		historyHandler.handleCurrentHistory();
 
 		Window.addWindowScrollHandler(new ScrollHandler() {

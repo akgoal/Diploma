@@ -123,7 +123,7 @@ ul, ul ul {
 
 .header {
 	position: absolute;
-    height: 390px;
+    height: 350px;
     width: 100%;
     opacity:0.8;
     min-width: 750px;
@@ -131,8 +131,14 @@ ul, ul ul {
 	background-size:cover;
     text-align: center;
 }
-.text{
+.text{	
+	width: 300px;
+	position: relative;
 	top:110px;
+	color: black;
+	text-align: center;
+	display: block;
+	margin: 0px auto;
 }
 h1{
 		font-family: sans-serif;
@@ -152,7 +158,7 @@ a{
 .cont {
 	z-index: 1;
 	position: relative;
-	top:333px;
+	top:293px;
 	min-width: 750px;
 	margin: 0 auto;
 	overflow: hidden;
@@ -212,7 +218,7 @@ a{
 	width: 200px;
 }
 .cont_list {
-   //	border-top: 1px solid rgba(37, 32, 46, 0.63);
+   border-top: 1px solid rgba(37, 32, 46, 0.63);
 }
 
 #cont_list {
@@ -237,9 +243,9 @@ a{
 	margin: 0 auto 20px;
 }
 #sprint_top_page{
-	float:right;
-	margin: 0 0 10px;
-	opacity: 0.5;
+	margin: 0 auto 10px;
+    opacity: 0.5;
+    zoom: 0.6;
 }
 #sprint_top_page:hover{
     opacity: 1;
@@ -328,9 +334,10 @@ img::after  {
   -moz-transition:    all 0.6s ease;
   -o-transition:      all 0.6s ease; 
 }
-#info:hover #but{
-	background-color: rgba(253, 198, 0, 0.7);
-	background: rgba(253, 198, 0, 0.7);
+#info:hover #but,
+#info:active #but{
+	background-color: rgba(214, 158, 0, 0.75);
+	background: rgba(214, 158, 0, 0.75);
 	z-index: 2;
 	opacity: 1;
 }
@@ -354,14 +361,7 @@ p {
 	text-align: center;
 }
 
-.text {
-	position: relative;
-	color: black;
-	text-align: center;
-	display: block;
-	margin: 0px auto;
-	margin-top:40px;
-}
+
 
 
 
@@ -515,26 +515,30 @@ p {
 	
 }
 #but_info{
-	margin-bottom: 1px;
+	margin:0.3em 0;
 }
 .buttonAddIn {
+	outline:0;
 	position: relative;
     padding: 6px 10px 6px 10px;
-    border: 2px solid #333333;
-    border-radius: 4px;
+    border: 2px solid #1C1C1C;
+    //border-radius: 4px;
     font-weight: bold;
-    color: #333333;
+    color: #1C1C1C;
     text-decoration: none;
 	background: transparent;
 	line-height: 1;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
+        		-webkit-transition: all 0.3s ease;
+  -moz-transition:    all 0.3s ease;
+  -o-transition:      all 0.3s ease; 
 } 
   
-.buttonAddIn:hover { background: #333333;
-    color: #fdc600;}
+.buttonAddIn:hover{ background: #1C1C1C;
+    color: rgba(214, 158, 0, 0.75);}
 .buttonAddIn:active { background: #333333;
-    color: #fdc600; }
+    color: rgba(214, 158, 0, 0.75); }
 .imageFull {
     margin:1em;
     background:#fff;
@@ -593,7 +597,7 @@ position:fixed;
 .menu ul li a {
 	background: #fff;
 	border-bottom: 1px solid #efeff0;
-	padding: 1em 2.75em 1em 3em;
+	padding: 0.6em 2.75em 0.6em 3em;
 	display: block;
 	position: relative;
 	font-size: 0.923em;
@@ -684,4 +688,91 @@ position:fixed;
 		-webkit-transition: all 0.6s ease;
   -moz-transition:    all 0.6s ease;
   -o-transition:      all 0.6s ease; 
+}
+
+
+/*
+* Корзина
+*/
+
+.basket{
+	float: left;
+    margin: 5px 30px;
+}
+.cart1 {
+  padding: 0;
+  margin: 0;
+  max-width: 70px;
+  cursor: pointer;
+}
+.cart1:hover .popup {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+#colCheck{ 
+  position: relative;
+  float: left;
+  left:25px;
+  z-index:5;
+  color: #FFF;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 15px;
+  background: #FFC800;
+  border-radius:999em;
+  padding:0 4px;
+}
+.cart {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999em;
+  border: none;
+  background: #61324A;
+  cursor: pointer;
+}  
+.cart:hover {   
+ 	box-shadow: inset 0 0 7px 0 rgba(0,0,0,0.5);     
+}
+  
+
+.popup {  
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  
+  position: relative;
+  top: 40px;
+  left:0;
+  width: 250px; 
+  height: 200px; 
+  margin-top: 0%;  
+  background: #ffffff;
+  border: 1px solid #cbcbcb;  
+  box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+} 
+   .popup:after {
+    position: absolute;
+    content: ' ';
+    height: 30px;
+  }
+  
+   .popup:before {
+    position: absolute;
+    content: ' ';
+    left: 10px;
+    top: -9px;
+    width: 16px;
+    height: 16px;
+    border-top: 1px solid #cbcbcb;
+    border-right: 1px solid #cbcbcb;
+    background: #ffffff;
+    box-shadow:1px -1px 1px 0 rgba(0,0,0,0.2);
+   	transform: rotate(-45deg);
+  }
+
+.cart {
+ background-image: url(img/basket.png);
+  background-repeat: no-repeat;
+  background-position: center;
 }

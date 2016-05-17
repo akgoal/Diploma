@@ -2,6 +2,7 @@ package com.librarybooks.client.widgets;
 
 import java.util.ArrayList;
 
+import com.gargoylesoftware.htmlunit.javascript.host.Window;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
@@ -50,10 +51,6 @@ public class BookWidget extends Composite implements ClickHandler {
 	public BookWidget(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img_src) {
 
-		// consoleLog(img_src);
-
-		// img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
-
 		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
 		// consoleLog(img_src);
 
@@ -62,15 +59,12 @@ public class BookWidget extends Composite implements ClickHandler {
 		String html_img = new String("<div img class=\"img_book\">"
 				+ "<img align=\"center\" id=\"imageBook\" src=\"" + img_src + "\">" + "</div>");
 		flowPanel.setStyleName("elem");
-		// l_author.setStyleName("linkAuthor");
 		l_title.setStyleName("linkToBook");
-		// l_genre.setStyleName("linkGenre");
 		button.setStyleName("buttonAddIn");
 		chooseButton.setStyleName("buttonAddIn");
 
 		panel.getElement().setId("info");
 		verticalPanel_1.getElement().setId("but");
-		// l_author.getElement().setId("text_center");
 		l_title.getElement().setId("text_center");
 		button.getElement().setId("but_info");
 		chooseButton.getElement().setId("but_info");
@@ -81,25 +75,16 @@ public class BookWidget extends Composite implements ClickHandler {
 		l_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel_1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		// genrePanel.getElement().getStyle().setPaddingTop(8, Unit.PX);
-
-		// l_author.setText(author);
 		l_title.setText(title);
 		flowPanel.add(back_book);
 		flowPanel.add(verticalPanel);
 		verticalPanel.add(new HTML(html_img));
 		verticalPanel.add(l_title);
-		// verticalPanel.add(l_author);
 		for (int i = 0; i < author.size(); i++) {
 			authorPanel.add(new ListLabel("author", author.get(i).getAuthor(),
 					author.get(i).getIdAuthor()));
 		}
 		verticalPanel.add(authorPanel);
-		// for (int i = 0; i < genre.size(); i++) {
-		// genrePanel.add(
-		// new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
-		// }
-		// verticalPanel.add(genrePanel);
 		butPanel.add(button);
 		butPanel.add(chooseButton);
 		verticalPanel_1.add(butPanel);
@@ -109,13 +94,12 @@ public class BookWidget extends Composite implements ClickHandler {
 
 		verticalPanel_1.setSize("200px", "310px");
 		l_title.setSize("170px", "");
-		// l_author.setWidth("170px");
 		button.setSize("130px", "30px");
 		chooseButton.setSize("130px", "30px");
 
 		chooseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				chooseBookToServer();
+				// Window.alert()
 			}
 		});
 
@@ -123,6 +107,14 @@ public class BookWidget extends Composite implements ClickHandler {
 		button.addClickHandler(this);
 
 		initWidget(flowPanel);
+	}
+
+	public Button getChooseButton() {
+		return this.chooseButton;
+	}
+
+	public Book getBook() {
+		return this.choose_book;
 	}
 
 	public void onClick(ClickEvent event) {

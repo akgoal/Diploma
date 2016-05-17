@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.dom.client.UListElement;
@@ -12,7 +13,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
@@ -34,11 +33,10 @@ import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
+import com.librarybooks.client.widgets.Basket;
 import com.librarybooks.client.widgets.BookWidget;
 import com.librarybooks.client.widgets.SearchPane;
 import com.librarybooks.client.widgets.SelectedBookWidget;
-
-import java.util.List;
 
 public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
@@ -55,9 +53,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	int col_page;
 	int start;
 	int stop;
+	Book bookInWidget = new Book();
 
-	// @UiField
-	// Button button;
+	@UiField
+	HTMLPanel searchPanel;
+	@UiField
+	DivElement textElement;
 	@UiField
 	HTMLPanel menuBar;
 	@UiField
@@ -82,13 +83,19 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
 	final SearchPane sp = new SearchPane();
+	final Basket basket = new Basket();
+	BookWidget bb;
 
 	public UserViewImpl() {
 
 		initWidget(uiBinder.createAndBindUi(this));
-
-		RootPanel.get("search_panel").add(sp);
-
+		searchPanel.getElement().setId("search_panel");
+		basket.setStyleName("basket");
+		searchPanel.add(basket);
+		searchPanel.add(sp);
+		textElement.setInnerHTML(
+				"<a href=\"#UserPlace:all=0&p=1\"><img src=\"img/logo_mini.png\"></img><h1>LIBRARY BOOK</h1></a>");
+		basket.getSpanElement().setInnerText("0");
 		Command command = new Command() {
 			public void execute() {
 				Window.alert("Command Fired");
@@ -112,6 +119,11 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		return sp;
 	}
 
+	@Override
+	public Basket getBasket() {
+		return basket;
+	}
+
 	public void leftNav() {
 		bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() {
 			public void onFailure(Throwable caught) {
@@ -119,6 +131,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			}
 
 			public void onSuccess(ArrayList<Genre> result) {
+				// Window.alert("up");
 				Collections.sort(result, new Comparator<Genre>() {
 					@Override
 					public int compare(Genre o1, Genre o2) {
@@ -199,15 +212,23 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		pageNav(col_page, page, param);
 		FlowPanel panel = new FlowPanel();
 		for (int i = 0; i < books.size(); i++) {
-
 			String title = new String((books.get(i)).getTitle());
 			ArrayList<Author> author = new ArrayList<Author>((books.get(i)).getAuthor());
 			ArrayList<Genre> genre = new ArrayList<Genre>((books.get(i)).getGenre());
 			String img_src = new String((books.get(i)).getImg());
 			long id_book = (books.get(i)).getIdBook();
-			BookWidget bb = new BookWidget(id_book, author, title, genre, img_src);
-			panel.add(bb);
+			bb = new BookWidget(id_book, author, title, genre, img_src);
+			bb.getChooseButton().addClickHandler(new ClickHandler() {
 
+				@Override
+				public void onClick(ClickEvent event) {
+					basket.getSpanElement().setInnerText(
+							Integer.valueOf(basket.getSpanElement().getInnerText()) + 1 + "");
+					// basket.getHTMLPanel().add(new HTML("<p>" + bb.getBook().getTitle() + "</p>"));
+
+				}
+			});
+			panel.add(bb);
 		}
 		fPanel.add(panel);
 	}
