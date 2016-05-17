@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.ContainedIn;
+import org.hibernate.search.annotations.Field;
 
 @Entity
 @Table(name="genres")
@@ -23,14 +25,16 @@ public class GenresDataSet {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
+	@Field
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "description")
 	@Lob
-	@Type(type="org.hibernate.type.StringClobType")
+	@Type(type="org.hibernate.type.StringType")
 	private String description;
 
+	@ContainedIn
 	@ManyToMany(mappedBy = "genres")
 	private Set<BooksDataSet> books = new HashSet<>();
 	

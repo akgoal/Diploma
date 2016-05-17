@@ -24,7 +24,7 @@ public class PublishersDataSet {
 
 	@Column(name = "description")
 	@Lob
-	@Type(type="org.hibernate.type.StringClobType")
+	@Type(type="org.hibernate.type.StringType")
 	private String description;
 
 	/* Constructors */

@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,19 +32,31 @@ import com.librarybooks.server.bookservice.datasets.SelectionsDataSet;
 @Transactional
 public class BooksDAOImpl implements BooksDAO {
 
+	private static boolean booksAreIndexed = false;
+
 	@Autowired
 	private SessionFactory sessionFactory;
+
+	@Override
+	public void indexBooks() {
+		FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+		try {
+			fullTextSession.createIndexer().startAndWait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public ArrayList<BooksDataSet> findBooksByTitle(String title) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
 		criteria.add(Restrictions.ilike("title", title, MatchMode.ANYWHERE));
-		return initializeLazyMembersCompletely((ArrayList<BooksDataSet>) criteria.list());
+		return initializeLazyMembers((ArrayList<BooksDataSet>) criteria.list());
 	}
 
 	@Override
 	public ArrayList<BooksDataSet> getAllBooks() {
-		return initializeLazyMembersCompletely(
+		return initializeLazyMembers(
 				(ArrayList<BooksDataSet>) sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class).list());
 	}
 
@@ -51,16 +67,20 @@ public class BooksDAOImpl implements BooksDAO {
 
 	@Override
 	public ArrayList<BooksDataSet> getBooksByAuthorId(long authorId) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class)
-				.createCriteria("authors").add(Restrictions.eq("id", authorId));
-		return initializeLazyMembersCompletely((ArrayList<BooksDataSet>) criteria.list());
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AuthorsDataSet.class);
+		criteria.add(Restrictions.idEq(authorId));
+		ArrayList<BooksDataSet> bdsList = castToArrayList(
+				initializeLazyMembers((AuthorsDataSet) criteria.uniqueResult()).getBooks());
+		return initializeLazyMembers(bdsList);
 	}
 
 	@Override
 	public ArrayList<BooksDataSet> getBooksByGenreId(long genreId) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class)
-				.createCriteria("genres").add(Restrictions.eq("id", genreId));
-		return initializeLazyMembersCompletely((ArrayList<BooksDataSet>) criteria.list());
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GenresDataSet.class);
+		criteria.add(Restrictions.idEq(genreId));
+		ArrayList<BooksDataSet> bdsList = castToArrayList(
+				initializeLazyMembers((GenresDataSet) criteria.uniqueResult()).getBooks());
+		return initializeLazyMembers(bdsList);
 	}
 
 	@Override
@@ -91,7 +111,7 @@ public class BooksDAOImpl implements BooksDAO {
 	public BooksDataSet getBookById(long bookId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
 		criteria.add(Restrictions.idEq(bookId));
-		return initializeLazyMembersCompletely((BooksDataSet) criteria.uniqueResult());
+		return initializeLazyMembers((BooksDataSet) criteria.uniqueResult());
 	}
 
 	@Override
@@ -109,7 +129,7 @@ public class BooksDAOImpl implements BooksDAO {
 		criteria.add(Restrictions.idEq(selectionId));
 		ArrayList<BooksDataSet> bdsList = castToArrayList(
 				initializeLazyMembers((SelectionsDataSet) criteria.uniqueResult()).getBooks());
-		return initializeLazyMembersCompletely(bdsList);
+		return initializeLazyMembers(bdsList);
 	}
 
 	@Override
@@ -131,21 +151,52 @@ public class BooksDAOImpl implements BooksDAO {
 	}
 
 	/*
-	 * Поиск книг. В первую очередь идут книги с совпадениями в названии, затем
-	 * в авторах, затем в жанрах. Поиск идет по всем словам из words
+	 * Полнотекстовый поиск по названию, оригинальному названию, авторам и
+	 * жанрам
 	 */
 	@Override
 	public ArrayList<BooksDataSet> searchBooks(List<String> words) {
-		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
-		for (String word : words)
-			criteria.add(Restrictions.ilike("title", word, MatchMode.ANYWHERE));
-		ArrayList<BooksDataSet> res = (ArrayList<BooksDataSet>) criteria.list();
-		
-		return initializeLazyMembersCompletely(res);
+
+		/*
+		 * Criteria criteria =
+		 * sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class)
+		 * ; for (String word : words) criteria.add(Restrictions.ilike("title",
+		 * word, MatchMode.ANYWHERE)); ArrayList<BooksDataSet> res =
+		 * (ArrayList<BooksDataSet>) criteria.list();
+		 * 
+		 * return initializeLazyMembersCompletely(res);
+		 */
+
+		if (!booksAreIndexed) {
+			indexBooks();
+			booksAreIndexed = true;
+		}
+
+		FullTextSession fullTextSession = Search.getFullTextSession(sessionFactory.getCurrentSession());
+
+		org.hibernate.search.query.dsl.QueryBuilder qb = fullTextSession.getSearchFactory().buildQueryBuilder()
+				.forEntity(BooksDataSet.class).get();
+
+		org.apache.lucene.search.BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
+
+		for (String keyword : words) {
+			bqBuilder.add(qb.keyword().onFields("title", "originalTitle", "authors.name", "genres.name")
+					.matching(keyword).createQuery(), BooleanClause.Occur.MUST);
+		}
+		org.apache.lucene.search.BooleanQuery bquery = bqBuilder.build();
+
+		FullTextQuery ftq = fullTextSession.createFullTextQuery(bquery, BooksDataSet.class);
+
+		ArrayList<BooksDataSet> res;
+		List<BooksDataSet> queryRes = ftq.list();
+		if (queryRes.isEmpty())
+			res = new ArrayList<BooksDataSet>();
+		else
+			res = initializeLazyMembers((ArrayList<BooksDataSet>) queryRes);
+		return res;
 	}
 
 	/* Lazy loading of all members */
-	@SuppressWarnings("unused")
 	private BooksDataSet initializeLazyMembers(BooksDataSet bds) {
 		Hibernate.initialize(bds.getAuthors());
 		Hibernate.initialize(bds.getGenres());
@@ -182,9 +233,16 @@ public class BooksDAOImpl implements BooksDAO {
 		return bds;
 	}
 
+	@SuppressWarnings("unused")
 	private ArrayList<BooksDataSet> initializeLazyMembersCompletely(ArrayList<BooksDataSet> bdsList) {
 		for (BooksDataSet bds : bdsList)
 			initializeLazyMembersCompletely(bds);
+		return bdsList;
+	}
+
+	private ArrayList<BooksDataSet> initializeLazyMembers(ArrayList<BooksDataSet> bdsList) {
+		for (BooksDataSet bds : bdsList)
+			initializeLazyMembers(bds);
 		return bdsList;
 	}
 

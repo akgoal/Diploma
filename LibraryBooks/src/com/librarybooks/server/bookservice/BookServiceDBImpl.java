@@ -23,7 +23,7 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 
 	@Autowired
 	private BooksDAO dao;
-
+	
 	@Override
 	public ArrayList<Book> findBooksByAuthorBook(long callInput) {
 		ArrayList<Book> books = new ArrayList<>();
@@ -107,9 +107,6 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		return selections;
 	}
 	
-	/* Поиск книг. 
-	 * В первую очередь идут книги с совпадениями в названии, затем в авторах, 
-	 * затем в жанрах. Поиск идет по всем словам из param */
 	@Override
 	public ArrayList<Book> searchBooks(ArrayList<String> param) {
 		ArrayList<Book> books = new ArrayList<>();
@@ -118,16 +115,32 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 			books.add(convertToDTO(bds));
 		return books;
 	}
+	
+	@SuppressWarnings("unused")
+	private Book convertToDTODummy(BooksDataSet booksDataSet) {
+		ArrayList<Author> authors = new ArrayList<>();
+
+		ArrayList<Genre> genres = new ArrayList<>();
+
+		Book book = new Book();
+		book.setIdBook(booksDataSet.getId());
+		book.setAuthor(authors);
+		book.setTitle(booksDataSet.getTitle());
+		book.setGenre(genres);
+		book.setImg(booksDataSet.getImageName());
+
+		return book;
+	}
 
 	/* Conversions DataSet -> DTO Object */
 	private Book convertToDTO(BooksDataSet booksDataSet) {
 		ArrayList<Author> authors = new ArrayList<>();
 		for (AuthorsDataSet ads : booksDataSet.getAuthors())
-			authors.add(convertToDTO(ads));
+			authors.add(convertToDTOWithoutExtraInfo(ads));
 
 		ArrayList<Genre> genres = new ArrayList<>();
 		for (GenresDataSet gds : booksDataSet.getGenres())
-			genres.add(convertToDTO(gds));
+			genres.add(convertToDTOWithoutExtraInfo(gds));
 
 		Book book = new Book();
 		book.setIdBook(booksDataSet.getId());
@@ -146,12 +159,26 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		author.setColBook(authorsDataSet.getBooks().size());
 		return author;
 	}
+	
+	private Author convertToDTOWithoutExtraInfo(AuthorsDataSet authorsDataSet) {
+		Author author = new Author();
+		author.setAuthor(authorsDataSet.getName());
+		author.setIdAuthor(authorsDataSet.getId());
+		return author;
+	}
 
 	private Genre convertToDTO(GenresDataSet genresDataSet) {
 		Genre genre = new Genre();
 		genre.setGenre(genresDataSet.getName());
 		genre.setIdGenre(genresDataSet.getId());
 		genre.setColBook(genresDataSet.getBooks().size());
+		return genre;
+	}
+	
+	private Genre convertToDTOWithoutExtraInfo(GenresDataSet genresDataSet) {
+		Genre genre = new Genre();
+		genre.setGenre(genresDataSet.getName());
+		genre.setIdGenre(genresDataSet.getId());
 		return genre;
 	}
 

@@ -38,7 +38,7 @@ public class SelectionsDataSet {
 	
 	@Column(name = "description")
 	@Lob
-	@Type(type="org.hibernate.type.StringClobType")
+	@Type(type="org.hibernate.type.StringType")
 	private String description;
 
 	@Column(name = "image_name")

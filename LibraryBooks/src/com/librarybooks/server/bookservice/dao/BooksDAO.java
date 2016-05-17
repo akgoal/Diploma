@@ -32,4 +32,6 @@ public interface BooksDAO {
     ArrayList<SelectionsDataSet> getAllSelections();
     
     ArrayList<BooksDataSet> searchBooks(List<String> words);
+    
+    void indexBooks();
 }

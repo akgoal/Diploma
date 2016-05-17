@@ -17,7 +17,7 @@
 
 	<!-- Менеджер транзакций -->
 	<bean id="transactionManager"
-		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
@@ -29,44 +29,47 @@
 	<!-- Непосредственно бин dataSource -->
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:driverClassName="${jdbc.driverClassName}" 
-		p:url="${jdbc.databaseurl}"
-		p:username="${jdbc.username}" 
-		p:password="${jdbc.password}" />
+		p:driverClassName="${jdbc.driverClassName}" p:url="${jdbc.databaseurl}"
+		p:username="${jdbc.username}" p:password="${jdbc.password}" />
 
 	<!-- Настройки фабрики сессий Хибернейта -->
 	<bean id="sessionFactory"
-		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		
-		<!-- 
-		<property name="configLocation">
-			<value>classpath:hibernate.cfg.xml</value>
-		</property>
-		<property name="configurationClass">
-			<value>org.hibernate.cfg.AnnotationConfiguration</value>
-		</property>
-		-->
-		
+
+		<!-- <property name="configLocation"> <value>classpath:hibernate.cfg.xml</value> 
+			</property> <property name="configurationClass"> <value>org.hibernate.cfg.AnnotationConfiguration</value> 
+			</property> -->
+
 		<property name="annotatedClasses">
-		    <list>
-		        <value>com.librarybooks.server.bookservice.datasets.BooksDataSet</value>
-		        <value>com.librarybooks.server.bookservice.datasets.AuthorsDataSet</value>
-		        <value>com.librarybooks.server.bookservice.datasets.BindingsDataSet</value>
-		        <value>com.librarybooks.server.bookservice.datasets.GenresDataSet</value>
-		        <value>com.librarybooks.server.bookservice.datasets.PublishersDataSet</value>
-		        <value>com.librarybooks.server.bookservice.datasets.SelectionsDataSet</value>
-		       
-		    </list>
+			<list>
+				<value>com.librarybooks.server.bookservice.datasets.BooksDataSet
+				</value>
+				<value>com.librarybooks.server.bookservice.datasets.AuthorsDataSet
+				</value>
+				<value>com.librarybooks.server.bookservice.datasets.BindingsDataSet
+				</value>
+				<value>com.librarybooks.server.bookservice.datasets.GenresDataSet
+				</value>
+				<value>com.librarybooks.server.bookservice.datasets.PublishersDataSet
+				</value>
+				<value>com.librarybooks.server.bookservice.datasets.SelectionsDataSet
+				</value>
+
+			</list>
 		</property>
-		
+
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.show_sql">${jdbc.showSql}</prop>
 				<prop key="hibernate.dialect">${jdbc.dialect}</prop>
 				<prop key="hibernate.hbm2ddl.auto">${jdbc.hbm2ddl}</prop>
+				
+				<prop key="hibernate.search.default.directory_provider">filesystem</prop>
+				<prop key="hibernate.search.default.indexBase">/lucene/indexes</prop>
 			</props>
 		</property>
+	
 	</bean>
 
 </beans>

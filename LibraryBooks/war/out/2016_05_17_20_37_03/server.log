@@ -1,0 +1,22 @@
+[05-17 20:37:04,191, 8364] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-17 20:37:04,195, 8368] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-17 20:37:04,197, 8370] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-17 20:37:04,261, 8434] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-17 20:37:04,475, 8648] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-17 20:37:04,845, 9018] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-17 20:37:04,847, 9020] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@3fc05ea2
+[05-17 20:37:05,342, 9515] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-17 20:37:05,598, 9771] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-17 20:37:06,215, 10388] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.
+[05-17 20:37:53,142, 57315] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000027: Going to reindex 78 entities
+[05-17 20:37:53,158, 57331] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000027: Going to reindex 78 entities
+[05-17 20:37:53,254, 57427] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000027: Going to reindex 78 entities
+[05-17 20:37:53,536, 57709] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000030: 50 documents indexed in 109 ms
+[05-17 20:37:53,537, 57710] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000031: Indexing speed: 458,715607 documents/second; progress: 64,10%
+[05-17 20:37:54,538, 58711] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000030: 50 documents indexed in 86 ms
+[05-17 20:37:54,538, 58711] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000031: Indexing speed: 581,395325 documents/second; progress: 64,10%
+[05-17 20:37:54,542, 58715] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000030: 50 documents indexed in 1105 ms
+[05-17 20:37:54,543, 58716] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000031: Indexing speed: 45,248867 documents/second; progress: 64,10%
+[05-17 20:37:54,895, 59068] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000028: Reindexed 78 entities
+[05-17 20:37:54,980, 59153] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000028: Reindexed 78 entities
+[05-17 20:37:54,987, 59160] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000028: Reindexed 78 entities

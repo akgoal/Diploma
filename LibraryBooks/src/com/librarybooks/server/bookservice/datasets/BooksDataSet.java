@@ -18,8 +18,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 @Entity
+@Indexed
 @Table(name = "books")
 public class BooksDataSet {
 
@@ -31,17 +35,20 @@ public class BooksDataSet {
 	@Column(name = "code")
 	private String code;
 
+	@Field
 	@Column(name = "title", nullable = false)
 	private String title;
 
+	@Field
 	@Column(name = "title_original")
 	private String originalTitle;
 
 	@Column(name = "description")
 	@Lob
-	@Type(type="org.hibernate.type.StringClobType")
+	@Type(type="org.hibernate.type.StringType")
 	private String description;
 
+	@IndexedEmbedded
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id") ,
 		inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -50,6 +57,7 @@ public class BooksDataSet {
 	@Column(name = "creation_year")
 	private int creationYear;
 	
+	@IndexedEmbedded
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "book_genre", joinColumns = @JoinColumn(name = "book_id") ,
 		inverseJoinColumns = @JoinColumn(name = "genre_id"))
