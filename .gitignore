@@ -2,6 +2,12 @@
 .metadata
 .recommenders
 
+# gwt cache
+LibraryBooks/gwt-unitCache
+
+# eclipse .settings
+LibraryBooks/.settings
+
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
