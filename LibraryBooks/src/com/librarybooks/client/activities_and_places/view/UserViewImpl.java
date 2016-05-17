@@ -1,6 +1,8 @@
 package com.librarybooks.client.activities_and_places.view;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -35,6 +37,8 @@ import com.librarybooks.client.objects.Selection;
 import com.librarybooks.client.widgets.BookWidget;
 import com.librarybooks.client.widgets.SearchPane;
 import com.librarybooks.client.widgets.SelectedBookWidget;
+
+import java.util.List;
 
 public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
@@ -115,6 +119,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			}
 
 			public void onSuccess(ArrayList<Genre> result) {
+				Collections.sort(result, new Comparator<Genre>() {
+					@Override
+					public int compare(Genre o1, Genre o2) {
+						return o1.getGenre().compareToIgnoreCase(o2.getGenre());
+					}
+				});
 				ligenre.setInnerHTML("<a href=\"#\">Жанры <span>" + result.size() + "</span></a>");
 				UListElement ul = Document.get().createULElement();
 				for (int i = 0; i < result.size(); i++) {
@@ -130,7 +140,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 					}
 
 					public void onSuccess(ArrayList<Author> result) {
-
+						Collections.sort(result, new Comparator<Author>() {
+							@Override
+							public int compare(Author o1, Author o2) {
+								return o1.getAuthor().compareToIgnoreCase(o2.getAuthor());
+							}
+						});
 						liauthor.setInnerHTML(
 								"<a href=\"#\">Авторы <span>" + result.size() + "</span></a>");
 						UListElement ul = Document.get().createULElement();
@@ -147,6 +162,13 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 							}
 
 							public void onSuccess(ArrayList<Selection> result) {
+								Collections.sort(result, new Comparator<Selection>() {
+									@Override
+									public int compare(Selection o1, Selection o2) {
+										return o1.getSelection()
+												.compareToIgnoreCase(o2.getSelection());
+									}
+								});
 								liselection.setInnerHTML("<a href=\"#\">Подборки <span>"
 										+ result.size() + "</span></a>");
 								UListElement ul = Document.get().createULElement();
