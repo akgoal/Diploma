@@ -14,7 +14,6 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -45,23 +44,16 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	}
 
 	Presenter listener;
-	String ref;
-	String html;
 	long id;
 	String[] options = { "all", "author", "genre", "selection", "book" };
-	String type;
 	int page;
 	int col_books = 12;
 	int col_page;
 	int start;
 	int stop;
 
-	@UiField
-	Button button;
-	@UiField
-	HTML one;
-	@UiField
-	HTML two;
+	// @UiField
+	// Button button;
 	@UiField
 	HTMLPanel menuBar;
 	@UiField
@@ -106,7 +98,17 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		menuBar.add(menuMain);
 
 		vPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		hPanel.getElement().setId("sprint_top_page");
 		sprintHPanel.getElement().setId("sprint_page");
+		leftNav();
+	}
+
+	@Override
+	public SearchPane getSearchPane() {
+		return sp;
+	}
+
+	public void leftNav() {
 		bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() {
 			public void onFailure(Throwable caught) {
 				ligenre.setInnerHTML("<p>" + SERVER_ERROR + "</p>");
@@ -145,7 +147,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 							}
 
 							public void onSuccess(ArrayList<Selection> result) {
-								liselection.setInnerHTML("<a href=\"#\">Авторы <span>"
+								liselection.setInnerHTML("<a href=\"#\">Подборки <span>"
 										+ result.size() + "</span></a>");
 								UListElement ul = Document.get().createULElement();
 								for (int i = 0; i < result.size(); i++) {
@@ -167,21 +169,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	}
 
 	@Override
-	public SearchPane getSearchPane() {
-		return sp;
-	}
-
-	@Override
-	public void setNav(ArrayList<Genre> genres, ArrayList<Author> authors,
-			ArrayList<Selection> selections) {
-	}
-
-	@Override
-	public void setView(ArrayList<Book> books, int col_page, int page, String type) {
+	public void setView(ArrayList<Book> books, int col_page, int page, String type, String param) {
 
 		fPanel.clear();
 		sprintHPanel.clear();
-		pageNav(col_page, page, type);
+		hPanel.clear();
+		pageNav(col_page, page, param);
 		FlowPanel panel = new FlowPanel();
 		for (int i = 0; i < books.size(); i++) {
 
@@ -202,6 +195,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 		fPanel.clear();
 		sprintHPanel.clear();
+		hPanel.clear();
 		FlowPanel panel = new FlowPanel();
 		String title = new String(book.getTitle());
 		ArrayList<Author> author = new ArrayList<Author>(book.getAuthor());
@@ -216,43 +210,58 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	@Override
 	public void setView(String ref) {
 
+		fPanel.clear();
+		sprintHPanel.clear();
+		hPanel.clear();
+		fPanel.add(new HTML("<p align=\"center\">" + ref + "</p>"));
+
 	}
 
 	private void ChangeViewERROR() {
 		fPanel.clear();
 		sprintHPanel.clear();
+		hPanel.clear();
 		Label text = new Label(SERVER_ERROR);
 		fPanel.add(text);
 	}
 
-	private void pageNav(int col_page, int page, String type) {
+	private void pageNav(int col_page, int page, String param) {
 
 		if (col_page > 1) {
 			if (page == 1) {
 				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>");
 				sprintHPanel.add(num_page);
+				hPanel.add(new HTML("<a id=\"col_page\" class=\"active\">" + "<" + "</a>"));
 			} else {
-				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-						+ "&p=" + (page - 1) + "\">" + "<" + "</a>");
+				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + param + "&p="
+						+ (page - 1) + "\">" + "<" + "</a>");
 				sprintHPanel.add(num_page);
+				hPanel.add(new HTML("<a id=\"col_page\" href=\"#UserPlace:" + param + "&p="
+						+ (page - 1) + "\">" + "<" + "</a>"));
 			}
 			for (int i = 1; i <= col_page; i++) {
 				if (i == page) {
 					HTML num_page = new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>");
 					sprintHPanel.add(num_page);
+					hPanel.add(new HTML("<a id=\"col_page\" class=\"active\" >" + i + "</a>"));
 				} else {
-					HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "="
-							+ id + "&p=" + i + "\">" + i + "</a>");
+					HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + param + "&p="
+							+ i + "\">" + i + "</a>");
 					sprintHPanel.add(num_page);
+					hPanel.add(new HTML("<a id=\"col_page\" href=\"#UserPlace:" + param + "&p=" + i
+							+ "\">" + i + "</a>"));
 				}
 			}
 			if (page == col_page) {
 				HTML num_page = new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>");
 				sprintHPanel.add(num_page);
+				hPanel.add(new HTML("<a id=\"col_page\" class=\"active\">" + ">" + "</a>"));
 			} else {
-				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + type + "=" + id
-						+ "&p=" + (page + 1) + "\">" + ">" + "</a>");
+				HTML num_page = new HTML("<a id=\"col_page\" href=\"#UserPlace:" + param + "&p="
+						+ (page + 1) + "\">" + ">" + "</a>");
 				sprintHPanel.add(num_page);
+				hPanel.add(new HTML("<a id=\"col_page\" href=\"#UserPlace:" + param + "&p="
+						+ (page + 1) + "\">" + ">" + "</a>"));
 			}
 		}
 
@@ -293,8 +302,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		this.listener = listener;
 	}
 
-	@UiHandler("button")
+	// @UiHandler("button")
 	public void onClick(ClickEvent event) {
-		listener.goTo(new AdminPlace(ref));
+		listener.goTo(new AdminPlace(""));
 	}
 }

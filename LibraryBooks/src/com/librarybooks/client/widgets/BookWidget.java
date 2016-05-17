@@ -35,7 +35,6 @@ public class BookWidget extends Composite implements ClickHandler {
 
 	// private Label l_author = new Label();
 	private Label l_title = new Label();
-	private Label l_genre = new Label();
 	private Button button = new Button("Подробнее");
 	private Book choose_book = new Book();
 	private Button chooseButton = new Button("Добавить");
@@ -43,7 +42,7 @@ public class BookWidget extends Composite implements ClickHandler {
 	private final VerticalPanel verticalPanel_1 = new VerticalPanel();
 	private FlowPanel flowPanel = new FlowPanel();
 	private VerticalPanel verticalPanel = new VerticalPanel();
-	private FlowPanel genrePanel = new FlowPanel();
+	// private FlowPanel genrePanel = new FlowPanel();
 	private FlowPanel authorPanel = new FlowPanel();
 	private HTMLPanel panel = new HTMLPanel("");
 	private HTMLPanel butPanel = new HTMLPanel("");
@@ -51,7 +50,12 @@ public class BookWidget extends Composite implements ClickHandler {
 	public BookWidget(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img_src) {
 
-		img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
+		// consoleLog(img_src);
+
+		// img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
+
+		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
+		// consoleLog(img_src);
 
 		choose_book.setBook(id_book, author, title, genre, img_src);
 
@@ -60,7 +64,7 @@ public class BookWidget extends Composite implements ClickHandler {
 		flowPanel.setStyleName("elem");
 		// l_author.setStyleName("linkAuthor");
 		l_title.setStyleName("linkToBook");
-		l_genre.setStyleName("linkGenre");
+		// l_genre.setStyleName("linkGenre");
 		button.setStyleName("buttonAddIn");
 		chooseButton.setStyleName("buttonAddIn");
 
@@ -77,7 +81,7 @@ public class BookWidget extends Composite implements ClickHandler {
 		l_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel_1.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		verticalPanel_1.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		genrePanel.getElement().getStyle().setPaddingTop(8, Unit.PX);
+		// genrePanel.getElement().getStyle().setPaddingTop(8, Unit.PX);
 
 		// l_author.setText(author);
 		l_title.setText(title);
@@ -91,11 +95,11 @@ public class BookWidget extends Composite implements ClickHandler {
 					author.get(i).getIdAuthor()));
 		}
 		verticalPanel.add(authorPanel);
-		for (int i = 0; i < genre.size(); i++) {
-			genrePanel.add(
-					new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
-		}
-		verticalPanel.add(genrePanel);
+		// for (int i = 0; i < genre.size(); i++) {
+		// genrePanel.add(
+		// new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
+		// }
+		// verticalPanel.add(genrePanel);
 		butPanel.add(button);
 		butPanel.add(chooseButton);
 		verticalPanel_1.add(butPanel);
@@ -143,4 +147,8 @@ public class BookWidget extends Composite implements ClickHandler {
 		});
 		chooseButton.setFocus(false);
 	}
+
+	native void consoleLog(String message) /*-{
+		console.log("me:" + message);
+	}-*/;
 }

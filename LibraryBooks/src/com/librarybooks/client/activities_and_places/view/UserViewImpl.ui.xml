@@ -22,9 +22,7 @@
 			    <div id="listBook">
 			     	<g:VerticalPanel ui:field="vPanel">
 		                <g:HorizontalPanel ui:field="hPanel">
-		                    <g:HTML ui:field="one" text="Hello, "/>
-		                    <g:HTML ui:field="two"/>
-		                    <g:Button ui:field="button">send</g:Button>                   
+		                    <!--  <g:Button ui:field="button">send</g:Button>    -->               
 		                </g:HorizontalPanel>     	                         
 		                <g:FlowPanel ui:field="fPanel">
 		                </g:FlowPanel>
