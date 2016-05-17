@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -23,8 +24,10 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
 
 public class SelectedBookWidget extends Composite {
 
@@ -40,13 +43,16 @@ public class SelectedBookWidget extends Composite {
 	private Image full_img = new Image();
 	private Label back_book = new Label();
 	private VerticalPanel vPanel = new VerticalPanel();
-	HorizontalPanel hPanelGenre = new HorizontalPanel();
+	// HorizontalPanel hPanelGenre = new HorizontalPanel();
+	FlowPanel hPanelGenre = new FlowPanel();
 	HorizontalPanel hPanelAuthor = new HorizontalPanel();
 
 	private FlowPanel generalLPanel = new FlowPanel();
 	private LayoutPanel topLPanel = new LayoutPanel();
-	private LayoutPanel leftLPanel = new LayoutPanel();
-	private LayoutPanel rightLPanel = new LayoutPanel();
+	// private LayoutPanel leftLPanel = new LayoutPanel();
+	// private LayoutPanel rightLPanel = new LayoutPanel();
+	private VerticalPanel leftLPanel = new VerticalPanel();
+	private VerticalPanel rightLPanel = new VerticalPanel();
 	LayoutPanel bottomLPanel = new LayoutPanel();
 	LayoutPanel layoutPanel_4 = new LayoutPanel();
 
@@ -83,13 +89,26 @@ public class SelectedBookWidget extends Composite {
 	public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
 			ArrayList<Genre> genre, String img_src) {
 
-		img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
+		// img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
+
+		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
 
 		choose_book.setBook(id_book, author, title, genre, img_src);
 
 		vPanel.setStyleName("panelForSelect");
 		vPanel.setSize("", "");
 		generalLPanel.setSize("", "");
+
+		Grid grid = new Grid(7, 2);
+		grid.getRowFormatter().setVerticalAlign(6, HasVerticalAlignment.ALIGN_TOP);
+
+		// int numRows = grid.getRowCount();
+		// int numColumns = grid.getColumnCount();
+		// for (int row = 0; row < numRows; row++) {
+		// for (int col = 0; col < numColumns; col++) {
+		// grid.setWidget(row, col, new Image(Showcase.images.gwtLogo()));
+		// }
+		// }
 
 		vPanel.add(link_list);
 		// topLPanel.add(link_list);
@@ -100,31 +119,29 @@ public class SelectedBookWidget extends Composite {
 		rightLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
 		vPanel.add(generalLPanel);
 		generalLPanel.add(leftLPanel);
-		leftLPanel.setSize("230px", "375px");
+		leftLPanel.setSize("230px", "");
 		full_img.setStyleName("imageFull");
 		leftLPanel.add(full_img);
 		full_img.setUrl(img_src);
-		full_img.setPixelSize(full_img.getWidth() * 300 / full_img.getHeight(), 300);
+		full_img.setSize("200px", "");
+		leftLPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		leftLPanel.setWidth("250px");
 		leftLPanel.add(lbl_rating);
-		leftLPanel.setWidgetLeftWidth(lbl_rating, 58.0, Unit.PX, 56.0, Unit.PX);
-		leftLPanel.setWidgetTopHeight(lbl_rating, 332.0, Unit.PX, 16.0, Unit.PX);
+		// leftLPanel.setWidgetLeftWidth(lbl_rating, 58.0, Unit.PX, 56.0, Unit.PX);
+		// leftLPanel.setWidgetTopHeight(lbl_rating, 332.0, Unit.PX, 16.0, Unit.PX);
 		leftLPanel.add(dnmc_rating);
-		leftLPanel.setWidgetLeftWidth(dnmc_rating, 120.0, Unit.PX, 56.0, Unit.PX);
-		leftLPanel.setWidgetTopHeight(dnmc_rating, 332.0, Unit.PX, 16.0, Unit.PX);
+		// leftLPanel.setWidgetLeftWidth(dnmc_rating, 120.0, Unit.PX, 56.0, Unit.PX);
+		// leftLPanel.setWidgetTopHeight(dnmc_rating, 332.0, Unit.PX, 16.0, Unit.PX);
 		generalLPanel.add(rightLPanel);
 		rightLPanel.getElement().setId("rightPanel");
-		rightLPanel.setSize("", "");
+		rightLPanel.setSize("400px", "");
 		dnmc_title.setStyleName("nameBookFull");
 		dnmc_title.setDirectionEstimator(true);
 		dnmc_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		rightLPanel.add(dnmc_title);
-		rightLPanel.setWidgetLeftWidth(dnmc_title, 15.0, Unit.PX, 412.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_title, 10.0, Unit.PX, 28.0, Unit.PX);
 		lbl_author.setStyleName("labelFullNotBorder");
-		rightLPanel.add(lbl_author);
+		hPanelAuthor.add(lbl_author);
 		lbl_author.setSize("", "");
-		rightLPanel.setWidgetLeftWidth(lbl_author, 15.0, Unit.PX, 39.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_author, 44.0, Unit.PX, 19.0, Unit.PX);
 
 		for (int i = 0; i < author.size(); i++) {
 			if (i > 0) {
@@ -136,48 +153,47 @@ public class SelectedBookWidget extends Composite {
 						author.get(i).getIdAuthor()));
 			}
 		}
-		// dnmc_author.setStyleName("linkFull");
-		// dnmc_author.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		rightLPanel.add(hPanelAuthor);
-		rightLPanel.setWidgetLeftWidth(hPanelAuthor, 55.0, Unit.PX, 350.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(hPanelAuthor, 44.0, Unit.PX, 19.0, Unit.PX);
+
+		rightLPanel.add(layoutPanel_4);
+
 		lbl_id_book.setStyleName("labelFull");
 		lbl_id_book.setDirectionEstimator(false);
-		rightLPanel.add(lbl_id_book);
-		rightLPanel.setWidgetLeftWidth(lbl_id_book, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_id_book, 164.0, Unit.PX, 16.0, Unit.PX);
+
 		lbl_year_create.setStyleName("labelFull");
-		rightLPanel.add(lbl_year_create);
-		rightLPanel.setWidgetLeftWidth(lbl_year_create, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_year_create, 186.0, Unit.PX, 16.0, Unit.PX);
+		grid.setWidget(0, 0, lbl_year_create);
+		grid.setWidget(0, 1, dnmc_year_create);
 		lbl_publish.setStyleName("labelFull");
-		rightLPanel.add(lbl_publish);
-		rightLPanel.setWidgetLeftWidth(lbl_publish, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_publish, 208.0, Unit.PX, 16.0, Unit.PX);
+		grid.setWidget(1, 0, lbl_publish);
+		grid.setWidget(1, 1, dnmc_publish);
 		lbl_year_publish.setStyleName("labelFull");
-		rightLPanel.add(lbl_year_publish);
-		rightLPanel.setWidgetLeftWidth(lbl_year_publish, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_year_publish, 230.0, Unit.PX, 16.0, Unit.PX);
+
+		grid.setWidget(2, 0, lbl_year_publish);
+		grid.setWidget(2, 1, dnmc_year_publish);
+
 		lbl_isbn.setStyleName("labelFull");
-		rightLPanel.add(lbl_isbn);
-		rightLPanel.setWidgetLeftWidth(lbl_isbn, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_isbn, 252.0, Unit.PX, 16.0, Unit.PX);
+
+		grid.setWidget(3, 0, lbl_isbn);
+		grid.setWidget(3, 1, dnmc_isbn);
+
 		lbl_col_pages.setStyleName("labelFull");
-		rightLPanel.add(lbl_col_pages);
-		rightLPanel.setWidgetLeftWidth(lbl_col_pages, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_col_pages, 274.0, Unit.PX, 16.0, Unit.PX);
+
+		grid.setWidget(4, 0, lbl_col_pages);
+		grid.setWidget(4, 1, dnmc_col_pages);
+
 		lbl_cover.setStyleName("labelFull");
-		rightLPanel.add(lbl_cover);
-		rightLPanel.setWidgetLeftWidth(lbl_cover, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_cover, 296.0, Unit.PX, 16.0, Unit.PX);
+
+		grid.setWidget(5, 0, lbl_cover);
+		grid.setWidget(5, 1, dnmc_cover);
+
 		lbl_genre.setStyleName("labelFull");
 		rightLPanel.add(lbl_genre);
-		rightLPanel.setWidgetLeftWidth(lbl_genre, 15.0, Unit.PX, 160.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(lbl_genre, 142.0, Unit.PX, 16.0, Unit.PX);
-		layoutPanel_4.setStyleName("panelForSelect");
-		rightLPanel.add(layoutPanel_4);
-		rightLPanel.setWidgetLeftWidth(layoutPanel_4, 15.0, Unit.PX, 318.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(layoutPanel_4, 69.0, Unit.PX, 55.0, Unit.PX);
+		grid.setWidget(6, 0, lbl_genre);
+		grid.setWidget(6, 1, hPanelGenre);
+		rightLPanel.add(grid);
+		rightLPanel.setSpacing(15);
+		layoutPanel_4.setStyleName("panel");
+
 		lbl_text_for_data.setStyleName("textForDate");
 		layoutPanel_4.add(lbl_text_for_data);
 		layoutPanel_4.setWidgetLeftWidth(lbl_text_for_data, 12.0, Unit.PX, 129.0, Unit.PX);
@@ -190,9 +206,14 @@ public class SelectedBookWidget extends Composite {
 		layoutPanel_4.add(chooseButton);
 		layoutPanel_4.setWidgetLeftWidth(chooseButton, 191.0, Unit.PX, 115.0, Unit.PX);
 		layoutPanel_4.setWidgetTopHeight(chooseButton, 7.0, Unit.PX, 38.0, Unit.PX);
+		layoutPanel_4.setHeight("50px");
+		layoutPanel_4.setWidth("290px");
+
 		for (int i = 0; i < genre.size(); i++) {
 			if (i > 0) {
-				hPanelGenre.add(new HTML(",&nbsp"));
+				HTML tab = new HTML(",&nbsp");
+				tab.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
+				hPanelGenre.add(tab);
 				hPanelGenre.add(
 						new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
 			} else {
@@ -201,31 +222,9 @@ public class SelectedBookWidget extends Composite {
 			}
 		}
 		dnmc_id_book.setText(String.valueOf(id_book));
-		rightLPanel.add(hPanelGenre);
-		rightLPanel.setWidgetLeftWidth(hPanelGenre, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(hPanelGenre, 142.0, Unit.PX, 16.0, Unit.PX);
-		rightLPanel.add(dnmc_id_book);
-		rightLPanel.setWidgetLeftWidth(dnmc_id_book, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_id_book, 164.0, Unit.PX, 16.0, Unit.PX);
-		rightLPanel.add(dnmc_year_create);
-		rightLPanel.setWidgetLeftWidth(dnmc_year_create, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_year_create, 186.0, Unit.PX, 16.0, Unit.PX);
+
 		dnmc_publish.setStyleName("linkFull");
-		rightLPanel.add(dnmc_publish);
-		rightLPanel.setWidgetLeftWidth(dnmc_publish, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_publish, 208.0, Unit.PX, 16.0, Unit.PX);
-		rightLPanel.add(dnmc_year_publish);
-		rightLPanel.setWidgetLeftWidth(dnmc_year_publish, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_year_publish, 230.0, Unit.PX, 16.0, Unit.PX);
-		rightLPanel.add(dnmc_isbn);
-		rightLPanel.setWidgetLeftWidth(dnmc_isbn, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_isbn, 252.0, Unit.PX, 16.0, Unit.PX);
-		rightLPanel.add(dnmc_col_pages);
-		rightLPanel.setWidgetLeftWidth(dnmc_col_pages, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_col_pages, 274.0, Unit.PX, 16.0, Unit.PX);
-		rightLPanel.add(dnmc_cover);
-		rightLPanel.setWidgetLeftWidth(dnmc_cover, 178.0, Unit.PX, 264.0, Unit.PX);
-		rightLPanel.setWidgetTopHeight(dnmc_cover, 296.0, Unit.PX, 16.0, Unit.PX);
+
 		dnmc_title.setText(title);
 		link_list.setStyleName("linkFull");
 		vPanel.setSize("", "");

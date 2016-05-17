@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.librarybooks.client.BookService;
@@ -27,6 +28,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private UserView userView;
 
 	private long id;
+	private String param;
 	private String[] options = { "all", "author", "genre", "selection", "book", "search" };
 	private ArrayList<String> search_param = new ArrayList<String>();
 	private String type;
@@ -43,7 +45,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
 	public UserActivity(UserPlace place, ClientFactory clientFactory) {
-		this.info = place.getName();
+		this.info = place.getParam();
 		this.clientFactory = clientFactory;
 		parsing(info, options);
 
@@ -59,25 +61,22 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					String param_search = userView.getSearchPane().getSearchBox().getText();
 					if (!param_search.isEmpty() & !param_search.matches("[\\s]+")) {
-						goTo(new UserPlace(
-								"search=" + param_search.trim().replaceAll("[\\s]+", "\u005F")));
+						goTo(new UserPlace("search="
+								+ param_search.trim().replaceAll("[\\s]+", "\u005F") + "&p=1"));
 					}
-
-					// Window.alert(userView.getSearchPane().getSearchBox().getText());
 				}
 			}
 		});
+		// Window.alert(userView.getSearchPane().getSearchBox().getText());
 		userView.getSearchPane().getSearchButton().addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				String param_search = userView.getSearchPane().getSearchBox().getText();
 				if (!param_search.isEmpty() & !param_search.matches("[\\s]+")) {
-					goTo(new UserPlace(
-							"search=" + param_search.trim().replaceAll("[\\s]+", "\u005F")));
+					goTo(new UserPlace("search="
+							+ param_search.trim().replaceAll("[\\s]+", "\u005F") + "&p=1"));
 				}
-				// Window.alert(userView.getSearchPane().getSearchBox().getText());
-
 			}
 		});
 		showView(type);
@@ -99,6 +98,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 		for (String option : selected_option) {
 			if (ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) {
 				this.type = option;
+				this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
 				String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", "");
 				this.id = Long.valueOf(a.substring(0, a.indexOf("&")));
 				this.page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
@@ -110,10 +110,12 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 					}
 				} else {
 					if (option.equals("search")) {
-						if (ref.matches(option + "=.+[\u005F.+]*")) {
+						if (ref.matches(option + "=.+[\u005F.+]*&p=[1-9][0-9]*")) {
 							this.type = option;
-							String s = ref.replaceAll(option + "=", "").replace("\u005F", " ")
-									.trim();
+							this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
+							this.page = Integer.valueOf(ref.substring(ref.indexOf("&p=") + 3));
+							String s = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "")
+									.replaceAll("search" + "=", "").replace("\u005F", " ").trim();
 							String str[] = s.split(" ");
 							for (int i = 0; i < str.length; i++)
 								search_param.add(str[i]);
@@ -197,17 +199,17 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 				}
 
 				public void onSuccess(ArrayList<Book> books) {
+					consoleLog(String.valueOf(books.size()));
 					if (books.size() > 1)
 						ChangeViewBooksList(books);
 					else {
 						if (books.size() == 1)
 							ChangeViewBook(books.get(0));
 						else {
-							// ничего не найдено
+							userView.setView(
+									"К сожалению, с такими параметрами не найдено ни одной книги");
 						}
-
 					}
-
 				}
 			});
 			break;
@@ -220,7 +222,8 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	private void ChangeViewBooksList(ArrayList<Book> books) {
 		pageNav(books.size());
-		userView.setView(new ArrayList<Book>(books.subList(start, stop)), col_page, page, type);
+		userView.setView(new ArrayList<Book>(books.subList(start, stop)), col_page, page, type,
+				param);
 	}
 
 	private void ChangeViewBook(Book book) {
@@ -229,7 +232,6 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	private void ChangeViewERROR() {
 
-		// Label text = new Label(SERVER_ERROR);
 	}
 
 	private void pageNav(int res) {
@@ -248,4 +250,8 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 		}
 
 	}
+
+	native void consoleLog(String message) /*-{
+		console.log("me:" + message);
+	}-*/;
 }

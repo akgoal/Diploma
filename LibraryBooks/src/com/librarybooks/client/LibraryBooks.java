@@ -52,25 +52,9 @@ public class LibraryBooks implements EntryPoint {
 		PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 		historyHandler.register(placeController, eventBus, defaultPlace);
 
-		RootPanel.get("cont").add(appWidget);
+		RootPanel.get("body").add(appWidget);
 		historyHandler.handleCurrentHistory();
 
-		/* bookService.listOfGenres(new AsyncCallback<ArrayList<Genre>>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR); RootPanel.get("wrapper").add(new HTML("<p>" + SERVER_ERROR + "</p>")); }
-		 * 
-		 * public void onSuccess(ArrayList<Genre> result) { html = "<ul class=\"menu\">"; html = html.concat("<li class=\"item1\"><a href=\"#\">Жанры <span>" + result.size() + "</span></a>" + "<ul>"); for (int i = 0; i < result.size(); i++) { html = html.concat(li("genre", result.get(i).getGenre(),
-		 * result.get(i).getIdGenre(), result.get(i).getColBook())); } html = html.concat("</ul> </li>"); bookService.listOfAuthors(new AsyncCallback<ArrayList<Author>>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR); }
-		 * 
-		 * public void onSuccess(ArrayList<Author> result) { html = html.concat("<li class=\"item2\"><a href=\"#\">Авторы <span>" + result.size() + "</span></a>" + "<ul>");
-		 * 
-		 * for (int i = 0; i < result.size(); i++) { html = html.concat(li("author", result.get(i).getAuthor(), result.get(i).getIdAuthor(), result.get(i).getColBook())); } html = html.concat("</ul> </li>");
-		 * 
-		 * bookService.listOfSelections(new AsyncCallback<ArrayList<Selection>>() { public void onFailure(Throwable caught) { Label text = new Label(SERVER_ERROR); }
-		 * 
-		 * public void onSuccess(ArrayList<Selection> result) { html = html .concat("<li class=\"item3\"><a href=\"#\">Подборки <span>" + result.size() + "</span></a>" + "<ul>");
-		 * 
-		 * for (int i = 0; i < result.size(); i++) { html = html.concat(li("selection", result.get(i).getSelection(), result.get(i).getIdSelection(), result.get(i).getColBook())); } html = html.concat("</ul> </li> </ul>"); RootPanel.get("wrapper").add(new HTML(html)); // scr();
-		 * 
-		 * } }); } }); } }); */
 		Window.addWindowScrollHandler(new ScrollHandler() {
 
 			@Override
