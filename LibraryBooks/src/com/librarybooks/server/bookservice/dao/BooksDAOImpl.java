@@ -180,8 +180,10 @@ public class BooksDAOImpl implements BooksDAO {
 		org.apache.lucene.search.BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
 
 		for (String keyword : words) {
-			bqBuilder.add(qb.keyword().onFields("title", "originalTitle", "authors.name", "genres.name")
-					.matching(keyword).createQuery(), BooleanClause.Occur.MUST);
+			  bqBuilder.add(qb.keyword().fuzzy().withEditDistanceUpTo(1).onFields("title", "originalTitle",
+			  "authors.name", "genres.name") .matching(keyword).createQuery(),
+			  BooleanClause.Occur.MUST);
+			 
 		}
 		org.apache.lucene.search.BooleanQuery bquery = bqBuilder.build();
 

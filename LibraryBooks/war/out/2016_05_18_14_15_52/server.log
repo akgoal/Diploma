@@ -1,0 +1,14 @@
+[05-18 14:15:52,629, 9136] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-18 14:15:52,638, 9145] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-18 14:15:52,640, 9147] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-18 14:15:52,720, 9227] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-18 14:15:53,362, 9869] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-18 14:15:53,819, 10326] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-18 14:15:53,822, 10329] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@3d9349a0
+[05-18 14:15:54,464, 10971] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-18 14:15:55,063, 11570] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-18 14:15:56,080, 12587] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.
+[05-18 14:17:08,414, 84921] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000027: Going to reindex 78 entities
+[05-18 14:17:08,886, 85393] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000030: 50 documents indexed in 255 ms
+[05-18 14:17:08,886, 85393] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000031: Indexing speed: 196,078430 documents/second; progress: 64,10%
+[05-18 14:17:09,273, 85780] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000028: Reindexed 78 entities
