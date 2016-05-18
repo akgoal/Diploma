@@ -245,7 +245,6 @@ a{
 #sprint_top_page{
 	margin: 0 auto 10px;
     opacity: 0.5;
-    zoom: 0.6;
 }
 #sprint_top_page:hover{
     opacity: 1;

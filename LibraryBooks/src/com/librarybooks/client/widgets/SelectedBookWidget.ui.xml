@@ -1,0 +1,33 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+    xmlns:g="urn:import:com.google.gwt.user.client.ui">   
+    <g:VerticalPanel ui:field="vPanel">
+    	<g:Label ui:field="link_list">Назад</g:Label>
+    	<g:FlowPanel ui:field="generalPanel">
+    		<g:VerticalPanel ui:field="leftPanel">
+    			<g:Image ui:field="full_img"></g:Image>
+    			<g:Label ui:field="lbl_rating">Рейтинг: </g:Label>    		
+    			<g:Label ui:field="dnmc_rating">0</g:Label>   
+    		</g:VerticalPanel>   			
+    		<g:VerticalPanel ui:field="rightPanel">
+    			<g:Label ui:field="dnmc_title"></g:Label>
+    			<g:HorizontalPanel ui:field="hPanelAuthor">
+    				<g:Label ui:field="lbl_author">Автоp: </g:Label>
+    			</g:HorizontalPanel>
+    			<g:LayoutPanel ui:field="layoutPanel">
+	    			<g:layer>
+	    				<g:Label ui:field="lbl_text_for_data">Можно получить:</g:Label>
+	    			</g:layer>
+	    			<g:layer>
+	    				<g:Label ui:field="lbl_data">15.05.2016</g:Label>
+	    			</g:layer>
+	    			<g:layer>
+	    				<g:Button ui:field="chooseButton">Добавить</g:Button>
+	    			</g:layer>
+    			</g:LayoutPanel>
+				<g:Grid ui:field="grid"></g:Grid>
+    		</g:VerticalPanel>   	
+    	</g:FlowPanel>
+    	
+    </g:VerticalPanel>         
+</ui:UiBinder>

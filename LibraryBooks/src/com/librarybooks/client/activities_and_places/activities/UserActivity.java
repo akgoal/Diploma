@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -73,7 +74,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private void parsing(String ref, String[] selected_option) {
 
 		for (String option : selected_option) {
-			if (ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) {
+			if (!option.equals("search") & ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) {
 				this.type = option;
 				this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
 				String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", "");
@@ -87,18 +88,26 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 					}
 				} else {
 					if (option.equals("search")) {
-						if (ref.matches(option + "=.+[\u005F.+]*&p=[1-9][0-9]*")) {
+						// consoleLog(ref.toString());
+						if (ref.matches(option
+								+ "=[0-9A-Za-z/а-яёА-ЯЁ/]+(\u005F[0-9A-Za-z/а-яёА-ЯЁ/]+)*&p=[1-9][0-9]*")) {
+							// consoleLog("!!!");
 							this.type = option;
 							this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
 							this.page = Integer.valueOf(ref.substring(ref.indexOf("&p=") + 3));
 							String s = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "")
 									.replaceAll("search" + "=", "").replace("\u005F", " ").trim();
+							consoleLog(s);
 							String str[] = s.split(" ");
+							consoleLog(str.length + "");
 							for (int i = 0; i < str.length; i++)
 								search_param.add(str[i]);
+							// consoleLog(String.valueOf(search_param.size()));
+						} else {
 
 						}
 					}
+
 				}
 			}
 		}
@@ -176,6 +185,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 				}
 
 				public void onSuccess(ArrayList<Book> books) {
+					consoleLog(String.valueOf(search_param.size()));
 					consoleLog(String.valueOf(books.size()));
 					if (books.size() > 1)
 						ChangeViewBooksList(books);

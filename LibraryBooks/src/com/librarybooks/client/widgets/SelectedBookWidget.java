@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -15,6 +17,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
 import com.librarybooks.client.objects.Author;
@@ -23,6 +26,7 @@ import com.librarybooks.client.objects.Genre;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.ui.HTML;
@@ -31,6 +35,12 @@ import com.google.gwt.user.client.ui.HasVerticalAlignment;
 
 public class SelectedBookWidget extends Composite {
 
+	private static SelectedBookWidgetUiBinder uiBinder = GWT
+			.create(SelectedBookWidgetUiBinder.class);
+
+	interface SelectedBookWidgetUiBinder extends UiBinder<Widget, SelectedBookWidget> {
+	}
+
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
@@ -38,209 +48,223 @@ public class SelectedBookWidget extends Composite {
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
 	private Book choose_book = new Book();
-	private Button chooseButton = new Button("Добавить");
 
-	private Image full_img = new Image();
-	private Label back_book = new Label();
-	private VerticalPanel vPanel = new VerticalPanel();
-	// HorizontalPanel hPanelGenre = new HorizontalPanel();
+	@UiField
+	Button chooseButton;
+	@UiField
+	Image full_img;
+	@UiField
+	VerticalPanel vPanel;
+	@UiField
+	HorizontalPanel hPanelAuthor;
+	@UiField
+	FlowPanel generalPanel;
+	@UiField
+	VerticalPanel leftPanel;
+	@UiField
+	VerticalPanel rightPanel;
+	@UiField
+	LayoutPanel layoutPanel;
+	@UiField
+	Label lbl_rating;
+	@UiField
+	Label lbl_author;
+	@UiField
+	Label lbl_data;
+	@UiField
+	Label lbl_text_for_data;
+	@UiField
+	Label dnmc_rating;
+	@UiField
+	Label link_list;
+	@UiField
+	Label dnmc_title;
+
 	FlowPanel hPanelGenre = new FlowPanel();
-	HorizontalPanel hPanelAuthor = new HorizontalPanel();
+	LayoutPanel bottomPanel = new LayoutPanel();
 
-	private FlowPanel generalLPanel = new FlowPanel();
-	private LayoutPanel topLPanel = new LayoutPanel();
-	// private LayoutPanel leftLPanel = new LayoutPanel();
-	// private LayoutPanel rightLPanel = new LayoutPanel();
-	private VerticalPanel leftLPanel = new VerticalPanel();
-	private VerticalPanel rightLPanel = new VerticalPanel();
-	LayoutPanel bottomLPanel = new LayoutPanel();
-	LayoutPanel layoutPanel_4 = new LayoutPanel();
+	final Label lbl_id_book = new Label("Код книги");
+	final Label lbl_year_create = new Label("Год создания");
+	final Label lbl_publish = new Label("Издательство");
+	final Label lbl_year_publish = new Label("Год издания");
+	final Label lbl_isbn = new Label("ISBN");
+	final Label lbl_col_pages = new Label("Страниц");
+	final Label lbl_cover = new Label("Переплет");
+	final Label lbl_genre = new Label("Жанр");
+	final Label lbl_specific = new Label("Описание");
 
-	private Label lbl_rating = new Label("Рейтинг");
-	private Label lbl_author = new Label("Автоp:");
-	private Label lbl_id_book = new Label("Код книги");
-	private Label lbl_year_create = new Label("Год создания");
-	private Label lbl_publish = new Label("Издательство");
-	private Label lbl_year_publish = new Label("Год издания");
-	private Label lbl_isbn = new Label("ISBN");
-	private Label lbl_col_pages = new Label("Страниц");
-	private Label lbl_cover = new Label("Переплет");
-	private Label lbl_genre = new Label("Жанр");
-	private Label lbl_data = new Label("15.05.2016");
-	private Label lbl_specific = new Label("Описание");
-	private Label lbl_text_for_data = new Label("Можно получить:");
+	final Label dnmc_id_book = new Label();
+	final Label dnmc_year_create = new Label();
+	final Label dnmc_publish = new Label();
+	final Label dnmc_year_publish = new Label();
+	final Label dnmc_isbn = new Label();
+	final Label dnmc_col_pages = new Label();
+	final Label dnmc_cover = new Label();
+	final Label dnmc_specific = new Label();
 
-	private Label dnmc_rating = new Label("New label");
-	// private Label dnmc_author = new Label();
-	private Label dnmc_title = new Label();
-	private Label dnmc_id_book = new Label("");
-	private Label dnmc_year_create = new Label("2016");
-	private Label dnmc_publish = new Label("изд");
-	private Label dnmc_year_publish = new Label("2016");
-	private Label dnmc_isbn = new Label("isbn");
-	private Label dnmc_col_pages = new Label("327");
-	private Label dnmc_cover = new Label("тип");
-	private Label dnmc_specific = new Label();
-
-	private Label link_list = new Label("Назад");
-
-	private HTML Html_br = new HTML("<hr />", true);
+	final HTML Html_br = new HTML("<hr />", true);
 
 	public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
-			ArrayList<Genre> genre, String img_src) {
+			ArrayList<Genre> genre, String img_src, String year_create, String publish,
+			String year_publish, String isbn, String col_pages, String cover, String specific) {
 
-		// img_src = GWT.getHostPageBaseURL() + "img/template.jpg";
+		// String year_create = "1994";
+		// String publish = "ЭКСМО";
+		// String year_publish = "2015";
+		// String isbn = "12323";
+		// String col_pages = "356";
+		// String cover = "Мягкий";
+		// String specific = "hgfhdfgdfgkdfhlgh jhdjkfhvdfjhk jdhjgk dfhgjh jfjgdjfhgjdfh jdfhjkgdf ";
+
+		initWidget(uiBinder.createAndBindUi(this));
+		Grid grid = new Grid(7, 2);
+
+		lbl_rating.setText("Рейтинг:");
+		dnmc_rating.setText("1");
 
 		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
 
 		choose_book.setBook(id_book, author, title, genre, img_src);
 
-		vPanel.setStyleName("panelForSelect");
-		vPanel.setSize("", "");
-		generalLPanel.setSize("", "");
-
-		Grid grid = new Grid(7, 2);
-		grid.getRowFormatter().setVerticalAlign(6, HasVerticalAlignment.ALIGN_TOP);
-
-		// int numRows = grid.getRowCount();
-		// int numColumns = grid.getColumnCount();
-		// for (int row = 0; row < numRows; row++) {
-		// for (int col = 0; col < numColumns; col++) {
-		// grid.setWidget(row, col, new Image(Showcase.images.gwtLogo()));
-		// }
-		// }
-
-		vPanel.add(link_list);
-		// topLPanel.add(link_list);
-		// topLPanel.setWidgetLeftWidth(link_list, 20.0, Unit.PX, 140.0, Unit.PX);
-		// topLPanel.setWidgetTopHeight(link_list, 14.0, Unit.PX, 16.0, Unit.PX);
-
-		leftLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
-		rightLPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
-		vPanel.add(generalLPanel);
-		generalLPanel.add(leftLPanel);
-		leftLPanel.setSize("230px", "");
-		full_img.setStyleName("imageFull");
-		leftLPanel.add(full_img);
 		full_img.setUrl(img_src);
-		full_img.setSize("200px", "");
-		leftLPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		leftLPanel.setWidth("250px");
-		leftLPanel.add(lbl_rating);
-		// leftLPanel.setWidgetLeftWidth(lbl_rating, 58.0, Unit.PX, 56.0, Unit.PX);
-		// leftLPanel.setWidgetTopHeight(lbl_rating, 332.0, Unit.PX, 16.0, Unit.PX);
-		leftLPanel.add(dnmc_rating);
-		// leftLPanel.setWidgetLeftWidth(dnmc_rating, 120.0, Unit.PX, 56.0, Unit.PX);
-		// leftLPanel.setWidgetTopHeight(dnmc_rating, 332.0, Unit.PX, 16.0, Unit.PX);
-		generalLPanel.add(rightLPanel);
-		rightLPanel.getElement().setId("rightPanel");
-		rightLPanel.setSize("400px", "");
+
+		if (title != null)
+			dnmc_title.setText(title);
+		if (author != null) {
+			for (int i = 0; i < author.size(); i++) {
+				if (i > 0) {
+					hPanelAuthor.add(new HTML(",&nbsp"));
+					hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
+							author.get(i).getIdAuthor()));
+				} else {
+					hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
+							author.get(i).getIdAuthor()));
+				}
+			}
+		} else
+			hPanelAuthor.add(new Label("Неизвестен"));
+
+		int row = 0;
+		if (year_create != null) {
+			dnmc_year_create.setText(year_create);
+			grid.setWidget(row, 0, lbl_year_create);
+			grid.setWidget(row++, 1, dnmc_year_create);
+		}
+		if (publish != null) {
+			dnmc_publish.setText(publish);
+			grid.setWidget(row, 0, lbl_publish);
+			grid.setWidget(row++, 1, dnmc_publish);
+		}
+
+		if (year_publish != null) {
+			dnmc_year_publish.setText(year_publish);
+			grid.setWidget(row, 0, lbl_year_publish);
+			grid.setWidget(row++, 1, dnmc_year_publish);
+		}
+
+		if (isbn != null) {
+			dnmc_isbn.setText(isbn);
+			grid.setWidget(row, 0, lbl_isbn);
+			grid.setWidget(row++, 1, dnmc_isbn);
+		}
+
+		if (col_pages != null) {
+			dnmc_col_pages.setText(col_pages + "");
+			grid.setWidget(row, 0, lbl_col_pages);
+			grid.setWidget(row++, 1, dnmc_col_pages);
+		}
+
+		if (cover != null) {
+			dnmc_cover.setText(cover);
+			grid.setWidget(row, 0, lbl_cover);
+			grid.setWidget(row++, 1, dnmc_cover);
+		}
+
+		if (genre != null) {
+			for (int i = 0; i < genre.size(); i++) {
+				if (i > 0) {
+					HTML tab = new HTML(",&nbsp");
+					tab.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
+					hPanelGenre.add(tab);
+					hPanelGenre.add(new ListLabel("genre", genre.get(i).getGenre(),
+							genre.get(i).getIdGenre()));
+				} else {
+					hPanelGenre.add(new ListLabel("genre", genre.get(i).getGenre(),
+							genre.get(i).getIdGenre()));
+				}
+			}
+			grid.setWidget(row, 0, lbl_genre);
+			grid.setWidget(row++, 1, hPanelGenre);
+		}
+		if (row > 0) {
+			rightPanel.add(grid);
+		}
+
+		if (specific != null) {
+			bottomPanel.add(Html_br);
+			bottomPanel.add(lbl_specific);
+			dnmc_specific.setText(specific);
+			vPanel.add(bottomPanel);
+			vPanel.add(dnmc_specific);
+
+			bottomPanel.setWidgetLeftWidth(lbl_specific, 10.0, Unit.PX, 92.0, Unit.PX);
+			bottomPanel.setWidgetTopHeight(lbl_specific, 24.0, Unit.PX, 35.0, Unit.PX);
+		}
+
+		layoutPanel.setWidgetLeftWidth(chooseButton, 191.0, Unit.PX, 115.0, Unit.PX);
+		layoutPanel.setWidgetTopHeight(chooseButton, 7.0, Unit.PX, 38.0, Unit.PX);
+
+		vPanel.setStyleName("panelForSelect");
+		full_img.setStyleName("imageFull");
+		rightPanel.getElement().setId("rightPanel");
 		dnmc_title.setStyleName("nameBookFull");
-		dnmc_title.setDirectionEstimator(true);
-		dnmc_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		rightLPanel.add(dnmc_title);
 		lbl_author.setStyleName("labelFullNotBorder");
-		hPanelAuthor.add(lbl_author);
-		lbl_author.setSize("", "");
-
-		for (int i = 0; i < author.size(); i++) {
-			if (i > 0) {
-				hPanelAuthor.add(new HTML(",&nbsp"));
-				hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
-						author.get(i).getIdAuthor()));
-			} else {
-				hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
-						author.get(i).getIdAuthor()));
-			}
-		}
-		rightLPanel.add(hPanelAuthor);
-
-		rightLPanel.add(layoutPanel_4);
-
-		lbl_id_book.setStyleName("labelFull");
-		lbl_id_book.setDirectionEstimator(false);
-
-		lbl_year_create.setStyleName("labelFull");
-		grid.setWidget(0, 0, lbl_year_create);
-		grid.setWidget(0, 1, dnmc_year_create);
-		lbl_publish.setStyleName("labelFull");
-		grid.setWidget(1, 0, lbl_publish);
-		grid.setWidget(1, 1, dnmc_publish);
-		lbl_year_publish.setStyleName("labelFull");
-
-		grid.setWidget(2, 0, lbl_year_publish);
-		grid.setWidget(2, 1, dnmc_year_publish);
-
-		lbl_isbn.setStyleName("labelFull");
-
-		grid.setWidget(3, 0, lbl_isbn);
-		grid.setWidget(3, 1, dnmc_isbn);
-
-		lbl_col_pages.setStyleName("labelFull");
-
-		grid.setWidget(4, 0, lbl_col_pages);
-		grid.setWidget(4, 1, dnmc_col_pages);
-
-		lbl_cover.setStyleName("labelFull");
-
-		grid.setWidget(5, 0, lbl_cover);
-		grid.setWidget(5, 1, dnmc_cover);
-
-		lbl_genre.setStyleName("labelFull");
-		rightLPanel.add(lbl_genre);
-		grid.setWidget(6, 0, lbl_genre);
-		grid.setWidget(6, 1, hPanelGenre);
-		rightLPanel.add(grid);
-		rightLPanel.setSpacing(15);
-		layoutPanel_4.setStyleName("panel");
-
-		lbl_text_for_data.setStyleName("textForDate");
-		layoutPanel_4.add(lbl_text_for_data);
-		layoutPanel_4.setWidgetLeftWidth(lbl_text_for_data, 12.0, Unit.PX, 129.0, Unit.PX);
-		layoutPanel_4.setWidgetTopHeight(lbl_text_for_data, 7.0, Unit.PX, 16.0, Unit.PX);
-		lbl_data.setStyleName("textDate");
-		layoutPanel_4.add(lbl_data);
-		layoutPanel_4.setWidgetTopHeight(lbl_data, 29.0, Unit.PX, 16.0, Unit.PX);
-		layoutPanel_4.setWidgetLeftWidth(lbl_data, 12.0, Unit.PX, 106.0, Unit.PX);
-		chooseButton.setStyleName("buttonAddIn");
-		layoutPanel_4.add(chooseButton);
-		layoutPanel_4.setWidgetLeftWidth(chooseButton, 191.0, Unit.PX, 115.0, Unit.PX);
-		layoutPanel_4.setWidgetTopHeight(chooseButton, 7.0, Unit.PX, 38.0, Unit.PX);
-		layoutPanel_4.setHeight("50px");
-		layoutPanel_4.setWidth("290px");
-
-		for (int i = 0; i < genre.size(); i++) {
-			if (i > 0) {
-				HTML tab = new HTML(",&nbsp");
-				tab.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
-				hPanelGenre.add(tab);
-				hPanelGenre.add(
-						new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
-			} else {
-				hPanelGenre.add(
-						new ListLabel("genre", genre.get(i).getGenre(), genre.get(i).getIdGenre()));
-			}
-		}
-		dnmc_id_book.setText(String.valueOf(id_book));
-
 		dnmc_publish.setStyleName("linkFull");
-
-		dnmc_title.setText(title);
 		link_list.setStyleName("linkFull");
-		vPanel.setSize("", "");
-		vPanel.add(bottomLPanel);
-		bottomLPanel.setSize("", "59px");
-		bottomLPanel.add(Html_br);
 		lbl_specific.setStyleName("labelText");
-		bottomLPanel.add(lbl_specific);
-		bottomLPanel.setWidgetLeftWidth(lbl_specific, 10.0, Unit.PX, 92.0, Unit.PX);
-		bottomLPanel.setWidgetTopHeight(lbl_specific, 24.0, Unit.PX, 35.0, Unit.PX);
-		dnmc_specific.setText(
-				"\tNew label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label\r\n\tNew label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New label New labelNew label New label New label New label New label New label New label New label New label New label New label New label New label New label New label.");
-		dnmc_specific.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		dnmc_specific.setStyleName("textForBook");
-		vPanel.add(dnmc_specific);
+		layoutPanel.setStyleName("panel");
+		lbl_text_for_data.setStyleName("textForDate");
+		lbl_data.setStyleName("textDate");
+		chooseButton.setStyleName("buttonAddIn");
+		lbl_id_book.setStyleName("labelFull");
+		lbl_year_create.setStyleName("labelFull");
+		lbl_publish.setStyleName("labelFull");
+		lbl_year_publish.setStyleName("labelFull");
+		lbl_isbn.setStyleName("labelFull");
+		lbl_col_pages.setStyleName("labelFull");
+		lbl_cover.setStyleName("labelFull");
+		lbl_genre.setStyleName("labelFull");
+
+		layoutPanel.setHeight("50px");
+		layoutPanel.setWidth("290px");
+		lbl_author.setSize("", "");
+		vPanel.setSize("", "");
+		generalPanel.setSize("", "");
+		leftPanel.setSize("230px", "");
+		full_img.setSize("200px", "");
+		rightPanel.setSize("400px", "");
+		vPanel.setSize("", "");
+		bottomPanel.setSize("", "59px");
 		dnmc_specific.setSize("650", "");
+
+		link_list.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
+		dnmc_rating.getElement().getStyle().setTextAlign(TextAlign.CENTER);
+		lbl_rating.getElement().getStyle().setTextAlign(TextAlign.CENTER);
+		rightPanel.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
+		leftPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		dnmc_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		dnmc_specific.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+		grid.getRowFormatter().setVerticalAlign(6, HasVerticalAlignment.ALIGN_TOP);
+		dnmc_title.setDirectionEstimator(true);
+		lbl_id_book.setDirectionEstimator(false);
+		leftPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
+		rightPanel.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
+		rightPanel.setSpacing(15);
+		layoutPanel.setWidgetLeftWidth(lbl_text_for_data, 12.0, Unit.PX, 129.0, Unit.PX);
+		layoutPanel.setWidgetTopHeight(lbl_text_for_data, 7.0, Unit.PX, 16.0, Unit.PX);
+		layoutPanel.setWidgetTopHeight(lbl_data, 29.0, Unit.PX, 16.0, Unit.PX);
+		layoutPanel.setWidgetLeftWidth(lbl_data, 12.0, Unit.PX, 106.0, Unit.PX);
 
 		link_list.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -253,8 +277,6 @@ public class SelectedBookWidget extends Composite {
 				chooseBookToServer();
 			}
 		});
-
-		initWidget(vPanel);
 
 	}
 
@@ -270,7 +292,7 @@ public class SelectedBookWidget extends Composite {
 
 			public void onSuccess(Book result) {
 
-				back_book.setText(result.getAuthor() + " " + result.getTitle());
+				// back_book.setText(result.getAuthor() + " " + result.getTitle());
 			}
 		});
 		chooseButton.setFocus(false);

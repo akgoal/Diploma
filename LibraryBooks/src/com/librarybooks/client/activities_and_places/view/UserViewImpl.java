@@ -245,7 +245,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		ArrayList<Genre> genre = new ArrayList<Genre>(book.getGenre());
 		String img_src = new String(book.getImg());
 		long id_book = book.getIdBook();
-		SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src);
+		Window.alert("1");
+		SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, null,
+				"ЭКСМО", "1999", null, "190", "Мягкая", null);
+		Window.alert("2");
 		panel.add(bb);
 		fPanel.add(panel);
 	}
