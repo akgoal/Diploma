@@ -55,30 +55,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
 
 		userView = clientFactory.getUserView();
-		userView.getSearchPane().getSearchBox().addKeyUpHandler(new KeyUpHandler() {
-			@Override
-			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					String param_search = userView.getSearchPane().getSearchBox().getText();
-					if (!param_search.isEmpty() & !param_search.matches("[\\s]+")) {
-						goTo(new UserPlace("search="
-								+ param_search.trim().replaceAll("[\\s]+", "\u005F") + "&p=1"));
-					}
-				}
-			}
-		});
-		// Window.alert(userView.getSearchPane().getSearchBox().getText());
-		userView.getSearchPane().getSearchButton().addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				String param_search = userView.getSearchPane().getSearchBox().getText();
-				if (!param_search.isEmpty() & !param_search.matches("[\\s]+")) {
-					goTo(new UserPlace("search="
-							+ param_search.trim().replaceAll("[\\s]+", "\u005F") + "&p=1"));
-				}
-			}
-		});
 		showView(type);
 		userView.setPresenter(this);
 		containerWidget.setWidget(userView.asWidget());

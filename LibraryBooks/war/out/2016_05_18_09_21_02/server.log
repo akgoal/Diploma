@@ -1,0 +1,16 @@
+[05-18 09:21:03,059, 11280] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-18 09:21:03,067, 11288] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-18 09:21:03,069, 11290] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-18 09:21:03,208, 11429] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-18 09:21:03,871, 12092] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-18 09:21:04,554, 12775] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-18 09:21:04,561, 12782] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@105c46b
+[05-18 09:21:05,638, 13859] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-18 09:21:06,168, 14389] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-18 09:21:07,272, 15493] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.
+[05-18 09:21:07,586, 15807] org.hibernate.search.store.impl.DirectoryProviderHelper HSEARCH000041: Index directory not found, creating: '\lucene\indexes'
+[05-18 09:21:07,613, 15834] org.hibernate.search.store.impl.DirectoryProviderHelper HSEARCH000041: Index directory not found, creating: '\lucene\indexes\com.librarybooks.server.bookservice.datasets.BooksDataSet'
+[05-18 09:22:06,019, 74240] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000027: Going to reindex 78 entities
+[05-18 09:22:06,935, 75156] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000030: 50 documents indexed in 376 ms
+[05-18 09:22:06,936, 75157] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000031: Indexing speed: 132,978729 documents/second; progress: 64,10%
+[05-18 09:22:07,902, 76123] org.hibernate.search.batchindexing.impl.SimpleIndexingProgressMonitor HSEARCH000028: Reindexed 78 entities
