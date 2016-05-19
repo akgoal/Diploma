@@ -161,7 +161,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 				}
 
 				public void onSuccess(String res) {
-					title = "<h3>Книги по жанру \"" + res + "\"</h3>";
+					title = "<h3>Книги жанра \"" + res + "\"</h3>";
 					bookService.findBooksByGenreBook(id, new AsyncCallback<ArrayList<Book>>() {
 						public void onFailure(Throwable caught) {
 							ChangeViewERROR();

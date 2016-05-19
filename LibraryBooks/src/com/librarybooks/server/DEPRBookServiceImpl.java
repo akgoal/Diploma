@@ -37,7 +37,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
 			book.setGenre(lg);
 
-			book.setImg("src");
+			book.setImg("template.jpg");
 			list.add(book);
 		}
 
@@ -64,7 +64,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
 			book.setGenre(lg);
 
-			book.setImg("src");
+			book.setImg("template.jpg");
 			list.add(book);
 		}
 
@@ -91,7 +91,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 			lg.add(new Genre("Жанр " + (id_genre + 1), (id_genre + 1)));
 			book.setGenre(lg);
 
-			book.setImg("src");
+			book.setImg("template.jpg");
 			list.add(book);
 		}
 
@@ -143,7 +143,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		if (id_book % 2 == 0)
 			book.setSpecific("Описание oписание oписание oписание oписание");
 
-		book.setImg("src");
+		book.setImg("template.jpg");
 
 		return book;
 	}
@@ -217,7 +217,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
 			book.setGenre(lg);
 
-			book.setImg("src");
+			book.setImg("template.jpg");
 			books.add(book);
 		}
 
