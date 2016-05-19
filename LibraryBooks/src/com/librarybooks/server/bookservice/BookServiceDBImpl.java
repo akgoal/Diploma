@@ -116,6 +116,30 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		return books;
 	}
 	
+	@Override
+	public String titleByIdSelection(long id) {
+		SelectionsDataSet sds = dao.getSelectionById(id);
+		if (sds != null)
+			return sds.getName();
+		else return null;
+	}
+
+	@Override
+	public String titleByIdGenre(long id) {
+		GenresDataSet gds = dao.getGenreById(id);
+		if (gds != null)
+			return gds.getName();
+		else return null;
+	}
+
+	@Override
+	public String titleByIdAuthor(long id) {
+		AuthorsDataSet ads = dao.getAuthorById(id);
+		if (ads != null)
+			return ads.getName();
+		else return null;
+	}
+	
 	@SuppressWarnings("unused")
 	private Book convertToDTODummy(BooksDataSet booksDataSet) {
 		ArrayList<Author> authors = new ArrayList<>();
@@ -148,6 +172,13 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		book.setTitle(booksDataSet.getTitle());
 		book.setGenre(genres);
 		book.setImg(booksDataSet.getImageName());
+		book.setCol_pages(""+booksDataSet.getPages());
+		book.setCover(booksDataSet.getBinding().getName());
+		book.setIsbn(booksDataSet.getIsbn());
+		book.setPublish(booksDataSet.getPublisher().getName());
+		book.setSpecific(booksDataSet.getDescription());
+		book.setYear_create("" + booksDataSet.getCreationYear());
+		book.setYear_publish("" + booksDataSet.getPublicationYear());
 
 		return book;
 	}

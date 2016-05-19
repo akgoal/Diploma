@@ -96,6 +96,13 @@ public class BooksDAOImpl implements BooksDAO {
 		criteria.add(Restrictions.idEq(genreId));
 		return initializeLazyMembers((GenresDataSet) criteria.uniqueResult());
 	}
+	
+	@Override
+	public SelectionsDataSet getSelectionById(long selectionId) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SelectionsDataSet.class);
+		criteria.add(Restrictions.idEq(selectionId));
+		return initializeLazyMembers((SelectionsDataSet) criteria.uniqueResult());
+	}
 
 	@Override
 	public void addAuthor(AuthorsDataSet author) {

@@ -26,6 +26,7 @@ public interface BooksDAO {
     
     AuthorsDataSet getAuthorById(long authorId);
     GenresDataSet getGenreById(long genreId);
+    SelectionsDataSet getSelectionById(long selectionId);
     
     ArrayList<AuthorsDataSet> getAllAuthors();
     ArrayList<GenresDataSet> getAllGenres();
