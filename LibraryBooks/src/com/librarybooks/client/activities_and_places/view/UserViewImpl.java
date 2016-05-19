@@ -240,14 +240,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		sprintHPanel.clear();
 		hPanel.clear();
 		FlowPanel panel = new FlowPanel();
-		String title = new String(book.getTitle());
-		ArrayList<Author> author = new ArrayList<Author>(book.getAuthor());
-		ArrayList<Genre> genre = new ArrayList<Genre>(book.getGenre());
-		String img_src = new String(book.getImg());
-		long id_book = book.getIdBook();
-		Window.alert("1");
-		SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, null,
-				"ЭКСМО", "1999", null, "190", "Мягкая", null);
+		/* String title = new String(book.getTitle()); ArrayList<Author> author = new ArrayList<Author>(book.getAuthor()); ArrayList<Genre> genre = new ArrayList<Genre>(book.getGenre()); String img_src = new String(book.getImg()); long id_book = book.getIdBook(); Window.alert("1"); //
+		 * SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, null, // "ЭКСМО", "1999", null, "190", "Мягкая", null); // SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, // book.getYear_create(), book.getPublish(),
+		 * book.getYear_publish(), book.getIsbn(), // book.getCol_pages(), book.getCover(), book.getSpecific()); */
+		SelectedBookWidget bb = new SelectedBookWidget(book);
 		Window.alert("2");
 		panel.add(bb);
 		fPanel.add(panel);

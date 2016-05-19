@@ -124,8 +124,9 @@ public class BookWidget extends Composite implements ClickHandler {
 
 	public void chooseBookToServer() {
 
-		Book callInput = new Book(this.choose_book.getAuthor(), this.choose_book.getTitle(),
-				this.choose_book.getGenre(), this.choose_book.getImg());
+		Book callInput = new Book(this.choose_book.getIdBook(), this.choose_book.getAuthor(),
+				this.choose_book.getTitle(), this.choose_book.getGenre(),
+				this.choose_book.getImg());
 		bookService.bookToServer(callInput, new AsyncCallback<Book>() {
 			public void onFailure(Throwable caught) {
 				Label text = new Label(SERVER_ERROR);

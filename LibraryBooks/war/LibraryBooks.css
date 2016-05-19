@@ -302,20 +302,6 @@ box-shadow: 0px 0px 19px -2px rgba(0,0,0,0.5);
 	color: #153643; 
 }
 
-img:after   { 
-	position: relative;
-	top: 50px;
-	padding-top: 50px;
-	text-align: center;
-	content:"Изображение еще не добавлено или произошла проблемма с загрузкой"; 
-	}
-img::after  {
-	position: relative;
-	top: 50px;
-	text-align: center;
-	content:"Изображение еще не добавлено или произошла проблемма с загрузкой"; 
-	} /* New CSS3 standard notation */
-
 
 #info{
 	display: block; 

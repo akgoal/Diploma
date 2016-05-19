@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.ErrorEvent;
+import com.google.gwt.event.dom.client.ErrorHandler;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.History;
@@ -23,6 +27,9 @@ import com.librarybooks.client.BookServiceAsync;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
+
+import sun.util.calendar.Era;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.dom.client.Style.Display;
@@ -104,17 +111,23 @@ public class SelectedBookWidget extends Composite {
 
 	final HTML Html_br = new HTML("<hr />", true);
 
-	public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
-			ArrayList<Genre> genre, String img_src, String year_create, String publish,
-			String year_publish, String isbn, String col_pages, String cover, String specific) {
+	// public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
+	// ArrayList<Genre> genre, String img_src, String year_create, String publish,
+	// String year_publish, String isbn, String col_pages, String cover, String specific)
+	public SelectedBookWidget(Book book) {
 
-		// String year_create = "1994";
-		// String publish = "ЭКСМО";
-		// String year_publish = "2015";
-		// String isbn = "12323";
-		// String col_pages = "356";
-		// String cover = "Мягкий";
-		// String specific = "hgfhdfgdfgkdfhlgh jhdjkfhvdfjhk jdhjgk dfhgjh jfjgdjfhgjdfh jdfhjkgdf ";
+		long id_book = book.getIdBook();
+		ArrayList<Author> author = book.getAuthor();
+		String title = book.getTitle();
+		ArrayList<Genre> genre = book.getGenre();
+		String img_src = book.getImg();
+		String year_create = book.getYear_create();
+		String publish = book.getPublish();
+		String year_publish = book.getYear_publish();
+		String isbn = book.getIsbn();
+		String col_pages = book.getCol_pages();
+		String cover = book.getCover();
+		String specific = book.getSpecific();
 
 		initWidget(uiBinder.createAndBindUi(this));
 		Grid grid = new Grid(7, 2);
@@ -242,7 +255,23 @@ public class SelectedBookWidget extends Composite {
 		vPanel.setSize("", "");
 		generalPanel.setSize("", "");
 		leftPanel.setSize("230px", "");
-		full_img.setSize("200px", "");
+		full_img.addErrorHandler(new ErrorHandler() {
+
+			@Override
+			public void onError(ErrorEvent event) {
+				full_img.setSize("200px", "300px");
+
+			}
+		});
+		full_img.addLoadHandler(new LoadHandler() {
+
+			@Override
+			public void onLoad(LoadEvent event) {
+				full_img.setSize("200px", "");
+
+			}
+		});
+
 		rightPanel.setSize("400px", "");
 		vPanel.setSize("", "");
 		bottomPanel.setSize("", "59px");
@@ -282,8 +311,9 @@ public class SelectedBookWidget extends Composite {
 
 	public void chooseBookToServer() {
 
-		Book callInput = new Book(this.choose_book.getAuthor(), this.choose_book.getTitle(),
-				this.choose_book.getGenre(), this.choose_book.getImg());
+		Book callInput = new Book(this.choose_book.getIdBook(), this.choose_book.getAuthor(),
+				this.choose_book.getTitle(), this.choose_book.getGenre(),
+				this.choose_book.getImg());
 		bookService.bookToServer(callInput, new AsyncCallback<Book>() {
 			public void onFailure(Throwable caught) {
 				Label text = new Label(SERVER_ERROR);

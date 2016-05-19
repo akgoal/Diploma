@@ -134,6 +134,14 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		lg.add(new Genre("Жанр " + id_book, id_book));
 		lg.add(new Genre("Жанр " + (id_book + 1), (id_book + 1)));
 		book.setGenre(lg);
+		book.setYear_create((1970 + id_book) + "");
+		book.setPublish("ЭКСМО");
+		book.setYear_publish((1971 + id_book) + "");
+		book.setIsbn("12323");
+		book.setCol_pages((356 + id_book) + "");
+		book.setCover("Мягкий");
+		if (id_book % 2 == 0)
+			book.setSpecific("Описание oписание oписание oписание oписание");
 
 		book.setImg("src");
 

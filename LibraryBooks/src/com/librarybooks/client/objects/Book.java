@@ -12,15 +12,14 @@ public class Book implements Serializable {
 	private ArrayList<Genre> genre;
 	private String img;
 	private long id_book;
-	// private int year_create;
-	// private String publish;
-	// private int year_publish;
-	// private String isbn;
-	// private int col_pages;
-	// private String cover;
-	// private String specific;
+	private String year_create;
+	private String publish;
+	private String year_publish;
+	private String isbn;
+	private String col_pages;
+	private String cover;
+	private String specific;
 
-	// новый
 	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img) {
 		this.id_book = id_book;
@@ -29,24 +28,13 @@ public class Book implements Serializable {
 		this.genre = genre;
 		this.img = img;
 		this.id_book = id_book;
-	}
-
-	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
-			String img, int year_create, String publish, int year_publish, String isbn,
-			int col_pages, String cover, String specific) {
-		this.id_book = id_book;
-		this.author = author;
-		this.title = title;
-		this.genre = genre;
-		this.img = img;
-		this.id_book = id_book;
-		// this.year_create = year_create;
-		// this.publish = publish;
-		// this.year_publish = year_publish;
-		// this.isbn = isbn;
-		// this.col_pages = col_pages;
-		// this.cover = cover;
-		// this.specific = specific;
+		this.year_create = null;
+		this.publish = null;
+		this.year_publish = null;
+		this.isbn = null;
+		this.col_pages = null;
+		this.cover = null;
+		this.specific = null;
 	}
 
 	public void setBook(long id_book, ArrayList<Author> author, String title,
@@ -57,32 +45,13 @@ public class Book implements Serializable {
 		this.genre = genre;
 		this.img = img;
 		this.id_book = id_book;
-	}
-
-	public void setBook(long id_book, ArrayList<Author> author, String title,
-			ArrayList<Genre> genre, String img, int year_create, String publish, int year_publish,
-			String isbn, int col_pages, String cover, String specific) {
-		this.id_book = id_book;
-		this.author = author;
-		this.title = title;
-		this.genre = genre;
-		this.img = img;
-		this.id_book = id_book;
-		// this.year_create = year_create;
-		// this.publish = publish;
-		// this.year_publish = year_publish;
-		// this.isbn = isbn;
-		// this.col_pages = col_pages;
-		// this.cover = cover;
-		// this.specific = specific;
-	}
-
-	// этот конструктор заменить новым
-	public Book(ArrayList<Author> author, String title, ArrayList<Genre> genre, String img) {
-		this.author = author;
-		this.title = title;
-		this.genre = genre;
-		this.img = img;
+		this.year_create = null;
+		this.publish = null;
+		this.year_publish = null;
+		this.isbn = null;
+		this.col_pages = null;
+		this.cover = null;
+		this.specific = null;
 	}
 
 	public Book() {
@@ -135,6 +104,62 @@ public class Book implements Serializable {
 	public void setIdBook(long id_book) {
 		this.id_book = id_book;
 
+	}
+
+	public String getYear_create() {
+		return year_create;
+	}
+
+	public void setYear_create(String year_create) {
+		this.year_create = year_create;
+	}
+
+	public String getPublish() {
+		return publish;
+	}
+
+	public void setPublish(String publish) {
+		this.publish = publish;
+	}
+
+	public String getYear_publish() {
+		return year_publish;
+	}
+
+	public void setYear_publish(String year_publish) {
+		this.year_publish = year_publish;
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+	public String getCol_pages() {
+		return col_pages;
+	}
+
+	public void setCol_pages(String col_pages) {
+		this.col_pages = col_pages;
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
+	}
+
+	public String getSpecific() {
+		return specific;
+	}
+
+	public void setSpecific(String specific) {
+		this.specific = specific;
 	}
 
 }

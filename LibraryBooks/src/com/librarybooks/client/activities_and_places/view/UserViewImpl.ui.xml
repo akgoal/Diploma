@@ -34,6 +34,7 @@
 		    <div id="cont_list">
 			    <div id="listBook">
 			     	<g:VerticalPanel ui:field="vPanel">
+			     		<g:HorizontalPanel ui:field="titlePanel"></g:HorizontalPanel>
 		                <g:HorizontalPanel ui:field="hPanel">
 		                    <!--  <g:Button ui:field="button">send</g:Button>    -->               
 		                </g:HorizontalPanel>     	                         
