@@ -21,6 +21,24 @@ public class Book implements Serializable {
 	private String specific;
 
 	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
+			String img, String year_create, String publish, String year_publish, String isbn,
+			String col_pages, String cover, String specific) {
+		this.id_book = id_book;
+		this.author = author;
+		this.title = title;
+		this.genre = genre;
+		this.img = img;
+		this.id_book = id_book;
+		this.year_create = year_create;
+		this.publish = publish;
+		this.year_publish = year_publish;
+		this.isbn = isbn;
+		this.col_pages = col_pages;
+		this.cover = cover;
+		this.specific = specific;
+	}
+
+	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img) {
 		this.id_book = id_book;
 		this.author = author;
@@ -52,6 +70,24 @@ public class Book implements Serializable {
 		this.col_pages = null;
 		this.cover = null;
 		this.specific = null;
+	}
+
+	public void setBook(long id_book, ArrayList<Author> author, String title,
+			ArrayList<Genre> genre, String img, String year_create, String publish,
+			String year_publish, String isbn, String col_pages, String cover, String specific) {
+		this.id_book = id_book;
+		this.author = author;
+		this.title = title;
+		this.genre = genre;
+		this.img = img;
+		this.id_book = id_book;
+		this.year_create = year_create;
+		this.publish = publish;
+		this.year_publish = year_publish;
+		this.isbn = isbn;
+		this.col_pages = col_pages;
+		this.cover = cover;
+		this.specific = specific;
 	}
 
 	public Book() {
