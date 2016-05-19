@@ -224,4 +224,21 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		return books;
 	}
 
+	@Override
+	public String titleByIdSelection(long id) {
+		return "Подборка " + id;
+	}
+
+	@Override
+	public String titleByIdGenre(long id) {
+		// TODO Auto-generated method stub
+		return "Жанр " + id;
+	}
+
+	@Override
+	public String titleByIdAuthor(long id) {
+		// TODO Auto-generated method stub
+		return "Иванов И.И. " + id;
+	}
+
 }

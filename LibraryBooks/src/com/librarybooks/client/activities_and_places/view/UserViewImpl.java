@@ -62,6 +62,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	@UiField
 	HTMLPanel menuBar;
 	@UiField
+	HorizontalPanel titlePanel;
+	@UiField
 	HorizontalPanel hPanel;
 	@UiField
 	HorizontalPanel sprintHPanel;
@@ -204,11 +206,16 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	}
 
 	@Override
-	public void setView(ArrayList<Book> books, int col_page, int page, String type, String param) {
+	public void setView(ArrayList<Book> books, int col_page, int page, String type, String param,
+			String html_title) {
 
 		fPanel.clear();
 		sprintHPanel.clear();
 		hPanel.clear();
+		titlePanel.clear();
+		if (html_title != null)
+			titlePanel.add(new HTML(html_title));
+
 		pageNav(col_page, page, param);
 		FlowPanel panel = new FlowPanel();
 		for (int i = 0; i < books.size(); i++) {
@@ -239,12 +246,12 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		fPanel.clear();
 		sprintHPanel.clear();
 		hPanel.clear();
+		titlePanel.clear();
 		FlowPanel panel = new FlowPanel();
 		/* String title = new String(book.getTitle()); ArrayList<Author> author = new ArrayList<Author>(book.getAuthor()); ArrayList<Genre> genre = new ArrayList<Genre>(book.getGenre()); String img_src = new String(book.getImg()); long id_book = book.getIdBook(); Window.alert("1"); //
 		 * SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, null, // "ЭКСМО", "1999", null, "190", "Мягкая", null); // SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, // book.getYear_create(), book.getPublish(),
 		 * book.getYear_publish(), book.getIsbn(), // book.getCol_pages(), book.getCover(), book.getSpecific()); */
 		SelectedBookWidget bb = new SelectedBookWidget(book);
-		Window.alert("2");
 		panel.add(bb);
 		fPanel.add(panel);
 	}

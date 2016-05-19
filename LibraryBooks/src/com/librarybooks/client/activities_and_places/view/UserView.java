@@ -17,7 +17,8 @@ import com.librarybooks.client.widgets.SearchPane;
 public interface UserView extends IsWidget {
 	void setView(String ref);
 
-	void setView(ArrayList<Book> book, int col_page, int page, String type, String param);
+	void setView(ArrayList<Book> book, int col_page, int page, String type, String param,
+			String title);
 
 	SearchPane getSearchPane();
 

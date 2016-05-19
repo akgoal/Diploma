@@ -38,6 +38,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private int col_page;
 	private int start;
 	private int stop;
+	private String title;
 
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
@@ -124,46 +125,79 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 				}
 
 				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
+					ChangeViewBooksList(books, null);
 				}
 			});
 			break;
 
 		case "author":
-			bookService.findBooksByAuthorBook(id, new AsyncCallback<ArrayList<Book>>() {
-
+			bookService.titleByIdAuthor(id, new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
 					ChangeViewERROR();
 				}
 
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
+				public void onSuccess(String res) {
+					title = "<h3>Книги автора \"" + res + "\"</h3>";
+					bookService.findBooksByAuthorBook(id, new AsyncCallback<ArrayList<Book>>() {
+
+						public void onFailure(Throwable caught) {
+							ChangeViewERROR();
+						}
+
+						public void onSuccess(ArrayList<Book> books) {
+							title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+							ChangeViewBooksList(books, title);
+						}
+					});
 				}
 			});
+
 			break;
 
 		case "genre":
-			bookService.findBooksByGenreBook(id, new AsyncCallback<ArrayList<Book>>() {
+			bookService.titleByIdGenre(id, new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
 					ChangeViewERROR();
 				}
 
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
+				public void onSuccess(String res) {
+					title = "<h3>Книги по жанру \"" + res + "\"</h3>";
+					bookService.findBooksByGenreBook(id, new AsyncCallback<ArrayList<Book>>() {
+						public void onFailure(Throwable caught) {
+							ChangeViewERROR();
+						}
+
+						public void onSuccess(ArrayList<Book> books) {
+							title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+							ChangeViewBooksList(books, title);
+						}
+					});
 				}
 			});
+
 			break;
 
 		case "selection":
-			bookService.findBooksBySelectionBook(id, new AsyncCallback<ArrayList<Book>>() {
+			bookService.titleByIdSelection(id, new AsyncCallback<String>() {
 				public void onFailure(Throwable caught) {
 					ChangeViewERROR();
 				}
 
-				public void onSuccess(ArrayList<Book> books) {
-					ChangeViewBooksList(books);
+				public void onSuccess(String res) {
+					title = "<h3>Книги из подборки \"" + res + "\"</h3>";
+					bookService.findBooksBySelectionBook(id, new AsyncCallback<ArrayList<Book>>() {
+						public void onFailure(Throwable caught) {
+							ChangeViewERROR();
+						}
+
+						public void onSuccess(ArrayList<Book> books) {
+							title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+							ChangeViewBooksList(books, title);
+						}
+					});
 				}
 			});
+
 			break;
 
 		case "book":
@@ -187,8 +221,12 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 				public void onSuccess(ArrayList<Book> books) {
 					consoleLog(String.valueOf(search_param.size()));
 					consoleLog(String.valueOf(books.size()));
+					String title = "<h3>Поиск по \"";
+					for (String param : search_param)
+						title = title + param + " ";
+					title = title + "\"</h3><h5>Колличество книг: " + books.size() + "</h5>";
 					if (books.size() > 1)
-						ChangeViewBooksList(books);
+						ChangeViewBooksList(books, title);
 					else {
 						if (books.size() == 1)
 							ChangeViewBook(books.get(0));
@@ -207,10 +245,10 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	}
 
-	private void ChangeViewBooksList(ArrayList<Book> books) {
+	private void ChangeViewBooksList(ArrayList<Book> books, String title) {
 		pageNav(books.size());
 		userView.setView(new ArrayList<Book>(books.subList(start, stop)), col_page, page, type,
-				param);
+				param, title);
 	}
 
 	private void ChangeViewBook(Book book) {

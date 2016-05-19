@@ -32,4 +32,10 @@ public interface BookService extends RemoteService {
 	ArrayList<Selection> listOfSelections();
 
 	ArrayList<Book> searchBooks(ArrayList<String> param);
+
+	String titleByIdSelection(long id);
+
+	String titleByIdGenre(long id);
+
+	String titleByIdAuthor(long id);
 }

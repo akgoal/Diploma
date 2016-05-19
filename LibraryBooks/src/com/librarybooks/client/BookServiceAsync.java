@@ -30,4 +30,10 @@ public interface BookServiceAsync {
 
 	void searchBooks(ArrayList<String> param, AsyncCallback<ArrayList<Book>> callback);
 
+	void titleByIdSelection(long id, AsyncCallback<String> callback);
+
+	void titleByIdGenre(long id, AsyncCallback<String> callback);
+
+	void titleByIdAuthor(long id, AsyncCallback<String> callback);
+
 }
