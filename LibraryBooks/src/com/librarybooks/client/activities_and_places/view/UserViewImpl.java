@@ -327,9 +327,18 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		{
 
 			var menu_ul = $wnd.$('.menu > li > ul'), menu_a = $wnd
-					.$('.menu > li > a');
+					.$('.menu > li > a'), menu_li_a = $wnd
+					.$('.menu > li > ul > li > a');
 
 			menu_ul.hide();
+			menu_li_a.click(function(e) {
+				if (!$wnd.$(this).hasClass('active')) {
+					menu_li_a.removeClass('active');
+					$wnd.$(this).addClass('active');
+				} else {
+					$wnd.$(this).removeClass('active');
+				}
+			});
 			menu_a.click(function(e) {
 				e.preventDefault();
 				if (!$wnd.$(this).hasClass('active')) {
