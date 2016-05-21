@@ -6,9 +6,8 @@ import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class Book implements Serializable {
 
-	private String text;
 	private String title;
-	ArrayList<Author> author;
+	private ArrayList<Author> author;
 	private ArrayList<Genre> genre;
 	private String img;
 	private long id_book;
@@ -28,7 +27,6 @@ public class Book implements Serializable {
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
-		this.id_book = id_book;
 		this.year_create = year_create;
 		this.publish = publish;
 		this.year_publish = year_publish;
@@ -45,7 +43,6 @@ public class Book implements Serializable {
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
-		this.id_book = id_book;
 		this.year_create = null;
 		this.publish = null;
 		this.year_publish = null;
@@ -62,7 +59,6 @@ public class Book implements Serializable {
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
-		this.id_book = id_book;
 		this.year_create = null;
 		this.publish = null;
 		this.year_publish = null;
@@ -80,7 +76,6 @@ public class Book implements Serializable {
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
-		this.id_book = id_book;
 		this.year_create = year_create;
 		this.publish = publish;
 		this.year_publish = year_publish;
@@ -91,14 +86,6 @@ public class Book implements Serializable {
 	}
 
 	public Book() {
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
 	}
 
 	public String getImg() {

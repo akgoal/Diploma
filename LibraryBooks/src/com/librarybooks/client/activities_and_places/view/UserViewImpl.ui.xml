@@ -3,7 +3,8 @@
     xmlns:g="urn:import:com.google.gwt.user.client.ui">   
     <g:HTMLPanel>
     
-    <div id="top_panel"></div>
+    <div id="top_panel">
+    </div>
 	<g:HTMLPanel ui:field="searchPanel"></g:HTMLPanel>
 	<div class="header">
 		<div class="top_bar"></div>

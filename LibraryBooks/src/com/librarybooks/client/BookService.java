@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
+import com.librarybooks.client.objects.BookEdit;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
 
@@ -38,4 +39,6 @@ public interface BookService extends RemoteService {
 	String titleByIdGenre(long id);
 
 	String titleByIdAuthor(long id);
+
+	void addBook(BookEdit book);
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
+import com.librarybooks.client.objects.BookEdit;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
 
@@ -35,5 +36,7 @@ public interface BookServiceAsync {
 	void titleByIdGenre(long id, AsyncCallback<String> callback);
 
 	void titleByIdAuthor(long id, AsyncCallback<String> callback);
+
+	void addBook(BookEdit book, AsyncCallback<Void> callback);
 
 }

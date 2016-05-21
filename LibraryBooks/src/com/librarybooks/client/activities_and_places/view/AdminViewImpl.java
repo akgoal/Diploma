@@ -1,36 +1,65 @@
 package com.librarybooks.client.activities_and_places.view;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.Widget;
+import com.librarybooks.client.activities_and_places.places.AdminPlace;
 
 public class AdminViewImpl extends Composite implements AdminView {
 
-	// SimplePanel viewPanel = new SimplePanel();
-	Element nameSpan = DOM.createSpan();
-	// Button button = new Button("send");
-	HTML one = new HTML();
-	HTML two = new HTML();
-	HorizontalPanel hPanel = new HorizontalPanel();
+	private static AdminViewImplUiBinder uiBinder = GWT.create(AdminViewImplUiBinder.class);
+
+	interface AdminViewImplUiBinder extends UiBinder<Widget, AdminViewImpl> {
+	}
+
+	@UiField
+	HTMLPanel menuBar;
+
+	@UiField
+	HTMLPanel htmlPanel;
+	// VerticalPanel vPanel;
+
+	Presenter listener;
+	long id;
+	AddBook addBook;
 
 	public AdminViewImpl() {
-		hPanel.add(one);
-		one.setHTML("Good bay, ");
-		hPanel.add(two);
-		// hPanel.add(button);
-		initWidget(hPanel);
-		// viewPanel.getElement().appendChild(nameSpan);
-		// initWidget(viewPanel);
+
+		initWidget(uiBinder.createAndBindUi(this));
+
+		Command command = new Command() {
+			public void execute() {
+				listener.goTo(new AdminPlace("add"));
+			}
+		};
+		MenuBar menuMain = new MenuBar();
+		menuMain.addItem("Добавить книгу", true, command);
+		// menuMain.addItem("One", true, command);
+		// menuMain.addItem("Two", true, command);
+		// menuMain.addItem("Other", true, command);
+		menuBar.add(menuMain);
 	}
 
 	@Override
-	public void setName(String name) {
-		two.setHTML(name);
-		// nameSpan.setInnerText("Good-bye, " + name);
+	public void setAddView(String ref) {
+
+		addBook = new AddBook();
+		htmlPanel.add(addBook);
+
+	}
+
+	public AddBook getAddBook() {
+		return addBook;
+	}
+
+	@Override
+	public void setPresenter(Presenter listener) {
+		this.listener = listener;
 	}
 
 }
