@@ -1,6 +1,7 @@
 package com.librarybooks.server.bookservice;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
+import com.librarybooks.client.objects.BookEdit;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
 import com.librarybooks.server.bookservice.dao.BooksDAO;
@@ -138,6 +140,46 @@ public class BookServiceDBImpl extends RemoteServiceServlet implements BookServi
 		if (ads != null)
 			return ads.getName();
 		else return null;
+	}
+	
+	@Override
+	public void addBook(BookEdit book) {
+		BooksDataSet bds = new BooksDataSet();
+
+		bds.setTitle(book.getTitle());
+		bds.setOriginalTitle(book.getTitle_original());
+		bds.setImageName(book.getImg());
+		bds.setCreationYear(Integer.parseInt(book.getYear_create()));
+		bds.setPublicationYear(Integer.parseInt(book.getYear_publish()));
+		bds.setIsbn(book.getIsbn());
+		bds.setPages(Integer.parseInt(book.getCol_pages()));
+		
+		String[] authors = book.getAuthor().split(",");
+		for (String authorName : authors) {
+			bds.getAuthors().add(dao.getOrCreateAuthorByName(authorName));
+		}
+		
+		String[] genres = book.getGenre().split(",");
+		for (String genreName : genres) {
+			bds.getGenres().add(dao.getOrCreateGenreByName(genreName));
+		}
+
+		bds.setPublisher(dao.getOrCreatePublisherByName(book.getPublish()));
+		
+		bds.setBinding(dao.getOrCreateBindingByName(book.getDescription()));
+
+		bds.setDescription(book.getSpecific());
+
+/*		SimpleDateFormat parserSDF = new SimpleDateFormat("dd.MM.yyyy");
+		try {
+			bds.setAdditionDate(parserSDF.parse(book.getAddition_date()));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}*/
+		bds.setAdditionDate(new Date());
+
+		System.out.println(bds);
+		dao.addBook(bds);
 	}
 	
 	@SuppressWarnings("unused")

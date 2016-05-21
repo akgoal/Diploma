@@ -19,8 +19,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.librarybooks.server.bookservice.datasets.AuthorsDataSet;
+import com.librarybooks.server.bookservice.datasets.BindingsDataSet;
 import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 import com.librarybooks.server.bookservice.datasets.GenresDataSet;
+import com.librarybooks.server.bookservice.datasets.PublishersDataSet;
 import com.librarybooks.server.bookservice.datasets.SelectionsDataSet;
 
 /**
@@ -113,6 +115,16 @@ public class BooksDAOImpl implements BooksDAO {
 	public void addGenre(GenresDataSet genre) {
 		sessionFactory.getCurrentSession().save(genre);
 	}
+	
+	@Override
+	public void addPublisher(PublishersDataSet publisher) {
+		sessionFactory.getCurrentSession().save(publisher);
+	}
+
+	@Override
+	public void addBinding(BindingsDataSet binding) {
+		sessionFactory.getCurrentSession().save(binding);
+	}
 
 	@Override
 	public BooksDataSet getBookById(long bookId) {
@@ -203,6 +215,58 @@ public class BooksDAOImpl implements BooksDAO {
 		else
 			res = initializeLazyMembers((ArrayList<BooksDataSet>) queryRes);
 		return res;
+	}
+	
+	@Override
+	public AuthorsDataSet getOrCreateAuthorByName(String authorName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AuthorsDataSet.class);
+		criteria.add(Restrictions.eq("name", authorName));
+		AuthorsDataSet dataSet = (AuthorsDataSet) criteria.uniqueResult();
+		if (dataSet == null) {
+			dataSet = new AuthorsDataSet();
+			dataSet.setName(authorName);
+			addAuthor(dataSet);
+		}
+		return dataSet;
+	}
+
+	@Override
+	public GenresDataSet getOrCreateGenreByName(String genreName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(GenresDataSet.class);
+		criteria.add(Restrictions.eq("name", genreName));
+		GenresDataSet dataSet = (GenresDataSet) criteria.uniqueResult();
+		if (dataSet == null) {
+			dataSet = new GenresDataSet();
+			dataSet.setName(genreName);
+			addGenre(dataSet);
+		}
+		return dataSet;
+	}
+
+	@Override
+	public PublishersDataSet getOrCreatePublisherByName(String publisherName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(PublishersDataSet.class);
+		criteria.add(Restrictions.eq("name", publisherName));
+		PublishersDataSet dataSet = (PublishersDataSet) criteria.uniqueResult();
+		if (dataSet == null) {
+			dataSet = new PublishersDataSet();
+			dataSet.setName(publisherName);
+			addPublisher(dataSet);
+		}
+		return dataSet;
+	}
+
+	@Override
+	public BindingsDataSet getOrCreateBindingByName(String bindingName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BindingsDataSet.class);
+		criteria.add(Restrictions.eq("name", bindingName));
+		BindingsDataSet dataSet = (BindingsDataSet) criteria.uniqueResult();
+		if (dataSet == null) {
+			dataSet = new BindingsDataSet();
+			dataSet.setName(bindingName);
+			addBinding(dataSet);
+		}
+		return dataSet;
 	}
 
 	/* Lazy loading of all members */
