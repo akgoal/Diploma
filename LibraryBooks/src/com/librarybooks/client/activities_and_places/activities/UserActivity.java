@@ -25,12 +25,15 @@ import com.librarybooks.client.objects.Book;
 public class UserActivity extends AbstractActivity implements UserView.Presenter {
 
 	private ClientFactory clientFactory;
+	private UserPlace place;
 	private String info;
+	private Book basket;
 	private UserView userView;
 
 	private long id;
 	private String param;
-	private String[] options = { "all", "author", "genre", "selection", "book", "search" };
+	private String[] options = { "all", "author", "genre", "selection", "book", "new", "popular",
+			"classic", "child", "foreign" };
 	private ArrayList<String> search_param = new ArrayList<String>();
 	private String type;
 	private int page;
@@ -47,8 +50,12 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
 
 	public UserActivity(UserPlace place, ClientFactory clientFactory) {
+		this.place = place;
 		this.info = place.getParam();
+		// place.setParam1("111");
+		this.basket = place.getParamBasket();
 		this.clientFactory = clientFactory;
+		// clientFactory.getPlaceController().
 		parsing(info, options);
 
 	}
@@ -57,8 +64,10 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
 
 		userView = clientFactory.getUserView();
+		// place.setParamBaske("!!!");
 
-		showView(type);
+		// Window.alert(place.getParam());
+		showView(place, type);
 		userView.setPresenter(this);
 		containerWidget.setWidget(userView.asWidget());
 	}
@@ -75,47 +84,71 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private void parsing(String ref, String[] selected_option) {
 
 		for (String option : selected_option) {
-			if (!option.equals("search") & ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) {
-				this.type = option;
-				this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
-				String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", "");
-				this.id = Long.valueOf(a.substring(0, a.indexOf("&")));
-				this.page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
-			} else {
-				if (option.equals("book")) {
-					if (ref.matches(option + "=[0-9]+")) {
-						this.type = option;
-						this.id = Long.valueOf(ref.replaceAll(option + "=", ""));
-					}
-				} else {
-					if (option.equals("search")) {
-						// consoleLog(ref.toString());
-						if (ref.matches(option
-								+ "=[0-9A-Za-z/а-яёА-ЯЁ/]+(\u005F[0-9A-Za-z/а-яёА-ЯЁ/]+)*&p=[1-9][0-9]*")) {
-							// consoleLog("!!!");
-							this.type = option;
-							this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
-							this.page = Integer.valueOf(ref.substring(ref.indexOf("&p=") + 3));
-							String s = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "")
-									.replaceAll("search" + "=", "").replace("\u005F", " ").trim();
-							consoleLog(s);
-							String str[] = s.split(" ");
-							consoleLog(str.length + "");
-							for (int i = 0; i < str.length; i++)
-								search_param.add(str[i]);
-							// consoleLog(String.valueOf(search_param.size()));
-						} else {
-
-						}
-					}
-
+			switch (option) {
+			case "new":
+			case "popular":
+			case "classic":
+			case "child":
+			case "foreign":
+				if (ref.matches(option + "&p=[1-9][0-9]*")) {
+					this.type = option;
+					this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
+					String a = (ref.replaceAll(option, "")).replaceAll("p=", "");
+					this.page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
 				}
+				break;
+			case "search":
+				if (ref.matches(option
+						+ "=[0-9A-Za-z/а-яёА-ЯЁ/]+(\u005F[0-9A-Za-z/а-яёА-ЯЁ/]+)*&p=[1-9][0-9]*")) {
+					this.type = option;
+					this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
+					this.page = Integer.valueOf(ref.substring(ref.indexOf("&p=") + 3));
+					String s = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "")
+							.replaceAll("search" + "=", "").replace("\u005F", " ").trim();
+					consoleLog(s);
+					String str[] = s.split(" ");
+					consoleLog(str.length + "");
+					for (int i = 0; i < str.length; i++)
+						search_param.add(str[i]);
+				}
+				break;
+			case "book":
+				if (ref.matches(option + "=[0-9]+")) {
+					this.type = option;
+					this.id = Long.valueOf(ref.replaceAll(option + "=", ""));
+				}
+				break;
+			case "all":
+			case "author":
+			case "genre":
+			case "selection":
+				if (ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) {
+					this.type = option;
+					this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "");
+					String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", "");
+					this.id = Long.valueOf(a.substring(0, a.indexOf("&")));
+					this.page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
+				}
+				break;
+			default:
+				break;
 			}
+			/* if (option.equals("new")) { if (ref.matches(option + "&p=[1-9][0-9]*")) { this.type = option; this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), ""); String a = (ref.replaceAll(option, "")).replaceAll("p=", ""); this.page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
+			 * } else { if (option.equals("search")) { if (ref.matches(option + "=[0-9A-Za-z/а-яёА-ЯЁ/]+(\u005F[0-9A-Za-z/а-яёА-ЯЁ/]+)*&p=[1-9][0-9]*")) { this.type = option; this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), ""); this.page =
+			 * Integer.valueOf(ref.substring(ref.indexOf("&p=") + 3)); String s = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "") .replaceAll("search" + "=", "").replace("\u005F", " ").trim(); consoleLog(s); String str[] = s.split(" "); consoleLog(str.length + ""); for (int i = 0; i <
+			 * str.length; i++) search_param.add(str[i]); } else { if (option.equals("book")) { if (ref.matches(option + "=[0-9]+")) { this.type = option; this.id = Long.valueOf(ref.replaceAll(option + "=", "")); } } else {
+			 * 
+			 * if (ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) { this.type = option; this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), ""); String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", ""); this.id = Long.valueOf(a.substring(0, a.indexOf("&"))); this.page =
+			 * Integer.valueOf(a.substring(a.indexOf("&") + 1)); } else {
+			 * 
+			 * } } } }
+			 * 
+			 * } } */
 		}
 
 	}
 
-	private void showView(String type) {
+	private void showView(UserPlace place, String type) {
 
 		switch (type) {
 		case "all":
@@ -200,6 +233,76 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 			break;
 
+		case "new":
+			bookService.listNew(new AsyncCallback<ArrayList<Book>>() {
+				public void onFailure(Throwable caught) {
+					ChangeViewERROR();
+				}
+
+				public void onSuccess(ArrayList<Book> books) {
+					title = "<h2>Новинки</h2>";
+					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					ChangeViewBooksList(books, title);
+				}
+			});
+			break;
+
+		case "popular":
+			bookService.listPopular(new AsyncCallback<ArrayList<Book>>() {
+				public void onFailure(Throwable caught) {
+					ChangeViewERROR();
+				}
+
+				public void onSuccess(ArrayList<Book> books) {
+					title = "<h2>Популярные книги</h2>";
+					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					ChangeViewBooksList(books, title);
+				}
+			});
+			break;
+
+		case "classic":
+			bookService.listClassic(new AsyncCallback<ArrayList<Book>>() {
+				public void onFailure(Throwable caught) {
+					ChangeViewERROR();
+				}
+
+				public void onSuccess(ArrayList<Book> books) {
+					title = "<h2>Классическая литература</h2>";
+					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					ChangeViewBooksList(books, title);
+				}
+			});
+			break;
+
+		case "child":
+			bookService.listChild(new AsyncCallback<ArrayList<Book>>() {
+				public void onFailure(Throwable caught) {
+					ChangeViewERROR();
+				}
+
+				public void onSuccess(ArrayList<Book> books) {
+					title = "<h2>Книги для детей</h2>";
+					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					ChangeViewBooksList(books, title);
+				}
+			});
+			break;
+
+		case "foreign":
+			bookService.listForeign(new AsyncCallback<ArrayList<Book>>() {
+				public void onFailure(Throwable caught) {
+					ChangeViewERROR();
+				}
+
+				public void onSuccess(ArrayList<Book> books) {
+					title = "<h2>Зарубежная литература</h2>";
+					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					ChangeViewBooksList(books, title);
+				}
+			});
+			break;
+
 		case "book":
 			bookService.selectBook(id, new AsyncCallback<Book>() {
 				public void onFailure(Throwable caught) {
@@ -247,12 +350,12 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	private void ChangeViewBooksList(ArrayList<Book> books, String title) {
 		pageNav(books.size());
-		userView.setView(new ArrayList<Book>(books.subList(start, stop)), col_page, page, type,
-				param, title);
+		userView.setView(place, new ArrayList<Book>(books.subList(start, stop)), col_page, page,
+				type, param, title);
 	}
 
 	private void ChangeViewBook(Book book) {
-		userView.setView(book);
+		userView.setView(bookService, place, book);
 	}
 
 	private void ChangeViewERROR() {

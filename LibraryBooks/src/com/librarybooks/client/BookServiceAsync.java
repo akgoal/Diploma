@@ -39,4 +39,16 @@ public interface BookServiceAsync {
 
 	void addBook(BookEdit book, AsyncCallback<Void> callback);
 
+	void listNew(AsyncCallback<ArrayList<Book>> callback);
+
+	void listPopular(AsyncCallback<ArrayList<Book>> callback);
+
+	void listClassic(AsyncCallback<ArrayList<Book>> callback);
+
+	void listChild(AsyncCallback<ArrayList<Book>> callback);
+
+	void listForeign(AsyncCallback<ArrayList<Book>> callback);
+
+	void changeRate(int rate_new, AsyncCallback<Integer> callback);
+
 }

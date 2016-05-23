@@ -8,6 +8,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
+import com.librarybooks.client.objects.BookEdit;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
 import com.librarybooks.server.bookservice.datasets.BooksDataSet;
@@ -18,30 +19,7 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 
 	@Override
 	public ArrayList<Book> sendServer() {
-		ArrayList<Book> list = new ArrayList<Book>();
-		list.clear();
-
-		for (int i = 0; i < 30; i++) {
-			Book book = new Book();
-			book.setIdBook(i);
-
-			ArrayList<Author> la = new ArrayList<Author>();
-			la.add(new Author("И.И.Иванов " + i, i));
-			la.add(new Author("И.И.Иванов " + i, i + 1));
-			book.setAuthor(la);
-
-			book.setTitle("Название. Название. Название. Название. " + i);
-
-			ArrayList<Genre> lg = new ArrayList<Genre>();
-			lg.add(new Genre("Жанр " + i, i));
-			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
-			book.setGenre(lg);
-
-			book.setImg("template.jpg");
-			list.add(book);
-		}
-
-		return list;
+		return all();
 	}
 
 	@Override
@@ -145,6 +123,8 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 
 		book.setImg("template.jpg");
 
+		book.setRate(0);
+
 		return book;
 	}
 
@@ -239,6 +219,70 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 	public String titleByIdAuthor(long id) {
 		// TODO Auto-generated method stub
 		return "Иванов И.И. " + id;
+	}
+
+	@Override
+	public void addBook(BookEdit book) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public ArrayList<Book> listNew() {
+		return all();
+	}
+
+	@Override
+	public ArrayList<Book> listPopular() {
+		return all();
+	}
+
+	@Override
+	public ArrayList<Book> listClassic() {
+		return all();
+	}
+
+	@Override
+	public ArrayList<Book> listChild() {
+		return all();
+	}
+
+	@Override
+	public ArrayList<Book> listForeign() {
+		return all();
+	}
+
+	public ArrayList<Book> all() {
+		ArrayList<Book> list = new ArrayList<Book>();
+		list.clear();
+
+		for (int i = 0; i < 30; i++) {
+			Book book = new Book();
+			book.setIdBook(i);
+
+			ArrayList<Author> la = new ArrayList<Author>();
+			la.add(new Author("И.И.Иванов " + i, i));
+			la.add(new Author("И.И.Иванов " + i, i + 1));
+			book.setAuthor(la);
+
+			book.setTitle("Название. Название. Название. Название. " + i);
+
+			ArrayList<Genre> lg = new ArrayList<Genre>();
+			lg.add(new Genre("Жанр " + i, i));
+			lg.add(new Genre("Жанр " + (i + 1), (i + 1)));
+			book.setGenre(lg);
+
+			book.setImg("template.jpg");
+			list.add(book);
+		}
+
+		return list;
+	}
+
+	@Override
+	public int changeRate(int rate_new) {
+		// TODO Auto-generated method stub
+		return rate_new;
 	}
 
 }

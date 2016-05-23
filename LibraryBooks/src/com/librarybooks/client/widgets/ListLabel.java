@@ -5,15 +5,18 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
+import com.librarybooks.client.activities_and_places.places.UserPlace;
+import com.librarybooks.client.activities_and_places.view.UserView.Presenter;
 
 public class ListLabel extends Composite implements ClickHandler {
 
 	private long choose_id;
 	private String choose_type;
 	private Label label = new Label();
+	Presenter listener;
 
-	public ListLabel(String type, String name, long id) {
-
+	public ListLabel(Presenter _listener, String type, String name, long id) {
+		this.listener = _listener;
 		choose_id = id;
 		choose_type = type;
 		label.setText(name);
@@ -27,7 +30,8 @@ public class ListLabel extends Composite implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
-		History.newItem("UserPlace:" + choose_type + "=" + choose_id + "&p=1");
+		listener.goTo(new UserPlace(choose_type + "=" + choose_id + "&p=1"));
+		// History.newItem("UserPlace:" + choose_type + "=" + choose_id + "&p=1");
 	}
 
 }

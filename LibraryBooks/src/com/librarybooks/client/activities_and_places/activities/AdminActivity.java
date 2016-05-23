@@ -60,13 +60,6 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 						@Override
 						public void onSuccess(Void result) {
 							// TODO Auto-generated method stub
-							Window.alert(book.getTitle() + "\n" + book.getTitle_original() + "\n"
-									+ book.getAuthor() + "\n" + book.getGenre() + "\n"
-									+ book.getImg() + "\n" + book.getYear_create() + "\n"
-									+ book.getPublish() + "\n" + book.getYear_publish() + "\n"
-									+ book.getIsbn() + "\n" + book.getCol_pages() + "\n"
-									+ book.getDescription() + "\n" + book.getSpecific() + "\n"
-									+ book.getAddition_date());
 						}
 					});
 				}

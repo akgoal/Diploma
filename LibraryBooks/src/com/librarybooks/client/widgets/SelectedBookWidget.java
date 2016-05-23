@@ -24,11 +24,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
+import com.librarybooks.client.activities_and_places.places.UserPlace;
+import com.librarybooks.client.activities_and_places.view.UserView.Presenter;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
-
-import sun.util.calendar.Era;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -37,6 +37,7 @@ import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 
@@ -73,15 +74,13 @@ public class SelectedBookWidget extends Composite {
 	@UiField
 	LayoutPanel layoutPanel;
 	@UiField
-	Label lbl_rating;
-	@UiField
 	Label lbl_author;
 	@UiField
 	Label lbl_data;
 	@UiField
 	Label lbl_text_for_data;
 	@UiField
-	Label dnmc_rating;
+	HTMLPanel dnmc_rating;
 	@UiField
 	Label link_list;
 	@UiField
@@ -111,10 +110,19 @@ public class SelectedBookWidget extends Composite {
 
 	final HTML Html_br = new HTML("<hr />", true);
 
+	Presenter listener;
+	UserPlace place;
+
 	// public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
 	// ArrayList<Genre> genre, String img_src, String year_create, String publish,
 	// String year_publish, String isbn, String col_pages, String cover, String specific)
-	public SelectedBookWidget(Book book) {
+	public SelectedBookWidget(BookServiceAsync bookService, UserPlace _place, Presenter _listener,
+			Book book) {
+		this.listener = _listener;
+		this.place = _place;
+
+		choose_book.setBook(book.getIdBook(), book.getAuthor(), book.getTitle(), book.getGenre(),
+				book.getImg());
 
 		long id_book = book.getIdBook();
 		ArrayList<Author> author = book.getAuthor();
@@ -132,13 +140,8 @@ public class SelectedBookWidget extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		Grid grid = new Grid(7, 2);
 
-		lbl_rating.setText("Рейтинг:");
-		dnmc_rating.setText("1");
-
+		dnmc_rating.add(new Rate(bookService, book.getRate()));
 		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
-
-		choose_book.setBook(id_book, author, title, genre, img_src);
-
 		full_img.setUrl(img_src);
 
 		if (title != null)
@@ -147,10 +150,10 @@ public class SelectedBookWidget extends Composite {
 			for (int i = 0; i < author.size(); i++) {
 				if (i > 0) {
 					hPanelAuthor.add(new HTML(",&nbsp"));
-					hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
+					hPanelAuthor.add(new ListLabel(listener, "author", author.get(i).getAuthor(),
 							author.get(i).getIdAuthor()));
 				} else {
-					hPanelAuthor.add(new ListLabel("author", author.get(i).getAuthor(),
+					hPanelAuthor.add(new ListLabel(listener, "author", author.get(i).getAuthor(),
 							author.get(i).getIdAuthor()));
 				}
 			}
@@ -199,10 +202,10 @@ public class SelectedBookWidget extends Composite {
 					HTML tab = new HTML(",&nbsp");
 					tab.getElement().getStyle().setDisplay(Display.INLINE_BLOCK);
 					hPanelGenre.add(tab);
-					hPanelGenre.add(new ListLabel("genre", genre.get(i).getGenre(),
+					hPanelGenre.add(new ListLabel(listener, "genre", genre.get(i).getGenre(),
 							genre.get(i).getIdGenre()));
 				} else {
-					hPanelGenre.add(new ListLabel("genre", genre.get(i).getGenre(),
+					hPanelGenre.add(new ListLabel(listener, "genre", genre.get(i).getGenre(),
 							genre.get(i).getIdGenre()));
 				}
 			}
@@ -279,7 +282,6 @@ public class SelectedBookWidget extends Composite {
 
 		link_list.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		dnmc_rating.getElement().getStyle().setTextAlign(TextAlign.CENTER);
-		lbl_rating.getElement().getStyle().setTextAlign(TextAlign.CENTER);
 		rightPanel.getElement().getStyle().setVerticalAlign(VerticalAlign.TOP);
 		leftPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		dnmc_title.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
@@ -303,10 +305,14 @@ public class SelectedBookWidget extends Composite {
 
 		chooseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				chooseBookToServer();
+				place.getBasketList().add(new Book());
 			}
 		});
 
+	}
+
+	public Button getChooseButton() {
+		return chooseButton;
 	}
 
 	public void chooseBookToServer() {

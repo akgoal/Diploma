@@ -5,9 +5,8 @@
     	<g:Label ui:field="link_list">Назад</g:Label>
     	<g:FlowPanel ui:field="generalPanel">
     		<g:VerticalPanel ui:field="leftPanel">
-    			<g:Image ui:field="full_img"></g:Image>
-    			<g:Label ui:field="lbl_rating">Рейтинг: </g:Label>    		
-    			<g:Label ui:field="dnmc_rating">0</g:Label>   
+    			<g:Image ui:field="full_img"></g:Image>  		
+    			<g:HTMLPanel ui:field="dnmc_rating"></g:HTMLPanel> 
     		</g:VerticalPanel>   			
     		<g:VerticalPanel ui:field="rightPanel">
     			<g:Label ui:field="dnmc_title"></g:Label>

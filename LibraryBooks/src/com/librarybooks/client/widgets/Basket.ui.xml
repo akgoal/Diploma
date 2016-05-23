@@ -4,9 +4,12 @@
     <g:HTMLPanel ui:field="basketPanel">       
 		<div class="cart1">
 			<div id="colCheck"><span ui:field="basket"></span></div>
-			<div class="cart">
-			  <g:HTMLPanel ui:field="popupPanel">
-			  </g:HTMLPanel>
+				<div class="cart">
+				<g:VerticalPanel ui:field="popupPanel">
+					<g:HTMLPanel ui:field="panelFlex"></g:HTMLPanel>
+					<g:HTML><hr/></g:HTML>
+					<g:Button ui:field="button">Оформить заказ</g:Button>
+				</g:VerticalPanel>  
 			</div>
 		</div>
 	</g:HTMLPanel>   

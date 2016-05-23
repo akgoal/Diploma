@@ -8,17 +8,16 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -30,7 +29,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
-import com.librarybooks.client.activities_and_places.places.AdminPlace;
+import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
@@ -48,8 +47,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	}
 
 	Presenter listener;
+	UserPlace place;
 	long id;
-	String[] options = { "all", "author", "genre", "selection", "book" };
+	String[] options = { "all", "author", "genre", "selection", "book", "new", "popular", "classic",
+			"child", "foreign" };
 	int page;
 	int col_books = 12;
 	int col_page;
@@ -80,6 +81,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	@UiField
 	LIElement liselection;
 
+	MenuBar menuMain = new MenuBar();
+
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
@@ -88,30 +91,78 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 	final SearchPane sp = new SearchPane();
 	final Basket basket = new Basket();
-	BookWidget bb;
+	private FlexTable basketFlex = new FlexTable();
 
 	public UserViewImpl() {
 
 		initWidget(uiBinder.createAndBindUi(this));
 		searchPanel.getElement().setId("search_panel");
 		basket.setStyleName("basket");
+		basket.getHTMLPanel().add(basketFlex);
+		basketFlex.setText(0, 0, "Название");
+		basketFlex.setText(0, 1, "Кол-во");
+		basketFlex.setText(0, 2, "");
+		basketFlex.setHTML(1, 0, "<hr>");
+		basketFlex.getFlexCellFormatter().setColSpan(1, 0, 3);
+		;
+		basketFlex.getFlexCellFormatter().setWidth(0, 0, "180px");
+		basketFlex.getFlexCellFormatter().setWidth(0, 1, "50px");
+		basketFlex.getFlexCellFormatter().setWidth(0, 2, "30px");
+		basketFlex.getFlexCellFormatter().getElement(0, 0).getStyle().setPadding(10, Unit.PX);
+		basketFlex.getFlexCellFormatter().getElement(0, 0).getStyle().setColor("dimgray");
+		basketFlex.getFlexCellFormatter().getElement(0, 1).getStyle().setColor("dimgray");
+		basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 1,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 2,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		basketFlex.setCellPadding(0);
+		basketFlex.setCellSpacing(0);
+		basketFlex.setBorderWidth(0);
+
 		searchPanel.add(basket);
 		searchPanel.add(sp);
 		textElement.setInnerHTML(
 				"<a href=\"#UserPlace:all=0&p=1\"><img src=\"img/logo_mini.png\"></img><h1>LIBRARY BOOK</h1></a>");
 		basket.getSpanElement().setInnerText("0");
-		Command command = new Command() {
-			public void execute() {
-				Window.alert("Command Fired");
-			}
-		};
-		MenuBar menuMain = new MenuBar();
-		menuMain.addItem("Home", true, command);
-		menuMain.addItem("One", true, command);
-		menuMain.addItem("Two", true, command);
-		menuMain.addItem("Other", true, command);
-		menuBar.add(menuMain);
+		menuMain.addItem("Новинки", new Command() {
 
+			@Override
+			public void execute() {
+				go("new");
+			}
+		});
+		menuMain.addItem("Популяное", new Command() {
+
+			@Override
+			public void execute() {
+				go("popular");
+			}
+		});
+		;
+		menuMain.addItem("Классическая литература", new Command() {
+
+			@Override
+			public void execute() {
+				go("classic");
+			}
+		});
+		menuMain.addItem("Для детей", new Command() {
+
+			@Override
+			public void execute() {
+				go("child");
+			}
+		});
+		menuMain.addItem("Зарубежная литература", new Command() {
+
+			@Override
+			public void execute() {
+				go("foreign");
+			}
+		});
+		menuBar.add(menuMain);
 		vPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		hPanel.getElement().setId("sprint_top_page");
 		sprintHPanel.getElement().setId("sprint_page");
@@ -135,7 +186,6 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			}
 
 			public void onSuccess(ArrayList<Genre> result) {
-				// Window.alert("up");
 				Collections.sort(result, new Comparator<Genre>() {
 					@Override
 					public int compare(Genre o1, Genre o2) {
@@ -208,9 +258,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	}
 
 	@Override
-	public void setView(ArrayList<Book> books, int col_page, int page, String type, String param,
-			String html_title) {
+	public void setView(UserPlace _place, ArrayList<Book> books, int col_page, int page,
+			String type, String param, String html_title) {
 
+		this.place = _place;
 		fPanel.clear();
 		sprintHPanel.clear();
 		hPanel.clear();
@@ -226,35 +277,25 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 			ArrayList<Genre> genre = new ArrayList<Genre>((books.get(i)).getGenre());
 			String img_src = new String((books.get(i)).getImg());
 			long id_book = (books.get(i)).getIdBook();
-			bb = new BookWidget(id_book, author, title, genre, img_src);
-			bb.getChooseButton().addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					basket.getSpanElement().setInnerText(
-							Integer.valueOf(basket.getSpanElement().getInnerText()) + 1 + "");
-					// basket.getHTMLPanel().add(new HTML("<p>" + bb.getBook().getTitle() + "</p>"));
-
-				}
-			});
+			BookWidget bb = new BookWidget(place, listener, id_book, author, title, genre, img_src);
+			bookInWidget.setTitle(title);
+			bb.getChooseButton().addClickHandler(this);
 			panel.add(bb);
 		}
 		fPanel.add(panel);
 	}
 
 	@Override
-	public void setView(Book book) {
+	public void setView(BookServiceAsync bookService, UserPlace place, Book book) {
 
 		fPanel.clear();
 		sprintHPanel.clear();
 		hPanel.clear();
 		titlePanel.clear();
 		FlowPanel panel = new FlowPanel();
-		/* String title = new String(book.getTitle()); ArrayList<Author> author = new ArrayList<Author>(book.getAuthor()); ArrayList<Genre> genre = new ArrayList<Genre>(book.getGenre()); String img_src = new String(book.getImg()); long id_book = book.getIdBook(); Window.alert("1"); //
-		 * SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, null, // "ЭКСМО", "1999", null, "190", "Мягкая", null); // SelectedBookWidget bb = new SelectedBookWidget(id_book, author, title, genre, img_src, // book.getYear_create(), book.getPublish(),
-		 * book.getYear_publish(), book.getIsbn(), // book.getCol_pages(), book.getCover(), book.getSpecific()); */
-		SelectedBookWidget bb = new SelectedBookWidget(book);
-		panel.add(bb);
+		SelectedBookWidget sb = new SelectedBookWidget(bookService, place, listener, book);
+		sb.getChooseButton().addClickHandler(this);
+		panel.add(sb);
 		fPanel.add(panel);
 	}
 
@@ -322,7 +363,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 		return "<a href=\"#UserPlace:" + type + "=" + id + "&p=1\">" + name + " <span>" + col
 				+ "</span></a>";
+	}
 
+	public void go(String type) {
+		listener.goTo(new UserPlace(type + "&p=1"));
 	}
 
 	private static native void scr() /*-{
@@ -364,6 +408,56 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 	// @UiHandler("button")
 	public void onClick(ClickEvent event) {
-		listener.goTo(new AdminPlace(""));
+		addBookInBasket();
+	}
+
+	private void addBookInBasket() {
+		basket.getSpanElement().setInnerText(place.getBasketList().size() + "");
+
+		int row = basketFlex.getRowCount();
+		basketFlex.setHTML(row, 0, "<a href=\"#UserPlace:book="
+				+ place.getBasketList().get(place.getBasketList().size() - 1).getIdBook() + "\">"
+				+ place.getBasketList().get(place.getBasketList().size() - 1).getTitle() + "</a>");
+		final Book delBook = place.getBasketList().get(place.getBasketList().size() - 1);
+		basketFlex.setText(row, 1, "1");
+		Label removeBook = new Label("x");
+		removeBook.setStyleName("removeBook");
+		removeBook.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				int removedIndex = place.getBasketList().indexOf(delBook);
+				place.getBasketList().remove(removedIndex);
+				basketFlex.removeRow(removedIndex + 2);
+				basket.getSpanElement().setInnerText(place.getBasketList().size() + "");
+				for (int row = 2; row < basketFlex.getRowCount(); row++) {
+					if (row % 2 == 0)
+						basketFlex.getRowFormatter().getElement(row).getStyle()
+								.setBackgroundColor("#F9F9F9");
+					else
+						basketFlex.getRowFormatter().getElement(row).getStyle()
+								.setBackgroundColor("#FFF");
+				}
+			}
+		});
+		if (row % 2 == 0)
+			basketFlex.getRowFormatter().getElement(row).getStyle().setBackgroundColor("#F9F9F9");
+		else
+			basketFlex.getRowFormatter().getElement(row).getStyle().setBackgroundColor("#FFF");
+		basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle().setPaddingBottom(5,
+				Unit.PX);
+		basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle().setPaddingTop(5, Unit.PX);
+		basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle().setPaddingLeft(20, Unit.PX);
+		basketFlex.setWidget(row, 2, removeBook);
+		basketFlex.getFlexCellFormatter().setHorizontalAlignment(row, 1,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		basketFlex.getFlexCellFormatter().setHorizontalAlignment(row, 2,
+				HasHorizontalAlignment.ALIGN_CENTER);
+
+	}
+
+	@Override
+	public BookWidget getBookWidget() {
+		// TODO Auto-generated method stub
+		// return bb;
+		return null;
 	}
 }

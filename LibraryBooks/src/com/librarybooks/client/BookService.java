@@ -41,4 +41,17 @@ public interface BookService extends RemoteService {
 	String titleByIdAuthor(long id);
 
 	void addBook(BookEdit book);
+
+	ArrayList<Book> listNew();
+
+	ArrayList<Book> listPopular();
+
+	ArrayList<Book> listClassic();
+
+	ArrayList<Book> listChild();
+
+	ArrayList<Book> listForeign();
+
+	int changeRate(int rate_new);
+
 }

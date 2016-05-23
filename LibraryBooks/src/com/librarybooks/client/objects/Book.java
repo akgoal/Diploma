@@ -18,10 +18,11 @@ public class Book implements Serializable {
 	private String col_pages;
 	private String cover;
 	private String specific;
+	private int rate;
 
 	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img, String year_create, String publish, String year_publish, String isbn,
-			String col_pages, String cover, String specific) {
+			String col_pages, String cover, String specific, int rate) {
 		this.id_book = id_book;
 		this.author = author;
 		this.title = title;
@@ -34,6 +35,7 @@ public class Book implements Serializable {
 		this.col_pages = col_pages;
 		this.cover = cover;
 		this.specific = specific;
+		this.rate = rate;
 	}
 
 	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
@@ -50,6 +52,7 @@ public class Book implements Serializable {
 		this.col_pages = null;
 		this.cover = null;
 		this.specific = null;
+		this.rate = 0;
 	}
 
 	public void setBook(long id_book, ArrayList<Author> author, String title,
@@ -66,11 +69,13 @@ public class Book implements Serializable {
 		this.col_pages = null;
 		this.cover = null;
 		this.specific = null;
+		this.rate = 0;
 	}
 
 	public void setBook(long id_book, ArrayList<Author> author, String title,
 			ArrayList<Genre> genre, String img, String year_create, String publish,
-			String year_publish, String isbn, String col_pages, String cover, String specific) {
+			String year_publish, String isbn, String col_pages, String cover, String specific,
+			int rate) {
 		this.id_book = id_book;
 		this.author = author;
 		this.title = title;
@@ -83,6 +88,7 @@ public class Book implements Serializable {
 		this.col_pages = col_pages;
 		this.cover = cover;
 		this.specific = specific;
+		this.rate = rate;
 	}
 
 	public Book() {
@@ -183,6 +189,14 @@ public class Book implements Serializable {
 
 	public void setSpecific(String specific) {
 		this.specific = specific;
+	}
+
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 
 }
