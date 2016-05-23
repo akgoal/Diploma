@@ -6,7 +6,6 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
@@ -19,9 +18,8 @@ import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 import com.librarybooks.server.bookservice.datasets.GenresDataSet;
 import com.librarybooks.server.bookservice.datasets.SelectionsDataSet;
 
-@SuppressWarnings("serial")
 @Service("bookService")
-public class BookServiceDBImpl extends RemoteServiceServlet implements BookService {
+public class BookServiceDBImpl implements BookService {
 
 	@Autowired
 	private BooksDAO dao;
