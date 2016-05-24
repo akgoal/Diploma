@@ -44,4 +44,11 @@ public interface BooksDAO {
 	GenresDataSet getOrCreateGenreByName(String genreName);
 	PublishersDataSet getOrCreatePublisherByName(String publisherName);
 	BindingsDataSet getOrCreateBindingByName(String bindingName);
+	
+	ArrayList<BooksDataSet> getRecentBooks(int amount);
+	ArrayList<BooksDataSet> getBestBooks(int amount);
+	ArrayList<BooksDataSet> getClassicBooks(int criteriaYear);
+	ArrayList<BooksDataSet> getForeignBooks();
+	
+	ArrayList<BooksDataSet> getBooksBySelectionName(String selectionName);
 }

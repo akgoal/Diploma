@@ -10,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
@@ -98,7 +99,7 @@ public class BooksDAOImpl implements BooksDAO {
 		criteria.add(Restrictions.idEq(genreId));
 		return initializeLazyMembers((GenresDataSet) criteria.uniqueResult());
 	}
-	
+
 	@Override
 	public SelectionsDataSet getSelectionById(long selectionId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SelectionsDataSet.class);
@@ -115,7 +116,7 @@ public class BooksDAOImpl implements BooksDAO {
 	public void addGenre(GenresDataSet genre) {
 		sessionFactory.getCurrentSession().save(genre);
 	}
-	
+
 	@Override
 	public void addPublisher(PublishersDataSet publisher) {
 		sessionFactory.getCurrentSession().save(publisher);
@@ -176,16 +177,6 @@ public class BooksDAOImpl implements BooksDAO {
 	@Override
 	public ArrayList<BooksDataSet> searchBooks(List<String> words) {
 
-		/*
-		 * Criteria criteria =
-		 * sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class)
-		 * ; for (String word : words) criteria.add(Restrictions.ilike("title",
-		 * word, MatchMode.ANYWHERE)); ArrayList<BooksDataSet> res =
-		 * (ArrayList<BooksDataSet>) criteria.list();
-		 * 
-		 * return initializeLazyMembersCompletely(res);
-		 */
-
 		if (!booksAreIndexed) {
 			indexBooks();
 			booksAreIndexed = true;
@@ -199,10 +190,10 @@ public class BooksDAOImpl implements BooksDAO {
 		org.apache.lucene.search.BooleanQuery.Builder bqBuilder = new BooleanQuery.Builder();
 
 		for (String keyword : words) {
-			  bqBuilder.add(qb.keyword().fuzzy().withEditDistanceUpTo(1).onFields("title", "originalTitle",
-			  "authors.name", "genres.name") .matching(keyword).createQuery(),
-			  BooleanClause.Occur.MUST);
-			 
+			bqBuilder.add(qb.keyword().fuzzy().withEditDistanceUpTo(1)
+					.onFields("title", "originalTitle", "authors.name", "genres.name").matching(keyword).createQuery(),
+					BooleanClause.Occur.MUST);
+
 		}
 		org.apache.lucene.search.BooleanQuery bquery = bqBuilder.build();
 
@@ -216,7 +207,7 @@ public class BooksDAOImpl implements BooksDAO {
 			res = initializeLazyMembers((ArrayList<BooksDataSet>) queryRes);
 		return res;
 	}
-	
+
 	@Override
 	public AuthorsDataSet getOrCreateAuthorByName(String authorName) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(AuthorsDataSet.class);
@@ -267,6 +258,51 @@ public class BooksDAOImpl implements BooksDAO {
 			addBinding(dataSet);
 		}
 		return dataSet;
+	}
+
+	@Override
+	public ArrayList<BooksDataSet> getRecentBooks(int amount) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
+		criteria.addOrder(Order.desc("additionDate"));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(amount);
+		return initializeLazyMembers((ArrayList<BooksDataSet>) criteria.list());
+	}
+
+	@Override
+	public ArrayList<BooksDataSet> getBestBooks(int amount) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
+		criteria.addOrder(Order.desc("rate"));
+		criteria.setFirstResult(0);
+		criteria.setMaxResults(amount);
+		return initializeLazyMembers((ArrayList<BooksDataSet>) criteria.list());
+	}
+
+	@Override
+	public ArrayList<BooksDataSet> getClassicBooks(int criteriaYear) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
+		criteria.add(Restrictions.le("creationYear", criteriaYear));
+		return initializeLazyMembers((ArrayList<BooksDataSet>) criteria.list());
+	}
+	
+	@Override
+	public ArrayList<BooksDataSet> getForeignBooks() {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
+		criteria.add(Restrictions.isNotNull("originalTitle"));
+		return initializeLazyMembers((ArrayList<BooksDataSet>) criteria.list());
+	}
+
+	@Override
+	public ArrayList<BooksDataSet> getBooksBySelectionName(String selectionName) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SelectionsDataSet.class);
+		criteria.add(Restrictions.eq("name", selectionName));
+		SelectionsDataSet sds = (SelectionsDataSet) criteria.uniqueResult();
+		ArrayList<BooksDataSet> bdsList = new ArrayList<>();
+		if (sds != null) {
+			bdsList = initializeLazyMembers(castToArrayList(initializeLazyMembers(sds).getBooks()));
+
+		}
+		return bdsList;
 	}
 
 	/* Lazy loading of all members */
@@ -326,5 +362,4 @@ public class BooksDAOImpl implements BooksDAO {
 			list.add(t);
 		return list;
 	}
-
 }

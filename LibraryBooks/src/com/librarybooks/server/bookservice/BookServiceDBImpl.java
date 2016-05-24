@@ -23,7 +23,7 @@ public class BookServiceDBImpl implements BookService {
 
 	@Autowired
 	private BooksDAO dao;
-	
+
 	@Override
 	public ArrayList<Book> findBooksByAuthorBook(long callInput) {
 		ArrayList<Book> books = new ArrayList<>();
@@ -106,7 +106,7 @@ public class BookServiceDBImpl implements BookService {
 		}
 		return selections;
 	}
-	
+
 	@Override
 	public ArrayList<Book> searchBooks(ArrayList<String> param) {
 		ArrayList<Book> books = new ArrayList<>();
@@ -115,13 +115,14 @@ public class BookServiceDBImpl implements BookService {
 			books.add(convertToDTO(bds));
 		return books;
 	}
-	
+
 	@Override
 	public String titleByIdSelection(long id) {
 		SelectionsDataSet sds = dao.getSelectionById(id);
 		if (sds != null)
 			return sds.getName();
-		else return null;
+		else
+			return null;
 	}
 
 	@Override
@@ -129,7 +130,8 @@ public class BookServiceDBImpl implements BookService {
 		GenresDataSet gds = dao.getGenreById(id);
 		if (gds != null)
 			return gds.getName();
-		else return null;
+		else
+			return null;
 	}
 
 	@Override
@@ -137,9 +139,10 @@ public class BookServiceDBImpl implements BookService {
 		AuthorsDataSet ads = dao.getAuthorById(id);
 		if (ads != null)
 			return ads.getName();
-		else return null;
+		else
+			return null;
 	}
-	
+
 	@Override
 	public void addBook(BookEdit book) {
 		BooksDataSet bds = new BooksDataSet();
@@ -151,35 +154,100 @@ public class BookServiceDBImpl implements BookService {
 		bds.setPublicationYear(Integer.parseInt(book.getYear_publish()));
 		bds.setIsbn(book.getIsbn());
 		bds.setPages(Integer.parseInt(book.getCol_pages()));
-		
+
 		String[] authors = book.getAuthor().split(",");
 		for (String authorName : authors) {
 			bds.getAuthors().add(dao.getOrCreateAuthorByName(authorName));
 		}
-		
+
 		String[] genres = book.getGenre().split(",");
 		for (String genreName : genres) {
 			bds.getGenres().add(dao.getOrCreateGenreByName(genreName));
 		}
 
 		bds.setPublisher(dao.getOrCreatePublisherByName(book.getPublish()));
-		
+
 		bds.setBinding(dao.getOrCreateBindingByName(book.getDescription()));
 
 		bds.setDescription(book.getSpecific());
 
-/*		SimpleDateFormat parserSDF = new SimpleDateFormat("dd.MM.yyyy");
-		try {
-			bds.setAdditionDate(parserSDF.parse(book.getAddition_date()));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}*/
+		/*
+		 * SimpleDateFormat parserSDF = new SimpleDateFormat("dd.MM.yyyy"); try
+		 * { bds.setAdditionDate(parserSDF.parse(book.getAddition_date())); }
+		 * catch (ParseException e) { e.printStackTrace(); }
+		 */
 		bds.setAdditionDate(new Date());
 
 		System.out.println(bds);
 		dao.addBook(bds);
 	}
-	
+
+	@Override
+	public ArrayList<Book> listNew() {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.getRecentBooks(20);
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
+
+	@Override
+	public ArrayList<Book> listPopular() {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.getBestBooks(20);
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
+
+	@Override
+	public ArrayList<Book> listClassic() {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.getClassicBooks(1850);
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
+
+	@Override
+	public ArrayList<Book> listChild() {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.getBooksBySelectionName("Лучшие детские книги");
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
+
+	@Override
+	public ArrayList<Book> listForeign() {
+		ArrayList<Book> books = new ArrayList<>();
+		ArrayList<BooksDataSet> dataSets = dao.getForeignBooks();
+		for (BooksDataSet bds : dataSets)
+			books.add(convertToDTO(bds));
+		return books;
+	}
+
+	/*
+	 * Изменение рейтинга книги. В БД рейтинг хранится как числа оценок и самой
+	 * оценки.
+	 */
+	@Override
+	public int changeRate(int rate_new) {
+		long bookId = 1;
+		BooksDataSet bds = dao.getBookById(bookId);
+		int currRateInfo = bds.getRate();
+		int newRateInfo;
+		int newRate;
+			int currAmount = currRateInfo / 10;
+			int currRate = currRateInfo % 10;
+			int newAmount = currAmount + 1;
+			newRate = Math.round((currRate * currAmount + rate_new) / newAmount);
+			newRateInfo = newAmount * 10 + newRate;
+		
+		// bds.setRate(newRateInfo);
+		return newRate;
+	}
+
 	@SuppressWarnings("unused")
 	private Book convertToDTODummy(BooksDataSet booksDataSet) {
 		ArrayList<Author> authors = new ArrayList<>();
@@ -212,7 +280,7 @@ public class BookServiceDBImpl implements BookService {
 		book.setTitle(booksDataSet.getTitle());
 		book.setGenre(genres);
 		book.setImg(booksDataSet.getImageName());
-		book.setCol_pages(""+booksDataSet.getPages());
+		book.setCol_pages("" + booksDataSet.getPages());
 		book.setCover(booksDataSet.getBinding().getName());
 		book.setIsbn(booksDataSet.getIsbn());
 		book.setPublish(booksDataSet.getPublisher().getName());
@@ -230,7 +298,7 @@ public class BookServiceDBImpl implements BookService {
 		author.setColBook(authorsDataSet.getBooks().size());
 		return author;
 	}
-	
+
 	private Author convertToDTOWithoutExtraInfo(AuthorsDataSet authorsDataSet) {
 		Author author = new Author();
 		author.setAuthor(authorsDataSet.getName());
@@ -245,7 +313,7 @@ public class BookServiceDBImpl implements BookService {
 		genre.setColBook(genresDataSet.getBooks().size());
 		return genre;
 	}
-	
+
 	private Genre convertToDTOWithoutExtraInfo(GenresDataSet genresDataSet) {
 		Genre genre = new Genre();
 		genre.setGenre(genresDataSet.getName());
@@ -260,6 +328,5 @@ public class BookServiceDBImpl implements BookService {
 		selection.setColBook(selectionsDataSet.getBooks().size());
 		return selection;
 	}
-
 
 }
