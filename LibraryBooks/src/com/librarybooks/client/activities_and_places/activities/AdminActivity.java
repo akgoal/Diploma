@@ -45,25 +45,36 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 				@Override
 				public void onClick(ClickEvent event) {
 					book = userView.getAddBook().getBookEdt();
-					Window.alert(book.getTitle() + "\n" + book.getTitle_original() + "\n"
-							+ book.getAuthor() + "\n" + book.getGenre() + "\n" + book.getImg()
-							+ "\n" + book.getYear_create() + "\n" + book.getPublish() + "\n"
-							+ book.getYear_publish() + "\n" + book.getIsbn() + "\n"
-							+ book.getCol_pages() + "\n" + book.getDescription() + "\n"
-							+ book.getSpecific() + "\n" + book.getAddition_date());
-					bookService.addBook(book, new AsyncCallback<Void>() {
+					if (book != null) {
+						bookService.addBook(book, new AsyncCallback<Void>() {
 
-						public void onFailure(Throwable caught) {
-							// ChangeViewERROR();
-						}
+							public void onFailure(Throwable caught) {
+								// ChangeViewERROR();
+							}
 
-						@Override
-						public void onSuccess(Void result) {
-							// TODO Auto-generated method stub
-						}
-					});
+							@Override
+							public void onSuccess(Void result) {
+								// TODO Auto-generated method stub
+							}
+						});
+					}
+
 				}
 			});
+		} else if (info.equals("change")) {
+			bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
+
+				public void onFailure(Throwable caught) {
+					// ChangeViewERROR();
+				}
+
+				@Override
+				public void onSuccess(ArrayList<Book> books) {
+					// TODO Auto-generated method stub
+					userView.setChangeView(info, books, bookService);
+				}
+			});
+
 		}
 		userView.setPresenter(this);
 		containerWidget.setWidget(userView.asWidget());

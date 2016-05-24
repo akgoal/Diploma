@@ -890,4 +890,22 @@ position:fixed;
 	color: #FDC600;
     text-transform: capitalize;
 }
-    
+/*
+* ширина TextArea
+*/
+
+.gwt-TextArea{
+	max-width:237px;
+	min-width:237px;
+}
+
+.error_focus{
+	outline: rgb(255, 110, 84) auto 5px;
+}
+
+.gwt-ListBox{
+	overflow-x: auto;
+	width: 270px;
+    margin-left: 25px;
+}
+
