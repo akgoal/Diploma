@@ -23,6 +23,7 @@ public class Rate extends Composite {
 	}
 
 	BookServiceAsync bookService;
+	long id;
 
 	@UiField
 	HTML r1;
@@ -35,8 +36,9 @@ public class Rate extends Composite {
 	@UiField
 	HTML r5;
 
-	public Rate(BookServiceAsync _bookService, int rate) {
+	public Rate(BookServiceAsync _bookService, long _id, int rate) {
 		this.bookService = _bookService;
+		this.id = _id;
 		initWidget(uiBinder.createAndBindUi(this));
 		r1.setHTML("<span>&#9734</span>");
 		r2.setHTML("<span>&#9734</span>");
@@ -49,7 +51,7 @@ public class Rate extends Composite {
 		r1.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				bookService.changeRate(1, new AsyncCallback<Integer>() {
+				bookService.changeRate(id, 1, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Ошибка!");
 					}
@@ -63,7 +65,7 @@ public class Rate extends Composite {
 		r2.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				bookService.changeRate(2, new AsyncCallback<Integer>() {
+				bookService.changeRate(id, 2, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Ошибка!");
 					}
@@ -77,7 +79,7 @@ public class Rate extends Composite {
 		r3.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				bookService.changeRate(3, new AsyncCallback<Integer>() {
+				bookService.changeRate(id, 3, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Ошибка!");
 					}
@@ -91,7 +93,7 @@ public class Rate extends Composite {
 		r4.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				bookService.changeRate(4, new AsyncCallback<Integer>() {
+				bookService.changeRate(id, 4, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Ошибка!");
 					}
@@ -105,7 +107,7 @@ public class Rate extends Composite {
 		r5.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				bookService.changeRate(5, new AsyncCallback<Integer>() {
+				bookService.changeRate(id, 5, new AsyncCallback<Integer>() {
 					public void onFailure(Throwable caught) {
 						Window.alert("Ошибка!");
 					}

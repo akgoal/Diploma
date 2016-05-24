@@ -49,6 +49,6 @@ public interface BookServiceAsync {
 
 	void listForeign(AsyncCallback<ArrayList<Book>> callback);
 
-	void changeRate(int rate_new, AsyncCallback<Integer> callback);
+	void changeRate(long id, int rate_new, AsyncCallback<Integer> callback);
 
 }

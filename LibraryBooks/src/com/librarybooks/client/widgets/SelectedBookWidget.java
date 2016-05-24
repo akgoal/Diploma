@@ -140,7 +140,7 @@ public class SelectedBookWidget extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		Grid grid = new Grid(7, 2);
 
-		dnmc_rating.add(new Rate(bookService, book.getRate()));
+		dnmc_rating.add(new Rate(bookService, id_book, book.getRate()));
 		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
 		full_img.setUrl(img_src);
 

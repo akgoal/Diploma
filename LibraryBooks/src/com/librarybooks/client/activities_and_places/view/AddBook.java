@@ -304,7 +304,7 @@ public class AddBook extends Composite {
 						year_create.getText().trim(), publish.getText().trim(),
 						year_publish.getText().trim(), isbn.getText().trim(),
 						col_pages.getText().trim(), description.getText().trim(),
-						specific.getText().trim(), new Date().toString());
+						specific.getText().trim(), new Date());
 			}
 		});
 

@@ -1,6 +1,7 @@
 package com.librarybooks.client.objects;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class BookEdit implements Serializable {
@@ -17,11 +18,11 @@ public class BookEdit implements Serializable {
 	private String col_pages;
 	private String description;
 	private String specific;
-	private String addition_date;
+	private Date addition_date;
 
 	public BookEdit(String title, String title_original, String author, String genre, String img,
 			String year_create, String publish, String year_publish, String isbn, String col_pages,
-			String description, String specific, String addition_date) {
+			String description, String specific, Date addition_date) {
 
 		this.title = (title.isEmpty()) ? null : title;
 		this.title_original = (title_original.isEmpty()) ? null : title_original;
@@ -137,11 +138,11 @@ public class BookEdit implements Serializable {
 		this.specific = specific;
 	}
 
-	public String getAddition_date() {
+	public Date getAddition_date() {
 		return addition_date;
 	}
 
-	public void setAddition_date(String addition_date) {
+	public void setAddition_date(Date addition_date) {
 		this.addition_date = addition_date;
 	}
 

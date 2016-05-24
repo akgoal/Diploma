@@ -2,8 +2,6 @@ package com.librarybooks.server;
 
 import java.util.ArrayList;
 
-import org.apache.tools.ant.taskdefs.XSLTProcess.Param;
-
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.objects.Author;
@@ -11,7 +9,6 @@ import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.BookEdit;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
-import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 
 /** The server-side implementation of the RPC service. */
 @SuppressWarnings("serial")
@@ -211,13 +208,11 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 
 	@Override
 	public String titleByIdGenre(long id) {
-		// TODO Auto-generated method stub
 		return "Жанр " + id;
 	}
 
 	@Override
 	public String titleByIdAuthor(long id) {
-		// TODO Auto-generated method stub
 		return "Иванов И.И. " + id;
 	}
 
@@ -280,8 +275,8 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 	}
 
 	@Override
-	public int changeRate(int rate_new) {
-		// TODO Auto-generated method stub
+	public int changeRate(long id, int rate_new) {
+		System.out.println(id);
 		return rate_new;
 	}
 
