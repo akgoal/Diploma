@@ -1,0 +1,10 @@
+[05-24 14:43:51,751, 21130] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-24 14:43:51,760, 21139] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-24 14:43:51,762, 21141] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-24 14:43:51,869, 21248] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-24 14:43:52,676, 22055] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-24 14:43:53,734, 23113] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-24 14:43:53,738, 23117] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@156aaa6
+[05-24 14:43:54,494, 23873] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-24 14:43:55,015, 24394] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-24 14:43:57,298, 26677] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.

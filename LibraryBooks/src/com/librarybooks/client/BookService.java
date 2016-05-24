@@ -52,6 +52,6 @@ public interface BookService extends RemoteService {
 
 	ArrayList<Book> listForeign();
 
-	int changeRate(int rate_new);
+	int changeRate(long id, int rate_new);
 
 }
