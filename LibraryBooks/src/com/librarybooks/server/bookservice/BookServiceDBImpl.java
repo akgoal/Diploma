@@ -1,7 +1,6 @@
 package com.librarybooks.server.bookservice;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -171,12 +170,7 @@ public class BookServiceDBImpl implements BookService {
 
 		bds.setDescription(book.getSpecific());
 
-		/*
-		 * SimpleDateFormat parserSDF = new SimpleDateFormat("dd.MM.yyyy"); try
-		 * { bds.setAdditionDate(parserSDF.parse(book.getAddition_date())); }
-		 * catch (ParseException e) { e.printStackTrace(); }
-		 */
-		bds.setAdditionDate(new Date());
+		bds.setAdditionDate(book.getAddition_date());
 
 		System.out.println(bds);
 		dao.addBook(bds);
@@ -232,39 +226,21 @@ public class BookServiceDBImpl implements BookService {
 	 * оценки.
 	 */
 	@Override
-	public int changeRate(int rate_new) {
-		long bookId = 1;
-		BooksDataSet bds = dao.getBookById(bookId);
-		int currRateInfo = bds.getRate();
-		int newRateInfo;
-		int newRate;
-			int currAmount = currRateInfo / 10;
-			int currRate = currRateInfo % 10;
-			int newAmount = currAmount + 1;
-			newRate = Math.round((currRate * currAmount + rate_new) / newAmount);
-			newRateInfo = newAmount * 10 + newRate;
+	public int changeRate(long id, int rate_new) {
+		BooksDataSet bds = dao.getBookById(id);
+		float currRateInfo = bds.getRate();
+		int currAmount = (int) currRateInfo / 10;
+		float currRate = currRateInfo - currAmount * 10;
+		int newAmount = currAmount + 1;
+		float newRate = (currRate * currAmount + rate_new) / newAmount;
+		float newRateInfo = newAmount * 10 + newRate;
 		
-		// bds.setRate(newRateInfo);
-		return newRate;
+		bds.setRate(newRateInfo);
+		dao.updateBook(bds);
+		return Math.round(newRate);
 	}
 
-	@SuppressWarnings("unused")
-	private Book convertToDTODummy(BooksDataSet booksDataSet) {
-		ArrayList<Author> authors = new ArrayList<>();
-
-		ArrayList<Genre> genres = new ArrayList<>();
-
-		Book book = new Book();
-		book.setIdBook(booksDataSet.getId());
-		book.setAuthor(authors);
-		book.setTitle(booksDataSet.getTitle());
-		book.setGenre(genres);
-		book.setImg(booksDataSet.getImageName());
-
-		return book;
-	}
-
-	/* Conversions DataSet -> DTO Object */
+	/* Conversions DataSet -> DTO */
 	private Book convertToDTO(BooksDataSet booksDataSet) {
 		ArrayList<Author> authors = new ArrayList<>();
 		for (AuthorsDataSet ads : booksDataSet.getAuthors())
@@ -287,6 +263,11 @@ public class BookServiceDBImpl implements BookService {
 		book.setSpecific(booksDataSet.getDescription());
 		book.setYear_create("" + booksDataSet.getCreationYear());
 		book.setYear_publish("" + booksDataSet.getPublicationYear());
+		
+		float rateInfo = booksDataSet.getRate();
+		int amount = (int) rateInfo / 10;
+		float rate = rateInfo - amount * 10;	
+		book.setRate(Math.round(rate));
 
 		return book;
 	}

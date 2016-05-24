@@ -24,6 +24,8 @@ public interface BooksDAO {
     void addPublisher(PublishersDataSet publisher);
     void addBinding(BindingsDataSet binding);
     
+    void updateBook(BooksDataSet book);
+    
     ArrayList<BooksDataSet> getBooksByAuthorId(long authorId);
     ArrayList<BooksDataSet> getBooksByGenreId(long genreId);
     ArrayList<BooksDataSet> getBooksBySelectionId(long selectionId);
