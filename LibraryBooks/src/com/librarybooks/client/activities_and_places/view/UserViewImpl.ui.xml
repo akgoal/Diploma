@@ -8,6 +8,7 @@
 	<g:HTMLPanel ui:field="searchPanel"></g:HTMLPanel>
 	<div class="header">
 		<div class="top_bar"></div>
+		<g:VerticalPanel ui:field="form_auth"></g:VerticalPanel>
 		<div class="text" ui:field="textElement">
 			<a>
 				<img src="img/logo_mini.png"></img>

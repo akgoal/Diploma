@@ -39,5 +39,10 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-tx-4.2.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-web-4.2.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-webmvc-4.2.2.RELEASE.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/aspectjrt-1.8.9.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/aspectjweaver-1.8.9.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-security-config-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-security-core-4.1.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/spring-security-web-4.1.0.RELEASE.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

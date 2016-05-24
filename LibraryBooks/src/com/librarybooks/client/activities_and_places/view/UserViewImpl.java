@@ -15,7 +15,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -25,6 +27,8 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
@@ -34,6 +38,8 @@ import com.librarybooks.client.objects.Author;
 import com.librarybooks.client.objects.Book;
 import com.librarybooks.client.objects.Genre;
 import com.librarybooks.client.objects.Selection;
+import com.librarybooks.client.security.SecurityService;
+import com.librarybooks.client.security.SecurityServiceAsync;
 import com.librarybooks.client.widgets.Basket;
 import com.librarybooks.client.widgets.BookWidget;
 import com.librarybooks.client.widgets.SearchPane;
@@ -63,6 +69,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	@UiField
 	DivElement textElement;
 	@UiField
+	VerticalPanel form_auth;
+	@UiField
 	HTMLPanel menuBar;
 	@UiField
 	HorizontalPanel titlePanel;
@@ -82,12 +90,18 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	LIElement liselection;
 
 	MenuBar menuMain = new MenuBar();
+	TextBox username = new TextBox();
+	PasswordTextBox password = new PasswordTextBox();
+	Button button_auth = new Button("Войти");
+	Button button_outh = new Button("Выйти");
 
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
 
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
+
+	private final SecurityServiceAsync securityService = GWT.create(SecurityService.class);
 
 	final SearchPane sp = new SearchPane();
 	final Basket basket = new Basket();
@@ -96,6 +110,46 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	public UserViewImpl() {
 
 		initWidget(uiBinder.createAndBindUi(this));
+		form_auth.setStyleName("form_auth");
+		form_auth.add(username);
+		form_auth.add(password);
+		form_auth.add(button_auth);
+		button_auth.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				securityService.authenticate(username.getText(), password.getText(),
+						new AsyncCallback<Boolean>() {
+							public void onFailure(Throwable caught) {
+								Window.alert("Ошибка!!!");
+							}
+
+							public void onSuccess(Boolean auth_result) {
+								if (auth_result) {
+									Window.alert("Добро пожаловать, " + username.getText() + "!");
+									form_auth.clear();
+									form_auth.add(new HTML("<p>Вы вошли под именем <span>"
+											+ username.getText() + "</span></p>"));
+									form_auth.add(button_outh);
+								} else {
+									username.setText("");
+									password.setText("");
+								}
+							}
+						});
+			}
+		});
+		button_outh.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				form_auth.clear();
+				form_auth.add(username);
+				form_auth.add(password);
+				form_auth.add(button_auth);
+			}
+		});
+
 		searchPanel.getElement().setId("search_panel");
 		basket.setStyleName("basket");
 		basket.getHTMLPanel().add(basketFlex);

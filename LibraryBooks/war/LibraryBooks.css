@@ -865,3 +865,29 @@ position:fixed;
    	position: absolute;
 }
 
+
+/*
+* Авторизация
+*/
+
+.form_auth{
+	float: left;
+    width: 200px;
+    z-index: 10;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.85);
+    position: relative;
+    top: 150px;
+    left: 30px;
+    padding: 13px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+}
+.form_auth p{
+	color: #fff;
+}
+.form_auth p span{
+	color: #FDC600;
+    text-transform: capitalize;
+}
+    
