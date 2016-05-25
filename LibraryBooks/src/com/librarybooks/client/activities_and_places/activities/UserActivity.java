@@ -32,8 +32,8 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	private long id;
 	private String param;
-	private String[] options = { "all", "author", "genre", "selection", "book", "new", "popular",
-			"classic", "child", "foreign" };
+	private String[] options = { "reg", "all", "author", "genre", "search", "selection", "book",
+			"new", "popular", "classic", "child", "foreign" };
 	private ArrayList<String> search_param = new ArrayList<String>();
 	private String type;
 	private int page;
@@ -85,6 +85,11 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 		for (String option : selected_option) {
 			switch (option) {
+			case "reg":
+				if (ref.matches(option)) {
+					this.type = option;
+				}
+				break;
 			case "new":
 			case "popular":
 			case "classic":
@@ -133,17 +138,6 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 			default:
 				break;
 			}
-			/* if (option.equals("new")) { if (ref.matches(option + "&p=[1-9][0-9]*")) { this.type = option; this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), ""); String a = (ref.replaceAll(option, "")).replaceAll("p=", ""); this.page = Integer.valueOf(a.substring(a.indexOf("&") + 1));
-			 * } else { if (option.equals("search")) { if (ref.matches(option + "=[0-9A-Za-z/а-яёА-ЯЁ/]+(\u005F[0-9A-Za-z/а-яёА-ЯЁ/]+)*&p=[1-9][0-9]*")) { this.type = option; this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), ""); this.page =
-			 * Integer.valueOf(ref.substring(ref.indexOf("&p=") + 3)); String s = ref.replaceAll(ref.substring(ref.indexOf("&p=")), "") .replaceAll("search" + "=", "").replace("\u005F", " ").trim(); consoleLog(s); String str[] = s.split(" "); consoleLog(str.length + ""); for (int i = 0; i <
-			 * str.length; i++) search_param.add(str[i]); } else { if (option.equals("book")) { if (ref.matches(option + "=[0-9]+")) { this.type = option; this.id = Long.valueOf(ref.replaceAll(option + "=", "")); } } else {
-			 * 
-			 * if (ref.matches(option + "=[0-9]+&p=[1-9][0-9]*")) { this.type = option; this.param = ref.replaceAll(ref.substring(ref.indexOf("&p=")), ""); String a = (ref.replaceAll(option + "=", "")).replaceAll("p=", ""); this.id = Long.valueOf(a.substring(0, a.indexOf("&"))); this.page =
-			 * Integer.valueOf(a.substring(a.indexOf("&") + 1)); } else {
-			 * 
-			 * } } } }
-			 * 
-			 * } } */
 		}
 
 	}
@@ -151,6 +145,9 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private void showView(UserPlace place, String type) {
 
 		switch (type) {
+		case "reg":
+			ChangeViewReg();
+			break;
 		case "all":
 			bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
 				public void onFailure(Throwable caught) {
@@ -352,6 +349,10 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 		pageNav(books.size());
 		userView.setView(place, new ArrayList<Book>(books.subList(start, stop)), col_page, page,
 				type, param, title);
+	}
+
+	private void ChangeViewReg() {
+		userView.setViewReg();
 	}
 
 	private void ChangeViewBook(Book book) {

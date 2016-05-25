@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -63,7 +64,9 @@ public class AddBook extends Composite {
 	TextArea specific = new TextArea();
 
 	VerticalPanel vPanel = new VerticalPanel();
+	HorizontalPanel hPanel = new HorizontalPanel();
 	Button button = new Button("Добавить");
+	Button del = new Button("Удалить");
 	BookEdit book;
 
 	public AddBook(BookEdit bookEdit) {
@@ -293,11 +296,23 @@ public class AddBook extends Composite {
 		grid.setCellPadding(5);
 		button.getElement().getStyle().setMarginBottom(30, Unit.PX);
 		button.getElement().getStyle().setMarginTop(15, Unit.PX);
+		del.getElement().getStyle().setMarginBottom(30, Unit.PX);
+		del.getElement().getStyle().setMarginTop(15, Unit.PX);
 		vPanel.setWidth("100%");
 		vPanel.setCellHorizontalAlignment(grid, HasHorizontalAlignment.ALIGN_CENTER);
 
-		vPanel.add(button);
-		vPanel.setCellHorizontalAlignment(button, HasHorizontalAlignment.ALIGN_CENTER);
+		if (book != null) {
+			hPanel.clear();
+			hPanel.add(button);
+			hPanel.add(del);
+			vPanel.add(hPanel);
+		} else {
+			hPanel.clear();
+			hPanel.add(button);
+			vPanel.add(hPanel);
+		}
+		hPanel.setSpacing(10);
+		vPanel.setCellHorizontalAlignment(hPanel, HasHorizontalAlignment.ALIGN_CENTER);
 
 		button.addClickHandler(new ClickHandler() {
 

@@ -157,6 +157,7 @@ a{
 	text-decoration: none;
 }
 #view_books{
+	border-radius: 20px;
 	padding-top:30px;
 	background:rgba(255, 255, 255, 0.8);
 	overflow: hidden;
@@ -909,3 +910,18 @@ position:fixed;
     margin-left: 25px;
 }
 
+.reg{
+	padding:10px 30px 30px 30px;
+    border: 1px solid rgba(162, 162, 162, 0.08);
+    background: rgba(243, 243, 243, 0.38);
+    border-radius: 5px;
+}
+.reg h2{
+	color: #4F4B5D;
+    font-weight: 400;
+    font-variant: small-caps;
+    border-bottom: 1px solid #4F4B5D;
+    padding-bottom: 5px;
+    text-align: center;
+    margin: 10px 0 30px 0;
+}

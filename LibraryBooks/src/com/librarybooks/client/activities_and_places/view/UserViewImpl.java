@@ -17,8 +17,10 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -28,6 +30,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -92,8 +95,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 	MenuBar menuMain = new MenuBar();
 	TextBox username = new TextBox();
 	PasswordTextBox password = new PasswordTextBox();
-	Button button_auth = new Button("Войти");
-	Button button_outh = new Button("Выйти");
+	HorizontalPanel but_panel = new HorizontalPanel();
+	Button button_auth = new Button("Вход");
+	Anchor a_reg = new Anchor("   Регистрация");
+	Button button_outh = new Button("Выход");
 
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
@@ -113,7 +118,10 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		form_auth.setStyleName("form_auth");
 		form_auth.add(username);
 		form_auth.add(password);
-		form_auth.add(button_auth);
+		but_panel.add(button_auth);
+		but_panel.add(a_reg);
+		a_reg.getElement().getStyle().setMarginLeft(10, Unit.PX);
+		form_auth.add(but_panel);
 		button_auth.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -146,7 +154,15 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				form_auth.clear();
 				form_auth.add(username);
 				form_auth.add(password);
-				form_auth.add(button_auth);
+				but_panel.add(button_auth);
+				but_panel.add(a_reg);
+				form_auth.add(but_panel);
+			}
+		});
+
+		a_reg.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				listener.goTo(new UserPlace("reg"));
 			}
 		});
 
@@ -359,6 +375,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		fPanel.clear();
 		sprintHPanel.clear();
 		hPanel.clear();
+		titlePanel.clear();
 		fPanel.add(new HTML("<p align=\"center\">" + ref + "</p>"));
 
 	}
@@ -513,5 +530,16 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		// TODO Auto-generated method stub
 		// return bb;
 		return null;
+	}
+
+	@Override
+	public void setViewReg() {
+		// TODO Auto-generated method stub
+		fPanel.clear();
+		sprintHPanel.clear();
+		hPanel.clear();
+		titlePanel.clear();
+		fPanel.add(new Reg());
+
 	}
 }
