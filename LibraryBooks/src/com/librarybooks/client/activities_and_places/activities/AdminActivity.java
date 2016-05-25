@@ -39,6 +39,7 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
 
 		userView = clientFactory.getAdminView();
+
 		if (info.equals("add")) {
 			userView.setAddView(info);
 			userView.getAddBook().getButton().addClickHandler(new ClickHandler() {
@@ -61,6 +62,7 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 
 				}
 			});
+
 		} else if (info.equals("change")) {
 			bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
 
@@ -72,10 +74,12 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 				public void onSuccess(ArrayList<Book> books) {
 					// TODO Auto-generated method stub
 					userView.setChangeView(info, books, bookService);
+
 				}
 			});
 
 		}
+
 		userView.setPresenter(this);
 		containerWidget.setWidget(userView.asWidget());
 	}

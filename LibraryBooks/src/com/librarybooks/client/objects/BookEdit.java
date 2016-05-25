@@ -119,7 +119,7 @@ public class BookEdit implements Serializable {
 	}
 
 	public void setCol_pages(String col_pages) {
-		this.col_pages = col_pages.trim();
+		this.col_pages = col_pages;
 	}
 
 	public String getDescription() {

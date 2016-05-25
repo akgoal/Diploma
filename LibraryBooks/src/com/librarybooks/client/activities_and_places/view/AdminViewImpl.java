@@ -83,6 +83,7 @@ public class AdminViewImpl extends Composite implements AdminView {
 		// TODO Auto-generated method stub
 		this.bookService = _bookService;
 		htmlPanel.clear();
+		addBook = new AddBook(null);
 		HorizontalPanel hp = new HorizontalPanel();
 		HTMLPanel panel = new HTMLPanel("");
 		panel.setWidth("300px");
@@ -104,7 +105,6 @@ public class AdminViewImpl extends Composite implements AdminView {
 
 							public void onFailure(Throwable caught) {
 								Window.alert("Отсутствует метод вызова");
-								addBook = new AddBook(null);
 							}
 
 							@Override
