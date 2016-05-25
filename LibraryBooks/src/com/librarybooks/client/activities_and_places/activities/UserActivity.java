@@ -64,9 +64,6 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	public void start(AcceptsOneWidget containerWidget, EventBus eventBus) {
 
 		userView = clientFactory.getUserView();
-		// place.setParamBaske("!!!");
-
-		// Window.alert(place.getParam());
 		showView(place, type);
 		userView.setPresenter(this);
 		containerWidget.setWidget(userView.asWidget());
