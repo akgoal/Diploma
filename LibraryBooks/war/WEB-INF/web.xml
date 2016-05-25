@@ -37,7 +37,12 @@
 
 	<servlet-mapping>
 		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
-		<url-pattern>/librarybooks/services/*</url-pattern>
+		<url-pattern>/librarybooks/services/bookService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
+		<url-pattern>/librarybooks/services/securityService</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->
