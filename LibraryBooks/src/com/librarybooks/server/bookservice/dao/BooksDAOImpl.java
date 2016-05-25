@@ -128,6 +128,11 @@ public class BooksDAOImpl implements BooksDAO {
 	}
 
 	@Override
+	public void updateBook(BooksDataSet book) {
+		sessionFactory.getCurrentSession().update(book);
+	}
+	
+	@Override
 	public BooksDataSet getBookById(long bookId) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(BooksDataSet.class);
 		criteria.add(Restrictions.idEq(bookId));

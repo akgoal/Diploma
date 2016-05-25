@@ -87,7 +87,7 @@ public class BooksDataSet {
 	private Date additionDate;
 
 	@Column(name = "rate")
-	private int rate;
+	private float rate;
 
 	/* Constructors */
 	public BooksDataSet() {
@@ -258,11 +258,11 @@ public class BooksDataSet {
 		this.additionDate = additionDate;
 	}
 
-	public int getRate() {
+	public float getRate() {
 		return rate;
 	}
 
-	public void setRate(int rate) {
+	public void setRate(float rate) {
 		this.rate = rate;
 	}
 	

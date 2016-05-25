@@ -33,4 +33,6 @@ public interface UserView extends IsWidget {
 	public interface Presenter {
 		void goTo(Place place);
 	}
+
+	void setViewReg();
 }

@@ -51,4 +51,10 @@ public interface BookServiceAsync {
 
 	void changeRate(long id, int rate_new, AsyncCallback<Integer> callback);
 
+	void selectBookEdit(long id, AsyncCallback<BookEdit> callback);
+
+	void EditBook(long id, BookEdit book, AsyncCallback<Void> callback);
+
+	void DelBook(long id, AsyncCallback<Void> callback);
+
 }
