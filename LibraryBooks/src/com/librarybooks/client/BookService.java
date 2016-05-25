@@ -56,7 +56,6 @@ public interface BookService extends RemoteService {
 
 	BookEdit selectBookEdit(long id);
 
-	void EditBook(long id);
 
 	void DelBook(long id);
 
