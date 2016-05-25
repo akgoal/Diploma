@@ -280,4 +280,22 @@ public class DEPRBookServiceImpl extends RemoteServiceServlet implements BookSer
 		return rate_new;
 	}
 
+	@Override
+	public BookEdit selectBookEdit(long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void EditBook(long id, BookEdit book) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void DelBook(long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

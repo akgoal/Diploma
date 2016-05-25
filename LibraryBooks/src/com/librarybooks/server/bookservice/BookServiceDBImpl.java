@@ -146,33 +146,8 @@ public class BookServiceDBImpl implements BookService {
 	public void addBook(BookEdit book) {
 		BooksDataSet bds = new BooksDataSet();
 
-		bds.setTitle(book.getTitle());
-		bds.setOriginalTitle(book.getTitle_original());
-		bds.setImageName(book.getImg());
-		bds.setCreationYear(Integer.parseInt(book.getYear_create()));
-		bds.setPublicationYear(Integer.parseInt(book.getYear_publish()));
-		bds.setIsbn(book.getIsbn());
-		bds.setPages(Integer.parseInt(book.getCol_pages()));
+		setDTOToDataset(book, bds);
 
-		String[] authors = book.getAuthor().split(",");
-		for (String authorName : authors) {
-			bds.getAuthors().add(dao.getOrCreateAuthorByName(authorName));
-		}
-
-		String[] genres = book.getGenre().split(",");
-		for (String genreName : genres) {
-			bds.getGenres().add(dao.getOrCreateGenreByName(genreName));
-		}
-
-		bds.setPublisher(dao.getOrCreatePublisherByName(book.getPublish()));
-
-		bds.setBinding(dao.getOrCreateBindingByName(book.getDescription()));
-
-		bds.setDescription(book.getSpecific());
-
-		bds.setAdditionDate(book.getAddition_date());
-
-		System.out.println(bds);
 		dao.addBook(bds);
 	}
 
@@ -234,10 +209,29 @@ public class BookServiceDBImpl implements BookService {
 		int newAmount = currAmount + 1;
 		float newRate = (currRate * currAmount + rate_new) / newAmount;
 		float newRateInfo = newAmount * 10 + newRate;
-		
+
 		bds.setRate(newRateInfo);
 		dao.updateBook(bds);
 		return Math.round(newRate);
+	}
+
+	@Override
+	public BookEdit selectBookEdit(long id) {
+		BooksDataSet dataSet = dao.getBookById(id);
+		BookEdit book = convertToDTOBookEdit(dataSet);
+		return book;
+	}
+
+	@Override
+	public void EditBook(long id, BookEdit book) {
+		BooksDataSet bds = dao.getBookById(id);
+		setDTOToDataset(book, bds);
+		dao.updateBook(bds);
+	}
+
+	@Override
+	public void DelBook(long id) {
+		dao.deleteBookById(id);
 	}
 
 	/* Conversions DataSet -> DTO */
@@ -256,18 +250,92 @@ public class BookServiceDBImpl implements BookService {
 		book.setTitle(booksDataSet.getTitle());
 		book.setGenre(genres);
 		book.setImg(booksDataSet.getImageName());
-		book.setCol_pages("" + booksDataSet.getPages());
-		book.setCover(booksDataSet.getBinding().getName());
+		if (booksDataSet.getPages() != 0)
+			book.setCol_pages("" + booksDataSet.getPages());
+		else
+			book.setCol_pages(null);
+
+		if (booksDataSet.getBinding() != null)
+			book.setCover(booksDataSet.getBinding().getName());
+		else
+			book.setCover(null);
 		book.setIsbn(booksDataSet.getIsbn());
-		book.setPublish(booksDataSet.getPublisher().getName());
+		if (booksDataSet.getPublisher() != null)
+			book.setPublish(booksDataSet.getPublisher().getName());
+		else
+			book.setPublish(null);
 		book.setSpecific(booksDataSet.getDescription());
-		book.setYear_create("" + booksDataSet.getCreationYear());
-		book.setYear_publish("" + booksDataSet.getPublicationYear());
-		
+		if (booksDataSet.getCreationYear() != 0)
+			book.setYear_create("" + booksDataSet.getCreationYear());
+		else
+			book.setYear_create(null);
+		if (booksDataSet.getPublicationYear() != 0)
+			book.setYear_publish("" + booksDataSet.getPublicationYear());
+		else
+			book.setYear_publish(null);
+
 		float rateInfo = booksDataSet.getRate();
 		int amount = (int) rateInfo / 10;
-		float rate = rateInfo - amount * 10;	
+		float rate = rateInfo - amount * 10;
 		book.setRate(Math.round(rate));
+
+		return book;
+	}
+
+	private BookEdit convertToDTOBookEdit(BooksDataSet booksDataSet) {
+		BookEdit book = new BookEdit();
+		book.setTitle(booksDataSet.getTitle());
+		book.setTitle_original(booksDataSet.getOriginalTitle());
+
+		if (booksDataSet.getAuthors() != null) {
+			StringBuilder sb = new StringBuilder();
+			int count = 0;
+			int size = booksDataSet.getAuthors().size();
+			for (AuthorsDataSet ads : booksDataSet.getAuthors()) {
+				sb.append(ads.getName());
+				count++;
+				if (count != size)
+					sb.append(",");
+			}
+			book.setAuthor(sb.toString());
+		} else
+			book.setAuthor(null);
+
+		if (booksDataSet.getGenres() != null) {
+			StringBuilder sb = new StringBuilder();
+			int count = 0;
+			int size = booksDataSet.getGenres().size();
+			for (GenresDataSet gds : booksDataSet.getGenres()) {
+				sb.append(gds.getName());
+				count++;
+				if (count != size)
+					sb.append(",");
+			}
+			book.setGenre(sb.toString());
+		} else
+			book.setGenre(null);
+
+		book.setImg(booksDataSet.getImageName());
+		if (booksDataSet.getCreationYear() != 0)
+			book.setYear_create("" + booksDataSet.getCreationYear());
+		else
+			book.setYear_create(null);
+		book.setPublish(booksDataSet.getPublisher().getName());
+		if (booksDataSet.getPublicationYear() != 0)
+			book.setYear_publish("" + booksDataSet.getPublicationYear());
+		else
+			book.setYear_publish(null);
+		book.setIsbn(booksDataSet.getIsbn());
+		if (booksDataSet.getPages() != 0)
+			book.setCol_pages("" + booksDataSet.getPages());
+		else
+			book.setCol_pages(null);
+		if (booksDataSet.getBinding() != null)
+			book.setDescription(booksDataSet.getBinding().getName());
+		else
+			book.setDescription(null);
+		book.setSpecific(booksDataSet.getDescription());
+		book.setAddition_date(booksDataSet.getAdditionDate());
 
 		return book;
 	}
@@ -276,7 +344,10 @@ public class BookServiceDBImpl implements BookService {
 		Author author = new Author();
 		author.setAuthor(authorsDataSet.getName());
 		author.setIdAuthor(authorsDataSet.getId());
-		author.setColBook(authorsDataSet.getBooks().size());
+		if (authorsDataSet.getBooks() != null)
+			author.setColBook(authorsDataSet.getBooks().size());
+		else
+			author.setColBook(0);
 		return author;
 	}
 
@@ -291,7 +362,10 @@ public class BookServiceDBImpl implements BookService {
 		Genre genre = new Genre();
 		genre.setGenre(genresDataSet.getName());
 		genre.setIdGenre(genresDataSet.getId());
-		genre.setColBook(genresDataSet.getBooks().size());
+		if (genresDataSet.getBooks() != null)
+			genre.setColBook(genresDataSet.getBooks().size());
+		else
+			genre.setColBook(0);
 		return genre;
 	}
 
@@ -306,8 +380,58 @@ public class BookServiceDBImpl implements BookService {
 		Selection selection = new Selection();
 		selection.setSelection(selectionsDataSet.getName());
 		selection.setIdSelection(selectionsDataSet.getId());
-		selection.setColBook(selectionsDataSet.getBooks().size());
+		if (selectionsDataSet.getBooks() != null)
+			selection.setColBook(selectionsDataSet.getBooks().size());
+		else
+			selection.setColBook(0);
 		return selection;
+	}
+
+	/* set DTO values to Dataset object */
+	private void setDTOToDataset(BookEdit bookEdit, BooksDataSet booksDataSet) {
+		booksDataSet.setTitle(bookEdit.getTitle());
+		booksDataSet.setOriginalTitle(bookEdit.getTitle_original());
+		booksDataSet.setImageName(bookEdit.getImg());
+		if (bookEdit.getYear_create() != null)
+			booksDataSet.setCreationYear(Integer.parseInt(bookEdit.getYear_create()));
+		else
+			booksDataSet.setCreationYear(0);
+		if (bookEdit.getYear_publish() != null)
+			booksDataSet.setPublicationYear(Integer.parseInt(bookEdit.getYear_publish()));
+		else
+			booksDataSet.setPublicationYear(0);
+		booksDataSet.setIsbn(bookEdit.getIsbn());
+		if (bookEdit.getCol_pages() != null)
+			booksDataSet.setPages(Integer.parseInt(bookEdit.getCol_pages()));
+		else
+			booksDataSet.setPages(0);
+
+		if (bookEdit.getAuthor() != null) {
+			String[] authors = bookEdit.getAuthor().split(",");
+			for (String authorName : authors) {
+				booksDataSet.getAuthors().add(dao.getOrCreateAuthorByName(authorName));
+			}
+		} else
+			booksDataSet.setAuthors(null);
+
+		if (bookEdit.getGenre() != null) {
+			String[] genres = bookEdit.getGenre().split(",");
+			for (String genreName : genres) {
+				booksDataSet.getGenres().add(dao.getOrCreateGenreByName(genreName));
+			}
+		} else
+			booksDataSet.setGenres(null);
+
+		if (bookEdit.getPublish() != null)
+			booksDataSet.setPublisher(dao.getOrCreatePublisherByName(bookEdit.getPublish()));
+		else
+			booksDataSet.setPublisher(null);
+		if (bookEdit.getDescription() != null)
+			booksDataSet.setBinding(dao.getOrCreateBindingByName(bookEdit.getDescription()));
+		else
+			booksDataSet.setBinding(null);
+		booksDataSet.setDescription(bookEdit.getSpecific());
+		booksDataSet.setAdditionDate(bookEdit.getAddition_date());
 	}
 
 }

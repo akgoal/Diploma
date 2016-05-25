@@ -8,6 +8,7 @@ import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
@@ -308,6 +309,14 @@ public class BooksDAOImpl implements BooksDAO {
 
 		}
 		return bdsList;
+	}
+	
+	@Override
+	public void deleteBookById(long id) {
+		Session session = sessionFactory.getCurrentSession();
+		BooksDataSet bds = session.load(BooksDataSet.class, id);
+		if (bds != null)
+			session.delete(bds);
 	}
 
 	/* Lazy loading of all members */

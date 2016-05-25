@@ -53,4 +53,6 @@ public interface BooksDAO {
 	ArrayList<BooksDataSet> getForeignBooks();
 	
 	ArrayList<BooksDataSet> getBooksBySelectionName(String selectionName);
+	
+	void deleteBookById(long id);
 }
