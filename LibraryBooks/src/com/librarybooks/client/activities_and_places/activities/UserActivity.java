@@ -172,7 +172,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 						}
 
 						public void onSuccess(ArrayList<Book> books) {
-							title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+							title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 							ChangeViewBooksList(books, title);
 						}
 					});
@@ -195,7 +195,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 						}
 
 						public void onSuccess(ArrayList<Book> books) {
-							title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+							title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 							ChangeViewBooksList(books, title);
 						}
 					});
@@ -218,7 +218,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 						}
 
 						public void onSuccess(ArrayList<Book> books) {
-							title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+							title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 							ChangeViewBooksList(books, title);
 						}
 					});
@@ -235,7 +235,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 				public void onSuccess(ArrayList<Book> books) {
 					title = "<h2>Новинки</h2>";
-					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 					ChangeViewBooksList(books, title);
 				}
 			});
@@ -249,7 +249,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 				public void onSuccess(ArrayList<Book> books) {
 					title = "<h2>Популярные книги</h2>";
-					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 					ChangeViewBooksList(books, title);
 				}
 			});
@@ -263,7 +263,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 				public void onSuccess(ArrayList<Book> books) {
 					title = "<h2>Классическая литература</h2>";
-					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 					ChangeViewBooksList(books, title);
 				}
 			});
@@ -277,7 +277,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 				public void onSuccess(ArrayList<Book> books) {
 					title = "<h2>Книги для детей</h2>";
-					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 					ChangeViewBooksList(books, title);
 				}
 			});
@@ -291,7 +291,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 				public void onSuccess(ArrayList<Book> books) {
 					title = "<h2>Зарубежная литература</h2>";
-					title = title + "<h5>Колличество книг: " + books.size() + "</h5>";
+					title = title + "<h5>Количество книг: " + books.size() + "</h5>";
 					ChangeViewBooksList(books, title);
 				}
 			});
@@ -321,7 +321,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 					String title = "<h3>Поиск по \"";
 					for (String param : search_param)
 						title = title + param + " ";
-					title = title + "\"</h3><h5>Колличество книг: " + books.size() + "</h5>";
+					title = title + "\"</h3><h5>Количество книг: " + books.size() + "</h5>";
 					if (books.size() > 1)
 						ChangeViewBooksList(books, title);
 					else {
