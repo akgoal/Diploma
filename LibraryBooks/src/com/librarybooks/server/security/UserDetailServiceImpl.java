@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class UserDetailServiceImpl implements UserDetailsService {
 
     public static final String USER_AUTHORITY = "USER";
+    public static final String EMAIL_NOT_VERIFIED = "Email not verified";
 
     @Autowired
     private UserDao userDao;

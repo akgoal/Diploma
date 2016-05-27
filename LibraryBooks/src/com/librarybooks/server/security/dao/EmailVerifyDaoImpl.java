@@ -1,6 +1,6 @@
 package com.librarybooks.server.security.dao;
 
-import com.librarybooks.server.security.data.User;
+import com.librarybooks.server.security.data.EmailVerify;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +9,23 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @Transactional
-public class UserDaoImpl implements UserDao {
+public class EmailVerifyDaoImpl implements EmailVerifyDao {
 
     private final SessionFactory sessionFactory;
 
     @Autowired
-    public UserDaoImpl(SessionFactory sessionFactory) {
+    public EmailVerifyDaoImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
+
     @Override
-    public User findUserByUsername(String username) {
-        return (User) sessionFactory.getCurrentSession().createCriteria(User.class).add(Restrictions.eq("username", username)).uniqueResult();
+    public void save(EmailVerify emailVerify) {
+        sessionFactory.getCurrentSession().save(emailVerify);
     }
 
     @Override
-    public void saveOrUpdate(User user) {
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
+    public EmailVerify getByToken(String token) {
+        return (EmailVerify) sessionFactory.getCurrentSession().createCriteria(EmailVerify.class).add(Restrictions.eq("token", token)).uniqueResult();
     }
 }

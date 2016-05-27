@@ -55,6 +55,8 @@
 				</value>
 				<value>com.librarybooks.server.bookservice.datasets.SelectionsDataSet
 				</value>
+				<value>com.librarybooks.server.security.data.User</value>
+				<value>com.librarybooks.server.security.data.EmailVerify</value>
 
 			</list>
 		</property>
@@ -66,7 +68,7 @@
 				<prop key="hibernate.hbm2ddl.auto">${jdbc.hbm2ddl}</prop>
 				
 				<prop key="hibernate.search.default.directory_provider">filesystem</prop>
-				<prop key="hibernate.search.default.indexBase">/lucene/indexes</prop>
+				<prop key="hibernate.search.default.indexBase">~/lucene/indexes</prop>
 			</props>
 		</property>
 	

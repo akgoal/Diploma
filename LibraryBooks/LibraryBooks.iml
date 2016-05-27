@@ -46,5 +46,7 @@
     <orderEntry type="library" name="spring-security-config-4.1.0.RELEASE" level="project" />
     <orderEntry type="library" name="aspectjrt-1.8.9" level="project" />
     <orderEntry type="library" name="aspectjweaver-1.8.9" level="project" />
+    <orderEntry type="library" name="spring-context-support-4.2.2.RELEASE" level="project" />
+    <orderEntry type="library" name="mail-1.4.7" level="project" />
   </component>
 </module>
