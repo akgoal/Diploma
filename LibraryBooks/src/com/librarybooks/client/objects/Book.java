@@ -21,6 +21,7 @@ public class Book implements Serializable {
 	private int rate;
 	private String price;
 
+	// new
 	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
 			String img, String year_create, String publish, String year_publish, String isbn,
 			String col_pages, String cover, String specific, int rate, String price) {
@@ -115,6 +116,7 @@ public class Book implements Serializable {
 		this.rate = rate;
 	}
 
+	// new
 	public void setBook(long id_book, ArrayList<Author> author, String title,
 			ArrayList<Genre> genre, String img, String year_create, String publish,
 			String year_publish, String isbn, String col_pages, String cover, String specific,
