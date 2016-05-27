@@ -20,7 +20,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -30,7 +29,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -342,13 +340,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		pageNav(col_page, page, param);
 		FlowPanel panel = new FlowPanel();
 		for (int i = 0; i < books.size(); i++) {
-			String title = new String((books.get(i)).getTitle());
-			ArrayList<Author> author = new ArrayList<Author>((books.get(i)).getAuthor());
-			ArrayList<Genre> genre = new ArrayList<Genre>((books.get(i)).getGenre());
-			String img_src = new String((books.get(i)).getImg());
-			long id_book = (books.get(i)).getIdBook();
-			BookWidget bb = new BookWidget(place, listener, id_book, author, title, genre, img_src);
-			bookInWidget.setTitle(title);
+			BookWidget bb = new BookWidget(place, listener, books.get(i));
+			bookInWidget.setTitle((books.get(i)).getTitle());
 			bb.getChooseButton().addClickHandler(this);
 			panel.add(bb);
 		}
@@ -527,7 +520,6 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 	@Override
 	public BookWidget getBookWidget() {
-		// TODO Auto-generated method stub
 		// return bb;
 		return null;
 	}

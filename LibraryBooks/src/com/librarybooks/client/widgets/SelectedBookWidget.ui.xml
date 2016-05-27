@@ -15,10 +15,10 @@
     			</g:HorizontalPanel>
     			<g:LayoutPanel ui:field="layoutPanel">
 	    			<g:layer>
-	    				<g:Label ui:field="lbl_text_for_data">Можно получить:</g:Label>
+	    				<g:Label ui:field="lbl_text_for_data">Цена:</g:Label>
 	    			</g:layer>
 	    			<g:layer>
-	    				<g:Label ui:field="lbl_data">15.05.2016</g:Label>
+	    				<g:Label ui:field="lbl_data"></g:Label>
 	    			</g:layer>
 	    			<g:layer>
 	    				<g:Button ui:field="chooseButton">Добавить</g:Button>

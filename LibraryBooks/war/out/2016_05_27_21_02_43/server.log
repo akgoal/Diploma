@@ -1,0 +1,30 @@
+[05-27 21:02:44,123, 10610] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-27 21:02:44,131, 10618] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-27 21:02:44,133, 10620] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-27 21:02:44,230, 10717] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-27 21:02:44,646, 11133] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-27 21:02:45,291, 11778] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-27 21:02:45,295, 11782] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@1c9a775
+[05-27 21:02:46,097, 12584] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-27 21:02:46,728, 13215] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-27 21:02:47,697, 14184] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.
+[05-27 21:03:44,248, 70735] org.hibernate.engine.loading.internal.LoadContexts HHH000100: Fail-safe cleanup (collections) : org.hibernate.engine.loading.internal.CollectionLoadContext@17c7d88<rs=org.postgresql.jdbc4.Jdbc4ResultSet@1ac72f4>
+[05-27 21:03:44,249, 70736] org.hibernate.engine.loading.internal.CollectionLoadContext HHH000160: On CollectionLoadContext#cleanup, localLoadingCollectionKeys contained [1] entries
+[05-27 21:05:50,396, 196883] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 21:05:50,397, 196884] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 718
+[05-27 21:05:50,396, 196883] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 21:05:50,398, 196885] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "genres" не существует
+  Позиция: 97
+[05-27 21:06:01,020, 207507] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 21:06:01,020, 207507] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "genres" не существует
+  Позиция: 97
+[05-27 21:06:01,074, 207561] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 21:06:01,075, 207562] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 718
+[05-27 21:06:12,298, 218785] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 21:06:12,298, 218785] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "genres" не существует
+  Позиция: 97
+[05-27 21:06:12,446, 218933] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 21:06:12,446, 218933] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 718

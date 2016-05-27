@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.librarybooks.client.activities_and_places.places.UserPlace;
 
 public class SearchPane extends Composite {
 

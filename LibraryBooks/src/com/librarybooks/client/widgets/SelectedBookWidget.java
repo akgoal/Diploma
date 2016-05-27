@@ -297,6 +297,9 @@ public class SelectedBookWidget extends Composite {
 		layoutPanel.setWidgetTopHeight(lbl_data, 29.0, Unit.PX, 16.0, Unit.PX);
 		layoutPanel.setWidgetLeftWidth(lbl_data, 12.0, Unit.PX, 106.0, Unit.PX);
 
+		if (book.getPrice() != null)
+			lbl_data.setText(book.getPrice() + " руб.");
+
 		link_list.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				History.back();

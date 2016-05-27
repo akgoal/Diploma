@@ -3,7 +3,6 @@ package com.librarybooks.client.widgets;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -47,21 +46,41 @@ public class BookWidget extends Composite implements ClickHandler {
 	private FlowPanel authorPanel = new FlowPanel();
 	private HTMLPanel panel = new HTMLPanel("");
 	private HTMLPanel butPanel = new HTMLPanel("");
+	HTMLPanel img_book = new HTMLPanel("");
+	HTMLPanel bookRate = new HTMLPanel("");
+	HTMLPanel bookPrice = new HTMLPanel("");
 	Presenter listener;
 	UserPlace place;
 
-	public BookWidget(UserPlace _place, Presenter _listener, long id_book, ArrayList<Author> author,
-			String title, ArrayList<Genre> genre, String img_src) {
+	public BookWidget(UserPlace _place, Presenter _listener, Book book) {
+		// public BookWidget(UserPlace _place, Presenter _listener, long id_book, ArrayList<Author> author,
+		// String title, ArrayList<Genre> genre, String img_src) {
 
 		this.listener = _listener;
 		this.place = _place;
+
+		long id_book = book.getIdBook();
+		ArrayList<Author> author = book.getAuthor();
+		String title = book.getTitle();
+		ArrayList<Genre> genre = book.getGenre();
+		String img_src = book.getImg();
+
 		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
 		// consoleLog(img_src);
 
 		choose_book.setBook(id_book, author, title, genre, img_src);
 
-		String html_img = new String("<div img class=\"img_book\">"
-				+ "<img align=\"center\" id=\"imageBook\" src=\"" + img_src + "\">" + "</div>");
+		img_book.add(new HTML("<img align=\"center\" id=\"imageBook\" src=\"" + img_src + "\">"));
+		img_book.setStyleName("img_book");
+		bookRate.add(new Rate(null, id_book, book.getRate()));
+		bookRate.setStyleName("bookRate");
+		bookPrice.add(new HTML(book.getPrice() + "<span>ք</span>"));
+		bookPrice.setStyleName("bookPrice");
+		img_book.add(bookPrice);
+		img_book.add(bookRate);
+
+		// String html_img = new String("<div class=\"img_book\">"
+		// + "<img align=\"center\" id=\"imageBook\" src=\"" + img_src + "\">" + "</div>");
 		flowPanel.setStyleName("elem");
 		l_title.setStyleName("linkToBook");
 		button.setStyleName("buttonAddIn");
@@ -82,7 +101,8 @@ public class BookWidget extends Composite implements ClickHandler {
 		l_title.setText(title);
 		flowPanel.add(back_book);
 		flowPanel.add(verticalPanel);
-		verticalPanel.add(new HTML(html_img));
+		// verticalPanel.add(new HTML(html_img));
+		verticalPanel.add(img_book);
 		verticalPanel.add(l_title);
 		for (int i = 0; i < author.size(); i++) {
 			authorPanel.add(new ListLabel(listener, "author", author.get(i).getAuthor(),

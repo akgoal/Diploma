@@ -8,3 +8,21 @@
 [05-27 17:34:01,209, 12255] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
 [05-27 17:34:01,698, 12744] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
 [05-27 17:34:02,653, 13699] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.
+[05-27 20:41:56,447, 11287493] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 20:41:56,447, 11287493] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "genres" не существует
+  Позиция: 97
+[05-27 20:41:56,475, 11287521] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 20:41:56,475, 11287521] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 689
+[05-27 20:42:13,138, 11304184] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 20:42:13,138, 11304184] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 689
+[05-27 20:42:25,590, 11316636] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 20:42:25,590, 11316636] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "genres" не существует
+  Позиция: 97
+[05-27 20:42:27,148, 11318194] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 20:42:27,149, 11318195] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 689
+[05-27 20:42:30,392, 11321438] org.hibernate.engine.jdbc.spi.SqlExceptionHelper SQL Error: 0, SQLState: 42P01
+[05-27 20:42:30,392, 11321438] org.hibernate.engine.jdbc.spi.SqlExceptionHelper ОШИБКА: отношение "books" не существует
+  Позиция: 689
