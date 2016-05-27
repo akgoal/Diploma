@@ -1,11 +1,11 @@
-package com.librarybooks.server.security;
+package com.librarybooks.server.security.data;
 
 import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "user")
+@Table(name = "'user'")
 @Entity
 public class User {
 
@@ -66,3 +66,4 @@ public class User {
         return birtthdate;
     }
 }
+

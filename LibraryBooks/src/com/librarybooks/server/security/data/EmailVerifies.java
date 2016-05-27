@@ -1,4 +1,4 @@
-package com.librarybooks.server.security;
+package com.librarybooks.server.security.data;
 
 import org.hibernate.search.annotations.Field;
 
