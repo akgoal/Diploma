@@ -11,6 +11,7 @@ public class BookEdit implements Serializable {
 	private String author;
 	private String genre;
 	private String img;
+	private String price;
 	private String year_create;
 	private String publish;
 	private String year_publish;
@@ -37,6 +38,7 @@ public class BookEdit implements Serializable {
 		this.description = (description.isEmpty()) ? null : description;
 		this.specific = (specific.isEmpty()) ? null : specific;
 		this.addition_date = addition_date;
+		this.price = price;
 	}
 
 	public BookEdit() {
@@ -144,6 +146,14 @@ public class BookEdit implements Serializable {
 
 	public void setAddition_date(Date addition_date) {
 		this.addition_date = addition_date;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 }
