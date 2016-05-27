@@ -1,4 +1,4 @@
-package com.librarybooks.server.security.data;
+package com.librarybooks.server.security;
 
 import org.hibernate.search.annotations.Field;
 
@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Table(name = "email_virifies")
 @Entity
-public class EmailVerifiesDataSet {
+public class EmailVerifies {
 
     @Id
     @Column(name = "id")

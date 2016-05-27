@@ -1,13 +1,13 @@
-package com.librarybooks.server.security.data;
+package com.librarybooks.server.security;
 
 import org.hibernate.search.annotations.Field;
 
 import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "user_set")
+@Table(name = "user")
 @Entity
-public class UserDataSet {
+public class User {
 
     @Id
     @Column(name = "id")
