@@ -273,6 +273,10 @@ public class BookServiceDBImpl implements BookService {
 			book.setYear_publish("" + booksDataSet.getPublicationYear());
 		else
 			book.setYear_publish(null);
+		if (booksDataSet.getPrice() != 0)
+			book.setPrice("" + booksDataSet.getPrice());
+		else
+			book.setPrice(null);
 
 		float rateInfo = booksDataSet.getRate();
 		int amount = (int) rateInfo / 10;
@@ -320,12 +324,20 @@ public class BookServiceDBImpl implements BookService {
 			book.setYear_create("" + booksDataSet.getCreationYear());
 		else
 			book.setYear_create(null);
-		book.setPublish(booksDataSet.getPublisher().getName());
+		if (booksDataSet.getPublisher() != null)
+			book.setPublish(booksDataSet.getPublisher().getName());
+		else
+			book.setPublish(null);
 		if (booksDataSet.getPublicationYear() != 0)
 			book.setYear_publish("" + booksDataSet.getPublicationYear());
 		else
 			book.setYear_publish(null);
-		book.setIsbn(booksDataSet.getIsbn());
+		// ********************
+		if (booksDataSet.getIsbn() != null)
+			book.setIsbn(booksDataSet.getIsbn());
+		else book.setIsbn("");
+		// book.setIsbn(booksDataSet.getIsbn());
+		// ********************
 		if (booksDataSet.getPages() != 0)
 			book.setCol_pages("" + booksDataSet.getPages());
 		else
@@ -336,6 +348,10 @@ public class BookServiceDBImpl implements BookService {
 			book.setDescription(null);
 		book.setSpecific(booksDataSet.getDescription());
 		book.setAddition_date(booksDataSet.getAdditionDate());
+		if (booksDataSet.getPrice() != 0)
+			book.setPrice("" + booksDataSet.getPrice());
+		else
+			book.setPrice(null);
 
 		return book;
 	}
@@ -432,6 +448,11 @@ public class BookServiceDBImpl implements BookService {
 			booksDataSet.setBinding(null);
 		booksDataSet.setDescription(bookEdit.getSpecific());
 		booksDataSet.setAdditionDate(bookEdit.getAddition_date());
+
+		if (bookEdit.getPrice() != null)
+			booksDataSet.setPrice(Integer.parseInt(bookEdit.getPrice()));
+		else
+			booksDataSet.setPrice(0);
 	}
 
 }

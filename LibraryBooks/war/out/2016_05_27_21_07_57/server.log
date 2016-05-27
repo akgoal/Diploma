@@ -1,0 +1,82 @@
+[05-27 21:07:58,632, 24269] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-27 21:07:58,638, 24275] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-27 21:07:58,639, 24276] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-27 21:07:58,703, 24340] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-27 21:07:59,138, 24775] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-27 21:07:59,886, 25523] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-27 21:07:59,889, 25526] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@5771d28a
+[05-27 21:08:00,374, 26011] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-27 21:08:00,803, 26440] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-27 21:08:01,995, 27632] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.
+[05-27 21:27:16,780, 1182417] org.hibernate.proxy.pojo.javassist.JavassistProxyFactory HHH000142: Javassist Enhancement failed: com.librarybooks.server.bookservice.datasets.BooksDataSet
+java.lang.NoClassDefFoundError: javassist/util/proxy/Proxy
+	at org.hibernate.proxy.pojo.javassist.JavassistProxyFactory.getProxy(JavassistProxyFactory.java:123) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.tuple.entity.AbstractEntityTuplizer.createProxy(AbstractEntityTuplizer.java:666) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.persister.entity.AbstractEntityPersister.createProxy(AbstractEntityPersister.java:4461) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.event.internal.DefaultLoadEventListener.createProxyIfNecessary(DefaultLoadEventListener.java:359) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.event.internal.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:274) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.event.internal.DefaultLoadEventListener.doOnLoad(DefaultLoadEventListener.java:121) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.event.internal.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:89) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.internal.SessionImpl.fireLoad(SessionImpl.java:1129) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.internal.SessionImpl.access$2600(SessionImpl.java:164) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.internal.SessionImpl$IdentifierLoadAccessImpl.getReference(SessionImpl.java:2669) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at org.hibernate.internal.SessionImpl.load(SessionImpl.java:965) [hibernate-core-5.0.6.Final.jar:5.0.6.Final]
+	at com.librarybooks.server.bookservice.dao.BooksDAOImpl.deleteBookById(BooksDAOImpl.java:318) [classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.8.0_73]
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:302) [spring-aop-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190) [spring-aop-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157) [spring-aop-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:99) [spring-tx-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:281) [spring-tx-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:96) [spring-tx-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179) [spring-aop-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:207) [spring-aop-4.2.2.RELEASE.jar:4.2.2.RELEASE]
+	at com.sun.proxy.$Proxy89.deleteBookById(Unknown Source) [?:?]
+	at com.librarybooks.server.bookservice.BookServiceDBImpl.DelBook(BookServiceDBImpl.java:234) [classes/:?]
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:1.8.0_73]
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_73]
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source) ~[?:1.8.0_73]
+	at java.lang.reflect.Method.invoke(Unknown Source) ~[?:1.8.0_73]
+	at com.google.gwt.user.server.rpc.RPC.invokeAndEncodeResponse(RPC.java:587) [gwt-servlet.jar:?]
+	at com.google.gwt.user.server.rpc.RPC.invokeAndEncodeResponse(RPC.java:571) [gwt-servlet.jar:?]
+	at org.spring4gwt.server.SpringGwtRemoteServiceServlet.processCall(SpringGwtRemoteServiceServlet.java:37) [spring4gwt-0.0.1.jar:?]
+	at com.google.gwt.user.server.rpc.RemoteServiceServlet.processPost(RemoteServiceServlet.java:373) [gwt-servlet.jar:?]
+	at com.google.gwt.user.server.rpc.AbstractRemoteServiceServlet.doPost(AbstractRemoteServiceServlet.java:62) [gwt-servlet.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:755) [gwt-user.jar:?]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:848) [gwt-user.jar:?]
+	at org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:686) [gwt-dev.jar:?]
+	at org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:501) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:137) [gwt-dev.jar:?]
+	at org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:557) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:231) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1086) [gwt-dev.jar:?]
+	at org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:428) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:193) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1020) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:135) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:116) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.RequestLogHandler.handle(RequestLogHandler.java:68) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:116) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.Server.handle(Server.java:370) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.AbstractHttpConnection.handleRequest(AbstractHttpConnection.java:489) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.AbstractHttpConnection.content(AbstractHttpConnection.java:960) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.AbstractHttpConnection$RequestHandler.content(AbstractHttpConnection.java:1021) [gwt-dev.jar:?]
+	at org.eclipse.jetty.http.HttpParser.parseNext(HttpParser.java:865) [gwt-dev.jar:?]
+	at org.eclipse.jetty.http.HttpParser.parseAvailable(HttpParser.java:240) [gwt-dev.jar:?]
+	at org.eclipse.jetty.server.AsyncHttpConnection.handle(AsyncHttpConnection.java:82) [gwt-dev.jar:?]
+	at org.eclipse.jetty.io.nio.SelectChannelEndPoint.handle(SelectChannelEndPoint.java:668) [gwt-dev.jar:?]
+	at org.eclipse.jetty.io.nio.SelectChannelEndPoint$1.run(SelectChannelEndPoint.java:52) [gwt-dev.jar:?]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:608) [gwt-dev.jar:?]
+	at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:543) [gwt-dev.jar:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_73]
+Caused by: java.lang.ClassNotFoundException: javassist.util.proxy.Proxy
+	at java.lang.ClassLoader.findClass(Unknown Source) ~[?:1.8.0_73]
+	at java.lang.ClassLoader.loadClass(Unknown Source) ~[?:1.8.0_73]
+	at java.lang.ClassLoader.loadClass(Unknown Source) ~[?:1.8.0_73]
+	at org.eclipse.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:407) ~[?:?]
+	at org.eclipse.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:383) ~[?:?]
+	... 62 more
+[05-27 21:27:16,802, 1182439] org.hibernate.event.internal.DefaultLoadEventListener HHH000327: Error performing load command : org.hibernate.HibernateException: HHH000142: Javassist Enhancement failed: com.librarybooks.server.bookservice.datasets.BooksDataSet

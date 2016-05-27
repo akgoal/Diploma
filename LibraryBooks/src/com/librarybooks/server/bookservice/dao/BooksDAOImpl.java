@@ -130,7 +130,8 @@ public class BooksDAOImpl implements BooksDAO {
 
 	@Override
 	public void updateBook(BooksDataSet book) {
-		sessionFactory.getCurrentSession().update(book);
+		//sessionFactory.getCurrentSession().update(book);
+		sessionFactory.getCurrentSession().merge(book);
 	}
 	
 	@Override
