@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -25,7 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.objects.BookEdit;
 import com.librarybooks.shared.FieldVerifier;
 
-public class AddBook extends Composite {
+public class AddBook extends Composite implements ClickHandler {
 
 	Label l_img_src = new Label("Изображение*");
 	FileUpload img_src = new FileUpload();
@@ -66,11 +67,11 @@ public class AddBook extends Composite {
 	VerticalPanel vPanel = new VerticalPanel();
 	HorizontalPanel hPanel = new HorizontalPanel();
 	Button button = new Button("Добавить");
+	Button edt = new Button("Изменить");
 	Button del = new Button("Удалить");
 	BookEdit book;
 
-	public AddBook(BookEdit bookEdit) {
-
+	public void setAddBook(BookEdit bookEdit) {
 		if (bookEdit != null) {
 			// img_src.set
 			title.setText(bookEdit.getTitle());
@@ -84,8 +85,14 @@ public class AddBook extends Composite {
 			cover.setText(bookEdit.getPublish());
 			isbn.setText(bookEdit.getIsbn());
 			specific.setText(bookEdit.getSpecific());
-			button.setText("Изменить");
+			// button.setText("Изменить");
 		}
+	}
+
+	public AddBook(Boolean b) {
+
+		/* if (bookEdit != null) { // img_src.set title.setText(bookEdit.getTitle()); title_original.setText(bookEdit.getTitle_original()); author.setText(bookEdit.getAuthor()); genre.setText(bookEdit.getGenre()); year_create.setText(bookEdit.getYear_create());
+		 * publish.setText(bookEdit.getPublish()); year_publish.setText(bookEdit.getYear_publish()); col_pages.setText(bookEdit.getCol_pages()); cover.setText(bookEdit.getPublish()); isbn.setText(bookEdit.getIsbn()); specific.setText(bookEdit.getSpecific()); // button.setText("Изменить"); } */
 
 		l_img_src.setStyleName("labelFull");
 		img_src.getElement().getStyle().setColor("gray");
@@ -296,14 +303,16 @@ public class AddBook extends Composite {
 		grid.setCellPadding(5);
 		button.getElement().getStyle().setMarginBottom(30, Unit.PX);
 		button.getElement().getStyle().setMarginTop(15, Unit.PX);
+		edt.getElement().getStyle().setMarginBottom(30, Unit.PX);
+		edt.getElement().getStyle().setMarginTop(15, Unit.PX);
 		del.getElement().getStyle().setMarginBottom(30, Unit.PX);
 		del.getElement().getStyle().setMarginTop(15, Unit.PX);
 		vPanel.setWidth("100%");
 		vPanel.setCellHorizontalAlignment(grid, HasHorizontalAlignment.ALIGN_CENTER);
 
-		if (book != null) {
+		if (b) {
 			hPanel.clear();
-			hPanel.add(button);
+			hPanel.add(edt);
 			hPanel.add(del);
 			vPanel.add(hPanel);
 		} else {
@@ -314,65 +323,8 @@ public class AddBook extends Composite {
 		hPanel.setSpacing(10);
 		vPanel.setCellHorizontalAlignment(hPanel, HasHorizontalAlignment.ALIGN_CENTER);
 
-		button.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				book = null;
-				boolean b = true;
-				if (img_src.getFilename().isEmpty()) {
-					Window.alert("Для добавления книги нужна обложка");
-					b = false;
-				}
-				if (title.getText().trim().isEmpty()) {
-					// title.setFocus(true);
-					title.setStyleName("error_focus", true);
-					title.setText("");
-					b = false;
-				}
-				if (!FieldVerifier.isListSrting(author.getText()) | author.getText().isEmpty()) {
-					// author.setFocus(true);
-					author.setStyleName("error_focus", true);
-					author.setText("");
-					b = false;
-				}
-				if (!FieldVerifier.isListSrting(genre.getText()) | genre.getText().isEmpty()) {
-					// genre.setFocus(true);
-					genre.setStyleName("error_focus", true);
-					genre.setText("");
-					b = false;
-				}
-				if (!FieldVerifier.isNumber(year_create.getText())) {
-					// year_create.setFocus(true);
-					year_create.setStyleName("error_focus", true);
-					year_create.setText("");
-					b = false;
-				}
-				if (!FieldVerifier.isNumber(year_publish.getText())) {
-					// year_publish.setFocus(true);
-					year_publish.setStyleName("error_focus", true);
-					year_publish.setText("");
-					b = false;
-				}
-				if (!FieldVerifier.isNumber(col_pages.getText())) {
-					// col_pages.setFocus(true);
-					col_pages.setStyleName("error_focus", true);
-					col_pages.setText("");
-					b = false;
-				}
-				if (b) {
-					book = new BookEdit(title.getText().trim(), title_original.getText().trim(),
-							author.getText().trim(), genre.getText().trim(),
-							img_src.getFilename().replace("C:\\fakepath\\", ""),
-							year_create.getText().trim(), publish.getText().trim(),
-							year_publish.getText().trim(), isbn.getText().trim(),
-							col_pages.getText().trim(), cover.getText().trim(),
-							specific.getText().trim(), new Date());
-				}
-
-			}
-		});
-
+		button.addClickHandler(this);
+		edt.addClickHandler(this);
 		initWidget(vPanel);
 	}
 
@@ -383,4 +335,63 @@ public class AddBook extends Composite {
 	public Button getButton() {
 		return button;
 	}
+
+	public Button getButtonEdt() {
+		return edt;
+	}
+
+	public Button getButtonDel() {
+		return del;
+	}
+
+	@Override
+	public void onClick(ClickEvent event) {
+		book = null;
+		boolean b = true;
+		if (img_src.getFilename().isEmpty()) {
+			Window.alert("Для добавления книги нужна обложка");
+			b = false;
+		}
+		if (title.getText().trim().isEmpty()) {
+			title.setStyleName("error_focus", true);
+			title.setText("");
+			b = false;
+		}
+		if (!FieldVerifier.isListSrting(author.getText()) | author.getText().isEmpty()) {
+			author.setStyleName("error_focus", true);
+			author.setText("");
+			b = false;
+		}
+		if (!FieldVerifier.isListSrting(genre.getText()) | genre.getText().isEmpty()) {
+			genre.setStyleName("error_focus", true);
+			genre.setText("");
+			b = false;
+		}
+		if (!FieldVerifier.isNumber(year_create.getText())) {
+			year_create.setStyleName("error_focus", true);
+			year_create.setText("");
+			b = false;
+		}
+		if (!FieldVerifier.isNumber(year_publish.getText())) {
+			year_publish.setStyleName("error_focus", true);
+			year_publish.setText("");
+			b = false;
+		}
+		if (!FieldVerifier.isNumber(col_pages.getText())) {
+			col_pages.setStyleName("error_focus", true);
+			col_pages.setText("");
+			b = false;
+		}
+		if (b) {
+			book = new BookEdit(title.getText().trim(), title_original.getText().trim(),
+					author.getText().trim(), genre.getText().trim(),
+					img_src.getFilename().replace("C:\\fakepath\\", ""),
+					year_create.getText().trim(), publish.getText().trim(),
+					year_publish.getText().trim(), isbn.getText().trim(),
+					col_pages.getText().trim(), cover.getText().trim(), specific.getText().trim(),
+					new Date());
+		}
+
+	}
+
 }

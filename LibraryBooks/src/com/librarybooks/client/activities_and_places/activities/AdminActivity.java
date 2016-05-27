@@ -3,10 +3,14 @@ package com.librarybooks.client.activities_and_places.activities;
 import java.util.ArrayList;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.aria.client.Id;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -23,7 +27,16 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 	private ClientFactory clientFactory;
 	private String info;
 	private AdminView userView;
+	HandlerRegistration reg = new HandlerRegistration() {
+
+		@Override
+		public void removeHandler() {
+			// TODO Auto-generated method stub
+
+		}
+	};
 	BookEdit book;
+	long id;
 	private static final String SERVER_ERROR = "An error occurred while "
 			+ "attempting to contact the server. Please check your network "
 			+ "connection and try again.";
@@ -50,12 +63,12 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 						bookService.addBook(book, new AsyncCallback<Void>() {
 
 							public void onFailure(Throwable caught) {
-								// ChangeViewERROR();
+								Window.alert("Ошибка!!!");
 							}
 
 							@Override
 							public void onSuccess(Void result) {
-								// TODO Auto-generated method stub
+								Window.alert("Книга успешно добавлена!!!");
 							}
 						});
 					}
@@ -73,7 +86,86 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 				@Override
 				public void onSuccess(ArrayList<Book> books) {
 					// TODO Auto-generated method stub
-					userView.setChangeView(info, books, bookService);
+					userView.setChangeView(info, books);
+					userView.getAddBook().getButtonDel().addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							// TODO Auto-generated method stub
+							// Window.alert("!!!!");
+							int id = Integer.valueOf(userView.getListBox()
+									.getValue(userView.getListBox().getSelectedIndex()));
+							bookService.DelBook(id, new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onSuccess(Void result) {
+									// TODO Auto-generated method stub
+
+								}
+							});
+						}
+					});
+					userView.getAddBook().getButtonEdt().addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							// TODO Auto-generated method stub
+							// Window.alert("!!!!");
+							int id = Integer.valueOf(userView.getListBox()
+									.getValue(userView.getListBox().getSelectedIndex()));
+							BookEdit book = userView.getAddBook().getBookEdt();
+							Window.alert(id + "");
+							Window.alert(book.getTitle());
+							bookService.EditBook(id, book, new AsyncCallback<Void>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+
+								}
+
+								@Override
+								public void onSuccess(Void result) {
+									// TODO Auto-generated method stub
+
+								}
+							});
+						}
+					});
+					userView.getListBox().addChangeHandler(new ChangeHandler() {
+
+						@Override
+						public void onChange(ChangeEvent event) {
+							// TODO Auto-generated method stub
+							String index = userView.getListBox()
+									.getValue(userView.getListBox().getSelectedIndex());
+
+							bookService.selectBookEdit(Integer.valueOf(index),
+									new AsyncCallback<BookEdit>() {
+
+										@Override
+										public void onFailure(Throwable caught) {
+											Window.alert("Ошибка!!!");
+
+										}
+
+										@Override
+										public void onSuccess(BookEdit result) {
+											userView.getAddBook().setAddBook(result);
+										}
+
+									});
+							// reg.removeHandler();
+
+						}
+
+					});
 
 				}
 			});
