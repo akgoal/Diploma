@@ -55,23 +55,14 @@ public class LibraryBooks implements EntryPoint {
 		RootPanel.get("body").add(appWidget);
 		historyHandler.handleCurrentHistory();
 
-		Window.addWindowScrollHandler(new ScrollHandler() {
-
-			@Override
-			public void onWindowScroll(ScrollEvent event) {
-
-				if (event.getScrollTop() > 45) {
-					Document.get().getElementById("search_panel").getStyle()
-							.setPosition(Position.FIXED);
-					Document.get().getElementById("search_panel").getStyle().setTop(0, Unit.PX);
-				} else {
-					Document.get().getElementById("search_panel").getStyle().setTop(45, Unit.PX);
-					Document.get().getElementById("search_panel").getStyle()
-							.setPosition(Position.ABSOLUTE);
-
-				}
-			}
-		});
+		/* Window.addWindowScrollHandler(new ScrollHandler() {
+		 * 
+		 * @Override public void onWindowScroll(ScrollEvent event) {
+		 * 
+		 * if (event.getScrollTop() > 45) { Document.get().getElementById("search_panel").getStyle() .setPosition(Position.FIXED); Document.get().getElementById("search_panel").getStyle().setTop(0, Unit.PX); } else { Document.get().getElementById("search_panel").getStyle().setTop(45, Unit.PX);
+		 * Document.get().getElementById("search_panel").getStyle() .setPosition(Position.ABSOLUTE);
+		 * 
+		 * } } }); */
 
 	}
 

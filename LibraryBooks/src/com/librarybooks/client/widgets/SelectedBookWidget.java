@@ -120,7 +120,7 @@ public class SelectedBookWidget extends Composite {
 		this.listener = _listener;
 
 		choose_book.setBook(book.getIdBook(), book.getAuthor(), book.getTitle(), book.getGenre(),
-				book.getImg());
+				book.getImg(), book.getPrice());
 
 		long id_book = book.getIdBook();
 		ArrayList<Author> author = book.getAuthor();
@@ -134,6 +134,7 @@ public class SelectedBookWidget extends Composite {
 		String col_pages = book.getCol_pages();
 		String cover = book.getCover();
 		String specific = book.getSpecific();
+		String price = book.getPrice();
 
 		initWidget(uiBinder.createAndBindUi(this));
 		Grid grid = new Grid(7, 2);

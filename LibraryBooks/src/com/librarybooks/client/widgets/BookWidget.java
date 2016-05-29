@@ -67,11 +67,12 @@ public class BookWidget extends Composite implements ClickHandler {
 		String title = book.getTitle();
 		ArrayList<Genre> genre = book.getGenre();
 		String img_src = book.getImg();
+		String price = book.getPrice();
 
 		img_src = GWT.getHostPageBaseURL() + "covers/" + img_src;
 		// consoleLog(img_src);
 
-		choose_book.setBook(id_book, author, title, genre, img_src);
+		choose_book.setBook(id_book, author, title, genre, img_src, price);
 
 		img_book.add(new HTML("<img align=\"center\" id=\"imageBook\" src=\"" + img_src + "\">"));
 		img_book.setStyleName("img_book");
@@ -165,8 +166,8 @@ public class BookWidget extends Composite implements ClickHandler {
 	public void chooseBookToServer() {
 
 		Book callInput = new Book(this.choose_book.getIdBook(), this.choose_book.getAuthor(),
-				this.choose_book.getTitle(), this.choose_book.getGenre(),
-				this.choose_book.getImg());
+				this.choose_book.getTitle(), this.choose_book.getGenre(), this.choose_book.getImg(),
+				this.choose_book.getPrice());
 		bookService.bookToServer(callInput, new AsyncCallback<Book>() {
 			public void onFailure(Throwable caught) {
 				Label text = new Label(SERVER_ERROR);

@@ -44,32 +44,13 @@ public class Book implements IsSerializable {
 	}
 
 	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
-			String img, String year_create, String publish, String year_publish, String isbn,
-			String col_pages, String cover, String specific, int rate) {
+			String img, String price) {
 		this.id_book = id_book;
 		this.author = author;
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
-		this.price = null;
-		this.year_create = year_create;
-		this.publish = publish;
-		this.year_publish = year_publish;
-		this.isbn = isbn;
-		this.col_pages = col_pages;
-		this.cover = cover;
-		this.specific = specific;
-		this.rate = rate;
-	}
-
-	public Book(long id_book, ArrayList<Author> author, String title, ArrayList<Genre> genre,
-			String img) {
-		this.id_book = id_book;
-		this.author = author;
-		this.title = title;
-		this.genre = genre;
-		this.img = img;
-		this.price = null;
+		this.price = price;
 		this.year_create = null;
 		this.publish = null;
 		this.year_publish = null;
@@ -81,13 +62,13 @@ public class Book implements IsSerializable {
 	}
 
 	public void setBook(long id_book, ArrayList<Author> author, String title,
-			ArrayList<Genre> genre, String img) {
+			ArrayList<Genre> genre, String img, String price) {
 		this.id_book = id_book;
 		this.author = author;
 		this.title = title;
 		this.genre = genre;
 		this.img = img;
-		this.price = null;
+		this.price = price;
 		this.year_create = null;
 		this.publish = null;
 		this.year_publish = null;
@@ -96,26 +77,6 @@ public class Book implements IsSerializable {
 		this.cover = null;
 		this.specific = null;
 		this.rate = 0;
-	}
-
-	public void setBook(long id_book, ArrayList<Author> author, String title,
-			ArrayList<Genre> genre, String img, String year_create, String publish,
-			String year_publish, String isbn, String col_pages, String cover, String specific,
-			int rate) {
-		this.id_book = id_book;
-		this.author = author;
-		this.title = title;
-		this.genre = genre;
-		this.img = img;
-		this.price = null;
-		this.year_create = year_create;
-		this.publish = publish;
-		this.year_publish = year_publish;
-		this.isbn = isbn;
-		this.col_pages = col_pages;
-		this.cover = cover;
-		this.specific = specific;
-		this.rate = rate;
 	}
 
 	// new

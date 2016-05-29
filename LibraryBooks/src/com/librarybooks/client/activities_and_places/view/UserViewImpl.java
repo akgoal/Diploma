@@ -130,26 +130,33 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				securityService.authenticate(username.getText(), password.getText(),
-						new AsyncCallback<Boolean>() {
-							public void onFailure(Throwable caught) {
-								Window.alert("Ошибка!!!");
-							}
-
-							public void onSuccess(Boolean auth_result) {
-								if (auth_result) {
-									Window.alert("Добро пожаловать, " + username.getText() + "!");
-									form_auth.clear();
-									form_auth.add(new HTML("<p>Вы вошли под именем <span>"
-											+ username.getText() + "</span></p>"));
-									form_auth.add(button_outh);
-								} else {
-									username.setText("");
-									password.setText("");
-								}
-							}
-						});
+				form_auth.clear();
+				form_auth.add(new HTML(
+						"<p>Вы вошли под именем <span>" + username.getText() + "</span></p>"));
+				form_auth.add(button_outh);
+				historyOrder.setVisible(true);
+				basket.setVisible(true);
 			}
+			// securityService.authenticate(username.getText(), password.getText(),
+			// new AsyncCallback<Boolean>() {
+			// public void onFailure(Throwable caught) {
+			// Window.alert("Ошибка!!!");
+			// }
+			//
+			// public void onSuccess(Boolean auth_result) {
+			// if (auth_result) {
+			// Window.alert("Добро пожаловать, " + username.getText() + "!");
+			// form_auth.clear();
+			// form_auth.add(new HTML("<p>Вы вошли под именем <span>"
+			// + username.getText() + "</span></p>"));
+			// form_auth.add(button_outh);
+			// } else {
+			// username.setText("");
+			// password.setText("");
+			// }
+			// }
+			// });
+			// }
 		});
 		button_outh.addClickHandler(new ClickHandler() {
 
@@ -161,6 +168,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				but_panel.add(button_auth);
 				but_panel.add(a_reg);
 				form_auth.add(but_panel);
+				historyOrder.setVisible(false);
+				basket.setVisible(false);
 			}
 		});
 
@@ -205,6 +214,8 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 		basket.getHTMLPanel().add(basketFlex);
 		addBookInBasket();
 
+		historyOrder.setVisible(false);
+		basket.setVisible(false);
 		searchPanel.add(basket);
 		searchPanel.add(historyOrder);
 		searchPanel.add(sp);
@@ -506,7 +517,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 				// TODO Auto-generated method stub
 				basketFlex.removeAllRows();
 				basketFlex.setText(0, 0, "Название");
-				basketFlex.setText(0, 1, "Кол-во");
+				basketFlex.setText(0, 1, "Цена");
 				basketFlex.setText(0, 2, "");
 				basketFlex.setHTML(1, 0, "<hr>");
 				basketFlex.getFlexCellFormatter().setColSpan(1, 0, 3);
@@ -533,7 +544,7 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 							+ "\">" + book.getTitle() + "</a>");
 					// final Book delBook = book;
 					final int index = row - 2;
-					basketFlex.setText(row, 1, "1");
+					basketFlex.setText(row, 1, book.getPrice() + "ք");
 					Label removeBook = new Label("x");
 					removeBook.setStyleName("removeBook");
 					removeBook.addClickHandler(new ClickHandler() {

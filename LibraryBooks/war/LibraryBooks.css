@@ -61,20 +61,10 @@ ul, ul ul {
   	}
 }
 
-#top_panel {
-	position: absolute;
-	height: 45px;
-	top:0px;
-	left:0px;
-	width: 100%;
-	background-color: rgba(27, 27, 27, 1);
-	z-index:5;
-	opacity:1;
-}
 #search_panel {
 	opacity:1;
-	position: absolute;
-	top:45px;
+	position: fixed;
+	top:0px;
 	left:0px;
 	height: 50px;
 	width: 100%;
@@ -142,7 +132,7 @@ ul, ul ul {
 
 .header {
 	position: absolute;
-    height: 350px;
+    height: 310px;
     width: 100%;
     opacity:0.8;
     min-width: 750px;
@@ -153,7 +143,7 @@ ul, ul ul {
 .text{	
 	width: 300px;
 	position: relative;
-	top:110px;
+	top:70px;
 	color: black;
 	text-align: center;
 	display: block;
@@ -170,7 +160,7 @@ a{
 	text-decoration: none;
 }
 #view_books{
-	border-radius: 20px;
+	border-radius: 0 0 20px 20px;
 	padding-top:30px;
 	background:rgba(255, 255, 255, 0.8);
 	overflow: hidden;
@@ -184,7 +174,7 @@ a{
 .cont {
 	z-index: 1;
 	position: relative;
-	top:293px;
+	top:253px;
 	min-width: 750px;
 	margin: 0 auto;
 	overflow: hidden;
@@ -891,7 +881,7 @@ position:fixed;
     height: 100px;
     background: rgba(0, 0, 0, 0.85);
     position: relative;
-    top: 150px;
+    top: 110px;
     left: 30px;
     padding: 13px;
     border: 1px solid rgba(255, 255, 255, 0.1);
