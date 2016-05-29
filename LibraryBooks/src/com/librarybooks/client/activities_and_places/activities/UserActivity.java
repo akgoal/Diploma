@@ -6,11 +6,14 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
 import com.librarybooks.client.ClientFactory;
+import com.librarybooks.client.OrderService;
+import com.librarybooks.client.OrderServiceAsync;
 import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.activities_and_places.view.UserView;
 import com.librarybooks.client.objects.Book;
@@ -25,8 +28,8 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	private long id;
 	private String param;
-	private String[] options = { "reg", "all", "author", "genre", "search", "selection", "book",
-			"new", "popular", "classic", "child", "foreign" };
+	private String[] options = { "history_order", "reg", "all", "author", "genre", "search",
+			"selection", "book", "new", "popular", "classic", "child", "foreign" };
 	private ArrayList<String> search_param = new ArrayList<String>();
 	private String type;
 	private int page;
@@ -41,14 +44,13 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 			+ "connection and try again.";
 
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
+	private final OrderServiceAsync orderService = GWT.create(OrderService.class);
 
 	public UserActivity(UserPlace place, ClientFactory clientFactory) {
 		this.place = place;
 		this.info = place.getParam();
-		// place.setParam1("111");
 		this.basket = place.getParamBasket();
 		this.clientFactory = clientFactory;
-		// clientFactory.getPlaceController().
 		parsing(info, options);
 
 	}
@@ -75,6 +77,7 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 		for (String option : selected_option) {
 			switch (option) {
+			case "history_order":
 			case "reg":
 				if (ref.matches(option)) {
 					this.type = option;
@@ -135,8 +138,11 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 	private void showView(UserPlace place, String type) {
 
 		switch (type) {
+		case "history_order":
+			userView.setViewHistory();
+			break;
 		case "reg":
-			ChangeViewReg();
+			userView.setViewReg();
 			break;
 		case "all":
 			bookService.sendServer(new AsyncCallback<ArrayList<Book>>() {
@@ -337,16 +343,12 @@ public class UserActivity extends AbstractActivity implements UserView.Presenter
 
 	private void ChangeViewBooksList(ArrayList<Book> books, String title) {
 		pageNav(books.size());
-		userView.setView(place, new ArrayList<Book>(books.subList(start, stop)), col_page, page,
-				type, param, title);
-	}
-
-	private void ChangeViewReg() {
-		userView.setViewReg();
+		userView.setView(new ArrayList<Book>(books.subList(start, stop)), col_page, page, type,
+				param, title);
 	}
 
 	private void ChangeViewBook(Book book) {
-		userView.setView(bookService, place, book);
+		userView.setView(book);
 	}
 
 	private void ChangeViewERROR() {

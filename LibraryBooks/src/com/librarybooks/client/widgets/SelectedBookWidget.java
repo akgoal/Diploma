@@ -24,6 +24,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
+import com.librarybooks.client.OrderService;
+import com.librarybooks.client.OrderServiceAsync;
 import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.activities_and_places.view.UserView.Presenter;
 import com.librarybooks.client.objects.Author;
@@ -112,14 +114,10 @@ public class SelectedBookWidget extends Composite {
 
 	Presenter listener;
 	UserPlace place;
+	private final OrderServiceAsync orderService = GWT.create(OrderService.class);
 
-	// public SelectedBookWidget(long id_book, ArrayList<Author> author, String title,
-	// ArrayList<Genre> genre, String img_src, String year_create, String publish,
-	// String year_publish, String isbn, String col_pages, String cover, String specific)
-	public SelectedBookWidget(BookServiceAsync bookService, UserPlace _place, Presenter _listener,
-			Book book) {
+	public SelectedBookWidget(Presenter _listener, Book book) {
 		this.listener = _listener;
-		this.place = _place;
 
 		choose_book.setBook(book.getIdBook(), book.getAuthor(), book.getTitle(), book.getGenre(),
 				book.getImg());
@@ -308,7 +306,16 @@ public class SelectedBookWidget extends Composite {
 
 		chooseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				place.getBasketList().add(new Book());
+				orderService.addBook(choose_book, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+					}
+				});
 			}
 		});
 
@@ -316,24 +323,5 @@ public class SelectedBookWidget extends Composite {
 
 	public Button getChooseButton() {
 		return chooseButton;
-	}
-
-	public void chooseBookToServer() {
-
-		Book callInput = new Book(this.choose_book.getIdBook(), this.choose_book.getAuthor(),
-				this.choose_book.getTitle(), this.choose_book.getGenre(),
-				this.choose_book.getImg());
-		bookService.bookToServer(callInput, new AsyncCallback<Book>() {
-			public void onFailure(Throwable caught) {
-				Label text = new Label(SERVER_ERROR);
-				RootPanel.get("listBook").add(text);
-			}
-
-			public void onSuccess(Book result) {
-
-				// back_book.setText(result.getAuthor() + " " + result.getTitle());
-			}
-		});
-		chooseButton.setFocus(false);
 	}
 }

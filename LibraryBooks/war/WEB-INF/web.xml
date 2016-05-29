@@ -8,7 +8,7 @@
 
 	<servlet>
 		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.librarybooks.server.DEPRBookServiceImpl</servlet-class>
+		<servlet-class>com.librarybooks.server.OrderServiceImpl</servlet-class>
 	</servlet>
 
 <!--  	<servlet-mapping>
@@ -43,6 +43,11 @@
 	<servlet-mapping>
 		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
 		<url-pattern>/librarybooks/services/securityService</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>greetServlet</servlet-name>
+		<url-pattern>/librarybooks/services/orderService</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

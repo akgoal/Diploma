@@ -134,7 +134,7 @@ public class BookEdit implements Serializable {
 	}
 
 	public void setIsbn(String isbn) {
-		this.isbn = isbn.trim();
+		this.isbn = isbn;
 	}
 
 	public String getCol_pages() {

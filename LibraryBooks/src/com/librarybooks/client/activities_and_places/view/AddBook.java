@@ -30,8 +30,8 @@ public class AddBook extends Composite implements ClickHandler {
 	Label l_img_src = new Label("Изображение*");
 	FileUpload img_src = new FileUpload();
 
-	// Label l_title = new Label("Цена*");
-	// TextBox title = new TextBox();
+	Label l_price = new Label("Цена*");
+	TextBox price = new TextBox();
 
 	Label l_title = new Label("Название*");
 	TextBox title = new TextBox();
@@ -86,6 +86,19 @@ public class AddBook extends Composite implements ClickHandler {
 			cover.setText(bookEdit.getDescription());
 			isbn.setText(bookEdit.getIsbn());
 			specific.setText(bookEdit.getSpecific());
+			price.setText(bookEdit.getPrice());
+			title.setStyleName("error_focus", false);
+			title_original.setStyleName("error_focus", false);
+			author.setStyleName("error_focus", false);
+			genre.setStyleName("error_focus", false);
+			year_create.setStyleName("error_focus", false);
+			publish.setStyleName("error_focus", false);
+			year_publish.setStyleName("error_focus", false);
+			col_pages.setStyleName("error_focus", false);
+			cover.setStyleName("error_focus", false);
+			isbn.setStyleName("error_focus", false);
+			specific.setStyleName("error_focus", false);
+			price.setStyleName("error_focus", false);
 		}
 	}
 
@@ -93,6 +106,26 @@ public class AddBook extends Composite implements ClickHandler {
 
 		l_img_src.setStyleName("labelFull");
 		img_src.getElement().getStyle().setColor("gray");
+
+		l_price.setStyleName("labelFull");
+		price.setVisibleLength(30);
+		price.getElement().setPropertyString("placeholder", "Пример: 300");
+		price.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				if (!Character.isDigit(event.getCharCode())) {
+					((TextBox) event.getSource()).cancelKey();
+				} else
+					price.setStyleName("error_focus", false);
+			}
+		});
+		price.addKeyDownHandler(new KeyDownHandler() {
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					title.setFocus(true);
+				}
+
+			}
+		});
 
 		l_title.setStyleName("labelFull");
 		title.setVisibleLength(30);
@@ -268,10 +301,12 @@ public class AddBook extends Composite implements ClickHandler {
 		tb.setMaxLength(10);
 
 		tb.setVisibleLength(50);
-		Grid grid = new Grid(12, 2);
+		Grid grid = new Grid(13, 2);
 		int row = 0;
 		grid.setWidget(row, 0, l_img_src);
 		grid.setWidget(row++, 1, img_src);
+		grid.setWidget(row, 0, l_price);
+		grid.setWidget(row++, 1, price);
 		grid.setWidget(row, 0, l_title);
 		grid.setWidget(row++, 1, title);
 		grid.setWidget(row, 0, l_title_original);
@@ -374,11 +409,16 @@ public class AddBook extends Composite implements ClickHandler {
 			year_publish.setText("");
 			b = false;
 		}
-		// if (!FieldVerifier.isNumber(col_pages.getText())) {
-		// col_pages.setStyleName("error_focus", true);
-		// col_pages.setText("");
-		// b = false;
-		// }
+		if (!FieldVerifier.isNumber(col_pages.getText())) {
+			col_pages.setStyleName("error_focus", true);
+			col_pages.setText("");
+			b = false;
+		}
+		if (!FieldVerifier.isNumber(price.getText())) {
+			price.setStyleName("error_focus", true);
+			price.setText("");
+			b = false;
+		}
 		if (b) {
 			book = new BookEdit(title.getText().trim(), title_original.getText().trim(),
 					author.getText().trim(), genre.getText().trim(),
@@ -386,7 +426,7 @@ public class AddBook extends Composite implements ClickHandler {
 					year_create.getText().trim(), publish.getText().trim(),
 					year_publish.getText().trim(), isbn.getText().trim(),
 					col_pages.getText().trim(), cover.getText().trim(), specific.getText().trim(),
-					new Date());
+					new Date(), price.getText().trim());
 		}
 
 	}

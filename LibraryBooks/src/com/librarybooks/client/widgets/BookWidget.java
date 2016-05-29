@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -18,6 +19,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.librarybooks.client.BookService;
 import com.librarybooks.client.BookServiceAsync;
+import com.librarybooks.client.OrderService;
+import com.librarybooks.client.OrderServiceAsync;
 import com.librarybooks.client.activities_and_places.places.UserPlace;
 import com.librarybooks.client.activities_and_places.view.UserView.Presenter;
 import com.librarybooks.client.objects.Author;
@@ -33,6 +36,7 @@ public class BookWidget extends Composite implements ClickHandler {
 			+ "connection and try again.";
 
 	private final BookServiceAsync bookService = GWT.create(BookService.class);
+	private final OrderServiceAsync orderService = GWT.create(OrderService.class);
 
 	private Label l_title = new Label();
 	private Button button = new Button("Подробнее");
@@ -52,12 +56,11 @@ public class BookWidget extends Composite implements ClickHandler {
 	Presenter listener;
 	UserPlace place;
 
-	public BookWidget(UserPlace _place, Presenter _listener, Book book) {
+	public BookWidget(Presenter _listener, Book book) {
 		// public BookWidget(UserPlace _place, Presenter _listener, long id_book, ArrayList<Author> author,
 		// String title, ArrayList<Genre> genre, String img_src) {
 
 		this.listener = _listener;
-		this.place = _place;
 
 		long id_book = book.getIdBook();
 		ArrayList<Author> author = book.getAuthor();
@@ -123,7 +126,16 @@ public class BookWidget extends Composite implements ClickHandler {
 
 		chooseButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				place.getBasketList().add(choose_book);
+				orderService.addBook(choose_book, new AsyncCallback<Void>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+					}
+
+					@Override
+					public void onSuccess(Void result) {
+					}
+				});
 			}
 		});
 

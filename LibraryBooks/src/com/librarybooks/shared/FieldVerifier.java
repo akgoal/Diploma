@@ -29,7 +29,7 @@ public class FieldVerifier {
 	}
 
 	public static boolean isNumber(String str) {
-		return str.matches("[1-9]*");
+		return str.matches("[0-9]*");
 	}
 
 	public static boolean isListSrting(String str) {

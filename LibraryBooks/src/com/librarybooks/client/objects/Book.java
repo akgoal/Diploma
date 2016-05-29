@@ -3,8 +3,10 @@ package com.librarybooks.client.objects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.rpc.IsSerializable;
+
 @SuppressWarnings("serial")
-public class Book implements Serializable {
+public class Book implements IsSerializable {
 
 	private String title;
 	private ArrayList<Author> author;

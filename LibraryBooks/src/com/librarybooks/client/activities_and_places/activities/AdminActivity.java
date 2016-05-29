@@ -129,7 +129,7 @@ public class AdminActivity extends AbstractActivity implements AdminView.Present
 													.getTitle();
 											String author = userView.getAddBook().getBookEdt()
 													.getAuthor();
-											Window.alert("Добавление прошло успешно");
+											Window.alert("Изменение прошло успешно");
 											userView.getListBox().setItemText(index,
 													name + " — " + author);
 										}
