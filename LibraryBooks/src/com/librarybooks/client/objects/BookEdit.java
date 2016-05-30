@@ -11,6 +11,7 @@ public class BookEdit implements Serializable {
 	private String author;
 	private String genre;
 	private String img;
+	private String price;
 	private String year_create;
 	private String publish;
 	private String year_publish;
@@ -37,6 +38,28 @@ public class BookEdit implements Serializable {
 		this.description = (description.isEmpty()) ? null : description;
 		this.specific = (specific.isEmpty()) ? null : specific;
 		this.addition_date = addition_date;
+		this.price = price;
+	}
+
+	// new
+	public BookEdit(String title, String title_original, String author, String genre, String img,
+			String year_create, String publish, String year_publish, String isbn, String col_pages,
+			String description, String specific, Date addition_date, String price) {
+
+		this.title = (title.isEmpty()) ? null : title;
+		this.title_original = (title_original.isEmpty()) ? null : title_original;
+		this.author = (author.isEmpty()) ? null : author;
+		this.genre = (genre.isEmpty()) ? null : genre;
+		this.img = (img.isEmpty()) ? null : img;
+		this.year_create = (year_create.isEmpty()) ? null : year_create;
+		this.publish = (publish.isEmpty()) ? null : publish;
+		this.year_publish = (year_publish.isEmpty()) ? null : year_publish;
+		this.isbn = (isbn.isEmpty()) ? null : isbn;
+		this.col_pages = (col_pages.isEmpty()) ? null : col_pages;
+		this.description = (description.isEmpty()) ? null : description;
+		this.specific = (specific.isEmpty()) ? null : specific;
+		this.addition_date = addition_date;
+		this.price = price;
 	}
 
 	public BookEdit() {
@@ -111,7 +134,7 @@ public class BookEdit implements Serializable {
 	}
 
 	public void setIsbn(String isbn) {
-		this.isbn = isbn.trim();
+		this.isbn = isbn;
 	}
 
 	public String getCol_pages() {
@@ -144,6 +167,14 @@ public class BookEdit implements Serializable {
 
 	public void setAddition_date(Date addition_date) {
 		this.addition_date = addition_date;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
 	}
 
 }

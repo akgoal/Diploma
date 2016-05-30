@@ -88,6 +88,9 @@ public class BooksDataSet {
 
 	@Column(name = "rate")
 	private float rate;
+	
+	@Column(name="price")
+	private int price;
 
 	/* Constructors */
 	public BooksDataSet() {
@@ -96,7 +99,7 @@ public class BooksDataSet {
 	public BooksDataSet(long id, String code, String title, String originalTitle, String description,
 			Set<AuthorsDataSet> authors, int creationYear, Set<GenresDataSet> genres, String imageName,
 			PublishersDataSet publisher, int publicationYear, String isbn, int pages, BindingsDataSet binding,
-			Date additionDate, int rate) {
+			Date additionDate, int rate, int price) {
 		this.id = id;
 		this.code = code;
 		this.title = title;
@@ -113,12 +116,13 @@ public class BooksDataSet {
 		this.binding = binding;
 		this.additionDate = additionDate;
 		this.rate = rate;
+		this.price = price;
 	}
 
 	public BooksDataSet(String code, String title, String originalTitle, String description,
 			Set<AuthorsDataSet> authors, int creationYear, Set<GenresDataSet> genres, String imageName,
 			PublishersDataSet publisher, int publicationYear, String isbn, int pages, BindingsDataSet binding,
-			Date additionDate, int rate) {
+			Date additionDate, int rate, int price) {
 		this.id = -1;
 		this.code = code;
 		this.title = title;
@@ -135,6 +139,7 @@ public class BooksDataSet {
 		this.binding = binding;
 		this.additionDate = additionDate;
 		this.rate = rate;
+		this.price = price;
 	}
 
 	/* Setters and Getters */
@@ -266,6 +271,13 @@ public class BooksDataSet {
 		this.rate = rate;
 	}
 	
-	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
 	
 }

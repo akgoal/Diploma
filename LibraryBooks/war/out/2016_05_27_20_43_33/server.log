@@ -1,0 +1,28 @@
+[05-27 20:43:34,014, 19692] org.hibernate.Version HHH000412: Hibernate Core {5.0.6.Final}
+[05-27 20:43:34,023, 19701] org.hibernate.cfg.Environment HHH000206: hibernate.properties not found
+[05-27 20:43:34,027, 19705] org.hibernate.cfg.Environment HHH000021: Bytecode provider name : javassist
+[05-27 20:43:34,151, 19829] org.hibernate.annotations.common.Version HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+[05-27 20:43:34,603, 20281] org.hibernate.dialect.Dialect HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+[05-27 20:43:35,190, 20868] org.hibernate.engine.jdbc.env.internal.LobCreatorBuilderImpl HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+[05-27 20:43:35,199, 20877] org.hibernate.type.BasicTypeRegistry HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@144655b
+[05-27 20:43:36,014, 21692] org.hibernate.search.engine.Version HSEARCH000034: Hibernate Search 5.5.3.Final
+[05-27 20:43:36,521, 22199] org.hibernate.tool.hbm2ddl.SchemaUpdate HHH000228: Running hbm2ddl schema update
+[05-27 20:43:36,789, 22467] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: authors
+[05-27 20:43:36,798, 22476] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: authors
+[05-27 20:43:37,441, 23119] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: bindings
+[05-27 20:43:37,447, 23125] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: bindings
+[05-27 20:43:37,668, 23346] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: book_author
+[05-27 20:43:37,674, 23352] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: book_author
+[05-27 20:43:37,723, 23401] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: book_genre
+[05-27 20:43:37,729, 23407] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: book_genre
+[05-27 20:43:37,788, 23466] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: books
+[05-27 20:43:37,791, 23469] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: books
+[05-27 20:43:38,030, 23708] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: genres
+[05-27 20:43:38,034, 23712] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: genres
+[05-27 20:43:38,167, 23845] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: publishers
+[05-27 20:43:38,173, 23851] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: publishers
+[05-27 20:43:38,306, 23984] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: selection_book
+[05-27 20:43:38,312, 23990] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: selection_book
+[05-27 20:43:38,378, 24056] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: selections
+[05-27 20:43:38,384, 24062] org.hibernate.tool.schema.extract.internal.InformationExtractorJdbcDatabaseMetaDataImpl HHH000262: Table not found: selections
+[05-27 20:43:38,918, 24596] org.hibernate.search.engine.impl.ConfigContext HSEARCH000075: Configuration setting hibernate.search.lucene_version was not specified: using LUCENE_CURRENT.

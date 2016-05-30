@@ -3,8 +3,7 @@
     xmlns:g="urn:import:com.google.gwt.user.client.ui">   
     <g:HTMLPanel>
     
-    <div id="top_panel">
-    </div>
+    <!--<div id="top_panel"></div>-->
 	<g:HTMLPanel ui:field="searchPanel"></g:HTMLPanel>
 	<div class="header">
 		<div class="top_bar"></div>
@@ -12,7 +11,7 @@
 		<div class="text" ui:field="textElement">
 			<a>
 				<img src="img/logo_mini.png"></img>
-				<h1>LIBRARY BOOK</h1>
+				<h1>BOOK LIBRARY</h1>
 			</a>
 		</div>
 	</div>

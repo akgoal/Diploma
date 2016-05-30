@@ -17,8 +17,8 @@ import com.librarybooks.client.widgets.SearchPane;
 public interface UserView extends IsWidget {
 	void setView(String ref);
 
-	void setView(UserPlace place, ArrayList<Book> book, int col_page, int page, String type,
-			String param, String title);
+	void setView(ArrayList<Book> book, int col_page, int page, String type, String param,
+			String title);
 
 	SearchPane getSearchPane();
 
@@ -26,7 +26,7 @@ public interface UserView extends IsWidget {
 
 	BookWidget getBookWidget();
 
-	void setView(BookServiceAsync bookService, UserPlace place, Book book);
+	void setView(Book book);
 
 	void setPresenter(Presenter listener);
 
@@ -35,4 +35,6 @@ public interface UserView extends IsWidget {
 	}
 
 	void setViewReg();
+
+	void setViewHistory();
 }

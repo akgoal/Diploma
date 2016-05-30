@@ -1,7 +1,5 @@
 package com.librarybooks.client.widgets;
 
-import java.util.ArrayList;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,8 +11,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Widget;
 import com.librarybooks.client.BookServiceAsync;
-import com.librarybooks.client.activities_and_places.view.UserView.Presenter;
-import com.librarybooks.client.objects.Book;
 
 public class Rate extends Composite {
 	private static RateUiBinder uiBinder = GWT.create(RateUiBinder.class);
@@ -48,76 +44,78 @@ public class Rate extends Composite {
 
 		change(rate);
 
-		r1.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				bookService.changeRate(id, 1, new AsyncCallback<Integer>() {
-					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка!");
-					}
+		if (_bookService != null) {
+			r1.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					bookService.changeRate(id, 1, new AsyncCallback<Integer>() {
+						public void onFailure(Throwable caught) {
+							Window.alert("Ошибка!");
+						}
 
-					public void onSuccess(Integer rate) {
-						change(rate);
-					}
-				});
-			}
-		});
-		r2.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				bookService.changeRate(id, 2, new AsyncCallback<Integer>() {
-					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка!");
-					}
+						public void onSuccess(Integer rate) {
+							change(rate);
+						}
+					});
+				}
+			});
+			r2.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					bookService.changeRate(id, 2, new AsyncCallback<Integer>() {
+						public void onFailure(Throwable caught) {
+							Window.alert("Ошибка!");
+						}
 
-					public void onSuccess(Integer rate) {
-						change(rate);
-					}
-				});
-			}
-		});
-		r3.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				bookService.changeRate(id, 3, new AsyncCallback<Integer>() {
-					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка!");
-					}
+						public void onSuccess(Integer rate) {
+							change(rate);
+						}
+					});
+				}
+			});
+			r3.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					bookService.changeRate(id, 3, new AsyncCallback<Integer>() {
+						public void onFailure(Throwable caught) {
+							Window.alert("Ошибка!");
+						}
 
-					public void onSuccess(Integer rate) {
-						change(rate);
-					}
-				});
-			}
-		});
-		r4.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				bookService.changeRate(id, 4, new AsyncCallback<Integer>() {
-					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка!");
-					}
+						public void onSuccess(Integer rate) {
+							change(rate);
+						}
+					});
+				}
+			});
+			r4.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					bookService.changeRate(id, 4, new AsyncCallback<Integer>() {
+						public void onFailure(Throwable caught) {
+							Window.alert("Ошибка!");
+						}
 
-					public void onSuccess(Integer rate) {
-						change(rate);
-					}
-				});
-			}
-		});
-		r5.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				bookService.changeRate(id, 5, new AsyncCallback<Integer>() {
-					public void onFailure(Throwable caught) {
-						Window.alert("Ошибка!");
-					}
+						public void onSuccess(Integer rate) {
+							change(rate);
+						}
+					});
+				}
+			});
+			r5.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					bookService.changeRate(id, 5, new AsyncCallback<Integer>() {
+						public void onFailure(Throwable caught) {
+							Window.alert("Ошибка!");
+						}
 
-					public void onSuccess(Integer rate) {
-						change(rate);
-					}
-				});
-			}
-		});
+						public void onSuccess(Integer rate) {
+							change(rate);
+						}
+					});
+				}
+			});
+		}
 	}
 
 	public void change(int rate) {

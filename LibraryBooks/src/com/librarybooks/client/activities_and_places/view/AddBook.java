@@ -11,7 +11,6 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -30,6 +29,9 @@ public class AddBook extends Composite implements ClickHandler {
 
 	Label l_img_src = new Label("Изображение*");
 	FileUpload img_src = new FileUpload();
+
+	Label l_price = new Label("Цена*");
+	TextBox price = new TextBox();
 
 	Label l_title = new Label("Название*");
 	TextBox title = new TextBox();
@@ -73,7 +75,6 @@ public class AddBook extends Composite implements ClickHandler {
 
 	public void setAddBook(BookEdit bookEdit) {
 		if (bookEdit != null) {
-			// img_src.set
 			title.setText(bookEdit.getTitle());
 			title_original.setText(bookEdit.getTitle_original());
 			author.setText(bookEdit.getAuthor());
@@ -82,20 +83,49 @@ public class AddBook extends Composite implements ClickHandler {
 			publish.setText(bookEdit.getPublish());
 			year_publish.setText(bookEdit.getYear_publish());
 			col_pages.setText(bookEdit.getCol_pages());
-			cover.setText(bookEdit.getPublish());
+			cover.setText(bookEdit.getDescription());
 			isbn.setText(bookEdit.getIsbn());
 			specific.setText(bookEdit.getSpecific());
-			// button.setText("Изменить");
+			price.setText(bookEdit.getPrice());
+			title.setStyleName("error_focus", false);
+			title_original.setStyleName("error_focus", false);
+			author.setStyleName("error_focus", false);
+			genre.setStyleName("error_focus", false);
+			year_create.setStyleName("error_focus", false);
+			publish.setStyleName("error_focus", false);
+			year_publish.setStyleName("error_focus", false);
+			col_pages.setStyleName("error_focus", false);
+			cover.setStyleName("error_focus", false);
+			isbn.setStyleName("error_focus", false);
+			specific.setStyleName("error_focus", false);
+			price.setStyleName("error_focus", false);
 		}
 	}
 
 	public AddBook(Boolean b) {
 
-		/* if (bookEdit != null) { // img_src.set title.setText(bookEdit.getTitle()); title_original.setText(bookEdit.getTitle_original()); author.setText(bookEdit.getAuthor()); genre.setText(bookEdit.getGenre()); year_create.setText(bookEdit.getYear_create());
-		 * publish.setText(bookEdit.getPublish()); year_publish.setText(bookEdit.getYear_publish()); col_pages.setText(bookEdit.getCol_pages()); cover.setText(bookEdit.getPublish()); isbn.setText(bookEdit.getIsbn()); specific.setText(bookEdit.getSpecific()); // button.setText("Изменить"); } */
-
 		l_img_src.setStyleName("labelFull");
 		img_src.getElement().getStyle().setColor("gray");
+
+		l_price.setStyleName("labelFull");
+		price.setVisibleLength(30);
+		price.getElement().setPropertyString("placeholder", "Пример: 300");
+		price.addKeyPressHandler(new KeyPressHandler() {
+			public void onKeyPress(KeyPressEvent event) {
+				if (!Character.isDigit(event.getCharCode())) {
+					((TextBox) event.getSource()).cancelKey();
+				} else
+					price.setStyleName("error_focus", false);
+			}
+		});
+		price.addKeyDownHandler(new KeyDownHandler() {
+			public void onKeyDown(KeyDownEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					title.setFocus(true);
+				}
+
+			}
+		});
 
 		l_title.setStyleName("labelFull");
 		title.setVisibleLength(30);
@@ -271,10 +301,12 @@ public class AddBook extends Composite implements ClickHandler {
 		tb.setMaxLength(10);
 
 		tb.setVisibleLength(50);
-		Grid grid = new Grid(12, 2);
+		Grid grid = new Grid(13, 2);
 		int row = 0;
 		grid.setWidget(row, 0, l_img_src);
 		grid.setWidget(row++, 1, img_src);
+		grid.setWidget(row, 0, l_price);
+		grid.setWidget(row++, 1, price);
 		grid.setWidget(row, 0, l_title);
 		grid.setWidget(row++, 1, title);
 		grid.setWidget(row, 0, l_title_original);
@@ -382,6 +414,11 @@ public class AddBook extends Composite implements ClickHandler {
 			col_pages.setText("");
 			b = false;
 		}
+		if (!FieldVerifier.isNumber(price.getText())) {
+			price.setStyleName("error_focus", true);
+			price.setText("");
+			b = false;
+		}
 		if (b) {
 			book = new BookEdit(title.getText().trim(), title_original.getText().trim(),
 					author.getText().trim(), genre.getText().trim(),
@@ -389,7 +426,7 @@ public class AddBook extends Composite implements ClickHandler {
 					year_create.getText().trim(), publish.getText().trim(),
 					year_publish.getText().trim(), isbn.getText().trim(),
 					col_pages.getText().trim(), cover.getText().trim(), specific.getText().trim(),
-					new Date());
+					new Date(), price.getText().trim());
 		}
 
 	}
