@@ -6,9 +6,17 @@
 			<div id="colCheck"><span ui:field="basket"></span></div>
 				<div class="cart">
 				<g:VerticalPanel ui:field="popupPanel">
-					<g:HTMLPanel ui:field="panelFlex"></g:HTMLPanel>
-					<g:HTML><hr/></g:HTML>
-					<g:Button ui:field="button">Оформить заказ</g:Button>
+					<g:HTMLPanel ui:field="panelFlex"></g:HTMLPanel>						
+						<g:HTML><hr/></g:HTML>
+						<g:HTML ui:field="all_price"></g:HTML>
+						<g:HTML><hr/></g:HTML>
+						<g:RadioButton ui:field="radio_one_week" name="group"></g:RadioButton>
+						<g:RadioButton ui:field="radio_two_week" name="group"></g:RadioButton>
+						<g:RadioButton ui:field="radio_three_week" name="group"></g:RadioButton>
+						<g:RadioButton ui:field="radio_one_month" name="group"></g:RadioButton>
+						<g:RadioButton ui:field="buy" name="group"></g:RadioButton>
+						<g:HTML><hr/></g:HTML>
+						<g:Button ui:field="button">Оформить заказ</g:Button>
 				</g:VerticalPanel>  
 			</div>
 		</div>

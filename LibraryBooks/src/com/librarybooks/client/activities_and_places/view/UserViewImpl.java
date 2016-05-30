@@ -191,12 +191,11 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				orderService.addOrder(new AsyncCallback<Void>() {
+				orderService.addOrder(basket.getCheck(), new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
+						Window.alert("Ошибка!");
 					}
 
 					@Override
@@ -508,85 +507,94 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
+				Window.alert("Ошибка!!!");
 			}
 
 			@Override
 			public void onSuccess(ArrayList<Book> result) {
-				// TODO Auto-generated method stub
-				basketFlex.removeAllRows();
-				basketFlex.setText(0, 0, "Название");
-				basketFlex.setText(0, 1, "Цена");
-				basketFlex.setText(0, 2, "");
-				basketFlex.setHTML(1, 0, "<hr>");
-				basketFlex.getFlexCellFormatter().setColSpan(1, 0, 3);
-				basketFlex.getFlexCellFormatter().setWidth(0, 0, "180px");
-				basketFlex.getFlexCellFormatter().setWidth(0, 1, "50px");
-				basketFlex.getFlexCellFormatter().setWidth(0, 2, "30px");
-				basketFlex.getFlexCellFormatter().getElement(0, 0).getStyle().setPadding(10,
-						Unit.PX);
-				basketFlex.getFlexCellFormatter().getElement(0, 0).getStyle().setColor("dimgray");
-				basketFlex.getFlexCellFormatter().getElement(0, 1).getStyle().setColor("dimgray");
-				basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 0,
-						HasHorizontalAlignment.ALIGN_CENTER);
-				basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 1,
-						HasHorizontalAlignment.ALIGN_CENTER);
-				basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 2,
-						HasHorizontalAlignment.ALIGN_CENTER);
-				basketFlex.setCellPadding(0);
-				basketFlex.setCellSpacing(0);
-				basketFlex.setBorderWidth(0);
-				basket.getSpanElement().setInnerText(result.size() + "");
-				int row = basketFlex.getRowCount();
-				for (Book book : result) {
-					basketFlex.setHTML(row, 0, "<a href=\"#UserPlace:book=" + book.getIdBook()
-							+ "\">" + book.getTitle() + "</a>");
-					// final Book delBook = book;
-					final int index = row - 2;
-					basketFlex.setText(row, 1, book.getPrice() + "ք");
-					Label removeBook = new Label("x");
-					removeBook.setStyleName("removeBook");
-					removeBook.addClickHandler(new ClickHandler() {
-						public void onClick(ClickEvent event) {
-							orderService.delBook(index, new AsyncCallback<Void>() {
+				if (result.size() == 0) {
+					basket.getSpanElement().setInnerText(result.size() + "");
+					basket.getPopup().setVisible(false);
+				} else {
+					basket.getPopup().setVisible(true);
 
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-
-								}
-
-								@Override
-								public void onSuccess(Void result) {
-									// TODO Auto-generated method stub
-									addBookInBasket();
-								}
-							});
-						}
-					});
-					basketFlex.setWidget(row, 2, removeBook);
-					for (int _row = 2; _row < basketFlex.getRowCount(); _row++) {
-						if (_row % 2 == 0)
-							basketFlex.getRowFormatter().getElement(_row).getStyle()
-									.setBackgroundColor("#F9F9F9");
-						else
-							basketFlex.getRowFormatter().getElement(_row).getStyle()
-									.setBackgroundColor("#FFF");
-					}
-					basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle()
-							.setPaddingBottom(5, Unit.PX);
-					basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle().setPaddingTop(5,
+					basketFlex.removeAllRows();
+					basketFlex.setText(0, 0, "Название");
+					basketFlex.setText(0, 1, "Цена");
+					basketFlex.setText(0, 2, "");
+					basketFlex.setHTML(1, 0, "<hr>");
+					basketFlex.getFlexCellFormatter().setColSpan(1, 0, 3);
+					basketFlex.getFlexCellFormatter().setWidth(0, 0, "180px");
+					basketFlex.getFlexCellFormatter().setWidth(0, 1, "50px");
+					basketFlex.getFlexCellFormatter().setWidth(0, 2, "30px");
+					basketFlex.getFlexCellFormatter().getElement(0, 0).getStyle().setPadding(10,
 							Unit.PX);
-					basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle()
-							.setPaddingLeft(20, Unit.PX);
-					basketFlex.setWidget(row, 2, removeBook);
-					basketFlex.getFlexCellFormatter().setHorizontalAlignment(row, 1,
+					basketFlex.getFlexCellFormatter().getElement(0, 0).getStyle()
+							.setColor("dimgray");
+					basketFlex.getFlexCellFormatter().getElement(0, 1).getStyle()
+							.setColor("dimgray");
+					basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 0,
 							HasHorizontalAlignment.ALIGN_CENTER);
-					basketFlex.getFlexCellFormatter().setHorizontalAlignment(row++, 2,
+					basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 1,
 							HasHorizontalAlignment.ALIGN_CENTER);
-				}
+					basketFlex.getFlexCellFormatter().setHorizontalAlignment(0, 2,
+							HasHorizontalAlignment.ALIGN_CENTER);
+					basketFlex.setCellPadding(0);
+					basketFlex.setCellSpacing(0);
+					basketFlex.setBorderWidth(0);
+					basket.getSpanElement().setInnerText(result.size() + "");
+					int row = basketFlex.getRowCount();
+					int price = 0;
+					for (Book book : result) {
+						price = price + Integer.valueOf(book.getPrice());
+						basketFlex.setHTML(row, 0, "<a href=\"#UserPlace:book=" + book.getIdBook()
+								+ "\">" + book.getTitle() + "</a>");
+						// final Book delBook = book;
+						final int index = row - 2;
+						basketFlex.setText(row, 1, book.getPrice() + "ք");
+						Label removeBook = new Label("x");
+						removeBook.setStyleName("removeBook");
+						removeBook.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								orderService.delBook(index, new AsyncCallback<Void>() {
 
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+
+									}
+
+									@Override
+									public void onSuccess(Void result) {
+										// TODO Auto-generated method stub
+										addBookInBasket();
+									}
+								});
+							}
+						});
+						basketFlex.setWidget(row, 2, removeBook);
+						for (int _row = 2; _row < basketFlex.getRowCount(); _row++) {
+							if (_row % 2 == 0)
+								basketFlex.getRowFormatter().getElement(_row).getStyle()
+										.setBackgroundColor("#F9F9F9");
+							else
+								basketFlex.getRowFormatter().getElement(_row).getStyle()
+										.setBackgroundColor("#FFF");
+						}
+						basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle()
+								.setPaddingBottom(5, Unit.PX);
+						basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle()
+								.setPaddingTop(5, Unit.PX);
+						basketFlex.getFlexCellFormatter().getElement(row, 0).getStyle()
+								.setPaddingLeft(20, Unit.PX);
+						basketFlex.setWidget(row, 2, removeBook);
+						basketFlex.getFlexCellFormatter().setHorizontalAlignment(row, 1,
+								HasHorizontalAlignment.ALIGN_CENTER);
+						basketFlex.getFlexCellFormatter().setHorizontalAlignment(row++, 2,
+								HasHorizontalAlignment.ALIGN_CENTER);
+					}
+					basket.setPrice(price);
+				}
 			}
 		});
 
@@ -626,11 +634,18 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 
 			@Override
 			public void onSuccess(ArrayList<Order> orders) {
-				Grid grid = new Grid(orders.size() + 1, 4);
+				Grid grid = new Grid(orders.size() + 1, 6);
 				grid.setWidget(0, 0, new Label("№ Заказа"));
 				grid.setWidget(0, 1, new Label("Дата заказа"));
 				grid.setWidget(0, 2, new Label("Содержимое"));
-				grid.setWidget(0, 3, new Label("Статус"));
+				grid.setWidget(0, 3, new Label("Сумма"));
+				grid.setWidget(0, 4, new Label("Статус"));
+				grid.setWidget(0, 5, new Label("Дата возврата книг"));
+				grid.setStyleName("grid_order");
+				grid.setCellPadding(5);
+				grid.setCellSpacing(0);
+				grid.setBorderWidth(1);
+				grid.getRowFormatter().setStyleName(0, "grid_order_fist");
 				int row = 1;
 				if (orders.size() > 0)
 					for (Order order : orders) {
@@ -642,7 +657,9 @@ public class UserViewImpl extends Composite implements UserView, ClickHandler {
 									+ book.getTitle() + "</a>"));
 						}
 						grid.setWidget(row, 2, vp);
-						grid.setWidget(row++, 3, new Label(order.getState()));
+						grid.setWidget(row, 3, new Label(order.getPrice() + "ք"));
+						grid.setWidget(row, 4, new Label(order.getState()));
+						grid.setWidget(row++, 5, new Label(order.getDateBack()));
 					}
 				fPanel.add(grid);
 

@@ -9,6 +9,8 @@ public class Order implements Serializable {
 
 	private ArrayList<Book> books;
 	private String date;
+	private String price;
+	private String dateBack;
 	private String state;
 	private long id_order;
 
@@ -45,6 +47,22 @@ public class Order implements Serializable {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
+
+	public String getDateBack() {
+		return dateBack;
+	}
+
+	public void setDateBack(String dateBack) {
+		this.dateBack = dateBack;
 	}
 
 }

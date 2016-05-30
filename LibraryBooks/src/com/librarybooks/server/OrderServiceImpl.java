@@ -40,15 +40,25 @@ public class OrderServiceImpl extends RemoteServiceServlet implements OrderServi
 	}
 
 	@Override
-	public void addOrder() {
+	public void addOrder(int i) {
 		// TODO Auto-generated method stub
 		Order order = new Order();
 		ArrayList<Book> _books = new ArrayList<Book>(books);
-		// System.arraycopy(books, 0, _books, 0, books.size());
+		int price = 0;
+		for (Book book : _books) {
+			price = price + Integer.valueOf(book.getPrice());
+		}
+		order.setPrice(price + "");
 		order.setBooks(_books);
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		order.setDate(dateFormat.format(new Date()));
-		// order.setDate(new Date().toString());
+		order.setDateBack(dateFormat.format(new Date()));
+		if (i == 0) {
+			order.setDateBack("—");
+		} else {
+			// Тут нужно прибавить i недель
+			order.setDateBack(dateFormat.format(new Date()));
+		}
 		order.setId_order(i++);
 		if (i % 2 == 0)
 			order.setState("В ожидании");

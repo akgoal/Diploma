@@ -16,6 +16,6 @@ public interface OrderServiceAsync {
 
 	void delBook(int i, AsyncCallback<Void> callback);
 
-	void addOrder(AsyncCallback<Void> callback);
+	void addOrder(int i, AsyncCallback<Void> callback);
 
 }
