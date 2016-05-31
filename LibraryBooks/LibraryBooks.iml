@@ -48,5 +48,6 @@
     <orderEntry type="library" name="aspectjweaver-1.8.9" level="project" />
     <orderEntry type="library" name="spring-context-support-4.2.2.RELEASE" level="project" />
     <orderEntry type="library" name="mail-1.4.7" level="project" />
+    <orderEntry type="library" name="javassist-3.18.0-ga" level="project" />
   </component>
 </module>

@@ -7,6 +7,7 @@ import com.librarybooks.server.security.data.EmailVerify;
 import com.librarybooks.server.security.data.User;
 import com.librarybooks.shared.security.EmailAlreadyExistsException;
 import com.librarybooks.shared.security.UserDto;
+import com.librarybooks.shared.security.UserEmailNotVerifiedException;
 import com.librarybooks.shared.security.UsernameAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,10 +46,14 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public Boolean authenticate(String username, String password) {
+    public Boolean authenticate(String username, String password) throws UserEmailNotVerifiedException {
         List<GrantedAuthority> authorityList = new ArrayList<>();
         Authentication authentication = new UsernamePasswordAuthenticationToken(username, password, authorityList);
-        authenticationManager.authenticate(authentication);
+        try {
+            authenticationManager.authenticate(authentication);
+        } catch (EmailNotVerifiedException ex) {
+            throw new UserEmailNotVerifiedException();
+        }
         return true;
     }
 
