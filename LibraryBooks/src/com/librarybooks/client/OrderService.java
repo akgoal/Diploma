@@ -15,10 +15,10 @@ public interface OrderService extends RemoteService {
 
 	ArrayList<Book> listBook();
 
-	void addOrder();
-
 	void addBook(Book book);
 
 	void delBook(int i);
+
+	void addOrder(int i);
 
 }
