@@ -21,7 +21,7 @@ public class Order {
     @Column(name = "user_id")
     private Long userId;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "order_books", joinColumns = {
             @JoinColumn(name = "order_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name = "book_id",

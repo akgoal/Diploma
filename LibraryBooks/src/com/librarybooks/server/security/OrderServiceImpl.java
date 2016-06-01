@@ -12,6 +12,7 @@ import com.librarybooks.server.security.data.Order;
 import com.librarybooks.server.security.data.OrderBook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     long i = 0;
 
     @Override
+    @Transactional
     public ArrayList<OrderDto> listOrder(String username) {
         List<Order> orders = orderDao.getByUserId(userDao.findUserByUsername(username).getId());
 
@@ -70,6 +72,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ArrayList<Book> listBook(String username) {
+        if (username == null) {
+            return new ArrayList<>();
+        }
         return books.get(username);
     }
 

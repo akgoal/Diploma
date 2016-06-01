@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public class OrderDaoImpl implements OrderDao {
 
     private final SessionFactory sessionFactory;
@@ -22,6 +21,7 @@ public class OrderDaoImpl implements OrderDao {
 
 
     @Override
+    @Transactional
     public void save(Order order) {
         sessionFactory.getCurrentSession().save(order);
     }
