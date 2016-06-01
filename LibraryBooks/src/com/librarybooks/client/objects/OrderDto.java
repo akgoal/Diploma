@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @SuppressWarnings("serial")
-public class Order implements Serializable {
+public class OrderDto implements Serializable {
 
 	private ArrayList<Book> books;
 	private String date;
@@ -14,7 +14,7 @@ public class Order implements Serializable {
 	private String state;
 	private long id_order;
 
-	public Order() {
+	public OrderDto() {
 	}
 
 	public ArrayList<Book> getBooks() {

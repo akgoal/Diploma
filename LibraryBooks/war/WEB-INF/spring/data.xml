@@ -57,6 +57,8 @@
 				</value>
 				<value>com.librarybooks.server.security.data.User</value>
 				<value>com.librarybooks.server.security.data.EmailVerify</value>
+				<value>com.librarybooks.server.security.data.Order</value>
+				<value>com.librarybooks.server.security.data.OrderBook</value>
 
 			</list>
 		</property>

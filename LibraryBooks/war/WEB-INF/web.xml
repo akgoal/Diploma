@@ -6,10 +6,10 @@
 
 	<!-- Servlets -->
 
-	<servlet>
-		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.librarybooks.server.OrderServiceImpl</servlet-class>
-	</servlet>
+	<!--<servlet>-->
+		<!--<servlet-name>greetServlet</servlet-name>-->
+		<!--<servlet-class>com.librarybooks.server.security.OrderServiceImpl</servlet-class>-->
+	<!--</servlet>-->
 
 <!--  	<servlet-mapping>
 		<servlet-name>greetServlet</servlet-name>
@@ -58,7 +58,7 @@
 	</servlet-mapping>
 	
 	<servlet-mapping>
-		<servlet-name>greetServlet</servlet-name>
+		<servlet-name>springGwtRemoteServiceServlet</servlet-name>
 		<url-pattern>/librarybooks/services/orderService</url-pattern>
 	</servlet-mapping>
 

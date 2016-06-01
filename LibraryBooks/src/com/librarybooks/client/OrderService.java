@@ -1,24 +1,26 @@
 package com.librarybooks.client;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.librarybooks.client.objects.Book;
-import com.librarybooks.client.objects.Order;
+import com.librarybooks.client.objects.OrderDto;
 
-/** The client-side stub for the RPC service. */
+import java.util.ArrayList;
+
+/**
+ * The client-side stub for the RPC service.
+ */
 @RemoteServiceRelativePath("services/orderService")
 public interface OrderService extends RemoteService {
 
-	ArrayList<Order> listOrder();
+    ArrayList<OrderDto> listOrder(String username);
 
-	ArrayList<Book> listBook();
+    ArrayList<Book> listBook(String username);
 
-	void addBook(Book book);
+    void addBook(Book book, String username);
 
-	void delBook(int i);
+    void delBook(int i, String username);
 
-	void addOrder(int i);
+    void addOrder(int i, String username);
 
 }

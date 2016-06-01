@@ -8,12 +8,11 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.context.request.RequestContextListener;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.mail.PasswordAuthentication;
@@ -31,10 +30,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.addFilterBefore(requestContextFilter(), RequestContextFilter.class);
+//    }
 
 
     @Bean
@@ -74,5 +73,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         return javaMailSender;
     }
+
+    @Bean
+    public RequestContextListener requestContextFilter() {
+        return new RequestContextListener();
+    }
+
 
 }

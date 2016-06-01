@@ -1,11 +1,11 @@
 package com.librarybooks.server.security.data;
 
-import org.hibernate.search.annotations.Field;
+import com.librarybooks.server.bookservice.datasets.BooksDataSet;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.List;
 
-@Table(name = "order")
+@Table(name = "orders")
 @Entity
 public class Order {
 
@@ -14,25 +14,30 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Field
-    @Column(name = "oreder_date", nullable = false)
-    private Date orderDate;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, updatable = false, insertable = false)
+    private User user;
 
-    @Field
-    @Column(name = "return_date", nullable = false)
-    private Date returnDate;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Field
-    @Column(name = "order_price", nullable = false)
-    private Integer orderPrise;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "order_books", joinColumns = {
+            @JoinColumn(name = "order_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "book_id",
+                    nullable = false, updatable = false)})
+    private List<BooksDataSet> orderBooks;
 
-    @Field
-    @Column(name = "order_state", nullable = false)
-    private String orderState;
-
-    @OneToMany
-    @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    @Column(name = "price", nullable = false)
+    private String price;
+    @Column(name = "date", nullable = false)
+    private String date;
+    @Column(name = "date_back", nullable = false)
+    private String dateBack;
+    @Column(name = "order_num", nullable = false)
+    private int orderNum;
+    @Column(name = "state", nullable = false)
+    private String state;
 
     public Long getId() {
         return id;
@@ -42,43 +47,68 @@ public class Order {
         this.id = id;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
+    public User getUser() {
+        return user;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Date getReturnDate() {
-        return returnDate;
+    public List<BooksDataSet> getOrderBooks() {
+        return orderBooks;
     }
 
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
+    public void setOrderBooks(List<BooksDataSet> orderBooks) {
+        this.orderBooks = orderBooks;
     }
 
-    public Integer getOrderPrise() {
-        return orderPrise;
+
+    public void setPrice(String price) {
+        this.price = price;
     }
 
-    public void setOrderPrise(Integer orderPrise) {
-        this.orderPrise = orderPrise;
+    public String getPrice() {
+        return price;
     }
 
-    public String getOrderState() {
-        return orderState;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public void setOrderState(String orderState) {
-        this.orderState = orderState;
+    public String getDate() {
+        return date;
     }
 
-    public User getUserId() {
+    public void setDateBack(String dateBack) {
+        this.dateBack = dateBack;
+    }
+
+    public String getDateBack() {
+        return dateBack;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
+
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }
